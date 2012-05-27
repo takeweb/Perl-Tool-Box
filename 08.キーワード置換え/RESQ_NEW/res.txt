@@ -1,0 +1,6434 @@
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/EXP_PROC.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/EXP_RESQ_TR.sh
+matched:#-----------------------------------------------------#
+--1
+matched:#-----------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/hlftlog_set.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/Hmenu.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/Hmenuall.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/ktexp.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/KYTNKA_BK_RECV.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/Mail_R21.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/Mente.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/nodate_ktexp.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/nodate_ktimp.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RAI_LOAD.SH
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RAI_LOAD_N.SH
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/REERR01.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/REERR02.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/REERR03.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/RELOAD01.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/RELOAD02.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/RELOAD03.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/S_FBackUp.sh
+matched:#-----------------------------------------------#
+--1
+matched:#-----------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/S_LOAD_RE.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/S_MailSend_RE.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/recycle/S_MAILSEND_TEST2.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+DIR
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKA.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKA9.SH
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKARECV.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKATEST.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKA_hadano.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21TANKA_R.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RESQTOR21T_RINJI.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#-------------------------------------#
+--9
+matched:#-------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/ResqToRinks.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/ResqToRinksRei.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#--------------------------------#
+--11
+matched:#--------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/ResqToRinks_R.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/ResqToRinks_SEND.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR04.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR05.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR06.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR07.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR08.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR09.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR10.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR11.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR12.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR21.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR22.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR23.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR24.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR25.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR26.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR28.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR29.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RIU1CR30.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21T_FBU.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKA_NG.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKA_OK.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKB_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKB_OK.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKD_NG.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKD_OK.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKE_NG.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKE_OK.sh
+matched:#-----------------------------------------------------------#
+--1
+matched:#-----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKF_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKF_OK.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKH_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKH_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKL_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKL_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKM_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKM_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKP_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKP_OK.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKR_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKR_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKS_NG.sh
+matched:#----------------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKS_OK.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKT_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKT_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKU_NG.sh
+matched:#----------------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKU_OK.sh
+matched:#-------------------------------------------------------------#
+--1
+matched:#-------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKV_NG.sh
+matched:#------------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKV_OK.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKW_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKW_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKX_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKX_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKY_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKY_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKZ_NG.sh
+matched:#---------------------------------------------------------------#
+--1
+matched:#---------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#---------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RtoR21_KYTNKZ_OK.sh
+matched:#------------------------------------------------------------#
+--1
+matched:#------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_DAILY_R21.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_DAILY_R21_2.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_DAILY_R21_3.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_MACT_TE.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_MONTHLY_COSTDOWN.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_MONTHLY_R21.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_RQtoR21_TNK.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_TANKA_TE.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/RUN_tnfldy0.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_BIANNUALLY_R21.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_BIANNUALLY_R21_HAND.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_BRH01.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+matched:#------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_BRH01_2.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+matched:#------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_HULFT.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_HULFT_CSY.sh
+matched:#--------------------------------------------------------------------------------------------------#
+--1
+matched:#--------------------------------------------------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------------------------------------------------------#
+--4
+matched:#--------------------------------------------------------------------------------------------------#
+--5
+matched:#--------------------------------------------------------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_HULFT_HAND.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_MONTHLY.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_MONTHLY_CST.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_MONTHLY_CSY.sh
+matched:#--------------------------------------------------------#
+--1
+matched:#--------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------------#
+--4
+matched:#--------------------------------------------------------#
+--5
+matched:#--------------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CHK_MONTHLY_HAND.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CST_DEL.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#-------------------------------------------------------#
+--13
+matched:#-------------------------------------------------------#
+--14
+matched:#-------------------------------------------------------#
+--15
+matched:#-------------------------------------------------------#
+--16
+matched:#-------------------------------------------------------#
+--17
+matched:#-------------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_CST_DELLOG.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#-------------------------------------------------------#
+--9
+matched:#-------------------------------------------------------#
+--10
+matched:#-------------------------------------------------------#
+--11
+matched:#-------------------------------------------------------#
+--12
+matched:#-------------------------------------------------------#
+--13
+matched:#-------------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_CRM-20100613IZEN.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_CRM.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:###--------------------------------------------------#
+--7
+matched:###--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_CST_RE.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_CST_RE_RINJI.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_HGENKA1.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_HGENKA2.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_R21.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#-----------------------------------------------------#
+--9
+matched:#-----------------------------------------------------#
+--10
+matched:#-----------------------------------------------------#
+--11
+matched:#-----------------------------------------------------#
+--12
+matched:#-----------------------------------------------------#
+--13
+matched:#-----------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+matched:#--------------------------------------------------#
+--29
+matched:#--------------------------------------------------#
+--30
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_R21_2.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#----------------------------------------------------------#
+--7
+matched:#----------------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#-----------------------------------------------------#
+--11
+matched:#-----------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#-----------------------------------------------------#
+--21
+matched:#-----------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+matched:#--------------------------------------------------#
+--29
+matched:#--------------------------------------------------#
+--30
+matched:#--------------------------------------------------#
+--31
+matched:#--------------------------------------------------#
+--32
+matched:#--------------------------------------------------#
+--33
+matched:#--------------------------------------------------#
+--34
+matched:#--------------------------------------------------#
+--35
+matched:#--------------------------------------------------#
+--36
+matched:#--------------------------------------------------#
+--37
+matched:#--------------------------------------------------#
+--38
+matched:#--------------------------------------------------#
+--39
+matched:#--------------------------------------------------#
+--40
+matched:#--------------------------------------------------#
+--41
+matched:#--------------------------------------------------#
+--42
+matched:#--------------------------------------------------#
+--43
+matched:#--------------------------------------------------#
+--44
+matched:#--------------------------------------------------#
+--45
+matched:#--------------------------------------------------#
+--46
+matched:#--------------------------------------------------#
+--47
+matched:#--------------------------------------------------#
+--48
+matched:#--------------------------------------------------#
+--49
+matched:#--------------------------------------------------#
+--50
+matched:#--------------------------------------------------#
+--51
+matched:#--------------------------------------------------#
+--52
+matched:#--------------------------------------------------#
+--53
+matched:#--------------------------------------------------#
+--54
+matched:#--------------------------------------------------#
+--55
+matched:#--------------------------------------------------#
+--56
+matched:#--------------------------------------------------#
+--57
+matched:#--------------------------------------------------#
+--58
+matched:#--------------------------------------------------#
+--59
+matched:#--------------------------------------------------#
+--60
+matched:#--------------------------------------------------#
+--61
+matched:#--------------------------------------------------#
+--62
+matched:#--------------------------------------------------#
+--63
+matched:#--------------------------------------------------#
+--64
+matched:#--------------------------------------------------#
+--65
+matched:#--------------------------------------------------#
+--66
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_R21_2_R.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#----------------------------------------------------------#
+--7
+matched:#----------------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#-----------------------------------------------------#
+--11
+matched:#-----------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#-----------------------------------------------------#
+--21
+matched:#-----------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+matched:#--------------------------------------------------#
+--29
+matched:#--------------------------------------------------#
+--30
+matched:#--------------------------------------------------#
+--31
+matched:#--------------------------------------------------#
+--32
+matched:#--------------------------------------------------#
+--33
+matched:#--------------------------------------------------#
+--34
+matched:#--------------------------------------------------#
+--35
+matched:#--------------------------------------------------#
+--36
+matched:#--------------------------------------------------#
+--37
+matched:#--------------------------------------------------#
+--38
+matched:#--------------------------------------------------#
+--39
+matched:#--------------------------------------------------#
+--40
+matched:#--------------------------------------------------#
+--41
+matched:#--------------------------------------------------#
+--42
+matched:#--------------------------------------------------#
+--43
+matched:#--------------------------------------------------#
+--44
+matched:#--------------------------------------------------#
+--45
+matched:#--------------------------------------------------#
+--46
+matched:#--------------------------------------------------#
+--47
+matched:#--------------------------------------------------#
+--48
+matched:#--------------------------------------------------#
+--49
+matched:#--------------------------------------------------#
+--50
+matched:#--------------------------------------------------#
+--51
+matched:#--------------------------------------------------#
+--52
+matched:#--------------------------------------------------#
+--53
+matched:#--------------------------------------------------#
+--54
+matched:#--------------------------------------------------#
+--55
+matched:#--------------------------------------------------#
+--56
+matched:#--------------------------------------------------#
+--57
+matched:#--------------------------------------------------#
+--58
+matched:#--------------------------------------------------#
+--59
+matched:#--------------------------------------------------#
+--60
+matched:#--------------------------------------------------#
+--61
+matched:#--------------------------------------------------#
+--62
+matched:#--------------------------------------------------#
+--63
+matched:#--------------------------------------------------#
+--64
+matched:#--------------------------------------------------#
+--65
+matched:#--------------------------------------------------#
+--66
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_R21_3.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#----------------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+matched:#--------------------------------------------------#
+--29
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_DAILY_ZIP.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#----------------------------------------------------------#
+--7
+matched:#----------------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MACT_EF.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MACT_OE.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MACT_OF.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MACT_OM.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MACT_TE.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+matched:#------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_CD_HAND.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_CD_HAND_RINJI.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#####--------------------------------------------------#
+--9
+matched:#####--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_CD_RE.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_COSTDOWN.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_R21.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHLY_R21_HAND.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHRY_TANKA.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+matched:#-----------------------------------------------------#
+--11
+matched:#-----------------------------------------------------#
+--12
+matched:#-----------------------------------------------------#
+--13
+matched:#-----------------------------------------------------#
+--14
+matched:#-----------------------------------------------------#
+--15
+matched:#-----------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+matched:#--------------------------------------------------#
+--29
+matched:#--------------------------------------------------#
+--30
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MONTHRY_TANKA_HAND.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#-----------------------------------------------------#
+--9
+matched:#-----------------------------------------------------#
+--10
+matched:#-----------------------------------------------------#
+--11
+matched:#-----------------------------------------------------#
+--12
+matched:#-----------------------------------------------------#
+--13
+matched:#-----------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+matched:#--------------------------------------------------#
+--16
+matched:#--------------------------------------------------#
+--17
+matched:#--------------------------------------------------#
+--18
+matched:#--------------------------------------------------#
+--19
+matched:#--------------------------------------------------#
+--20
+matched:#--------------------------------------------------#
+--21
+matched:#--------------------------------------------------#
+--22
+matched:#--------------------------------------------------#
+--23
+matched:#--------------------------------------------------#
+--24
+matched:#--------------------------------------------------#
+--25
+matched:#--------------------------------------------------#
+--26
+matched:#--------------------------------------------------#
+--27
+matched:#--------------------------------------------------#
+--28
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_MREC_TE.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+matched:#------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_PVGCF1.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_PVGCF2.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_PVGCF21.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_R21_SYSCON.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:#--------------------------------------------------#
+--10
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_R21_SYSCON_SUB.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:			#--------------------------------------------------#
+--10
+matched:			#--------------------------------------------------#
+--11
+matched:			#--------------------------------------------------#
+--12
+matched:			#--------------------------------------------------#
+--13
+matched:#--------------------------------------------------#
+--14
+matched:#--------------------------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_RECV_KOUTEI.sh
+matched:#--------------------------------------------------#
+--1
+matched:#------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_SIGMAM_RECV.SH
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_TANKA_EF.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_TANKA_OE.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_TANKA_OF.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_TANKA_OM.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_TANKA_TE.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+matched:#------------------------------#
+--7
+matched:#------------------------------#
+--8
+matched:#------------------------------#
+--9
+matched:#------------------------------#
+--10
+matched:#------------------------------#
+--11
+matched:#------------------------------#
+--12
+matched:#------------------------------#
+--13
+matched:#------------------------------#
+--14
+matched:#------------------------------#
+--15
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_tnfldy1.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/SH_tnfldy2.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_CST_LOG.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_CST_ORA.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+matched:#--------------------------------------------------#
+--9
+matched:			#--------------------------------------------------#
+--10
+matched:			#--------------------------------------------------#
+--11
+matched:#--------------------------------------------------#
+--12
+matched:#--------------------------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_CST_ZIP2.sh
+matched:#----------------------------------------------------------#
+--1
+matched:#----------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#----------------------------------------------------------#
+--4
+matched:#----------------------------------------------------------#
+--5
+matched:#----------------------------------------------------------#
+--6
+matched:#----------------------------------------------------------#
+--7
+matched:#----------------------------------------------------------#
+--8
+matched:#----------------------------------------------------------#
+--9
+matched:#----------------------------------------------------------#
+--10
+matched:#----------------------------------------------------------#
+--11
+matched:#----------------------------------------------------------#
+--12
+matched:#----------------------------------------------------------#
+--13
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_FBackUp.sh
+matched:#-----------------------------------------------#
+--1
+matched:#-----------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#-----------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_FCopy.sh
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_FTP_TR.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#------------------------------#
+--5
+matched:#------------------------------#
+--6
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_LOAD.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_LOAD1.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_LOAD_CST.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+matched:#--------------------------------------------------#
+--5
+matched:#--------------------------------------------------#
+--6
+matched:#--------------------------------------------------#
+--7
+matched:#--------------------------------------------------#
+--8
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_LOAD_NBU.sh
+matched:#------------------------------------------------------#
+--1
+matched:#------------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_LOAD_OL.sh
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#--------------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_MailSend.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_MailSendCRM.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/S_MailSendCST.sh
+matched:#------------------------------------------#
+--1
+matched:#------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+matched:#------------------------------------------#
+--4
+C:\ohishi\06.Oracle11g対応\06_UNIXのパス変更\実験\resq\UNIX\dba\shl/TOT_LOAD.SH
+matched:#--------------------------------------------------#
+--1
+matched:#--------------------------------------------------#
+--2
+cnt:2
+header:#   Modify:2011.04.04 By T.OHISHI                  #
+
+header:#               UNIXディレクトリ変更対応           #
+
+header:
+
+header:# 共通定義読み込み
+
+header:. SH_COMMON_RESQ.sh
+
+header:
+
+ins:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+ 
+ # 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+ins1:#   Modify:2011.04.04 By T.OHISHI                  #
+ #               UNIXディレクトリ変更対応           #
+
+ins2:# 共通定義読み込み
+ . SH_COMMON_RESQ.sh
+ 
+
+DIR

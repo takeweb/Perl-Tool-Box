@@ -1,0 +1,6 @@
+#   Modify:yyyy.mm.dd ΣOracleパス変更対応         #
+#                                By T.Ohishi(JCC)  #
+
+#共通定義読込
+. SH_COMMON_CRM.sh
+

@@ -1,0 +1,74 @@
+# キーワード２つ置換え
+perl -i.org -pe 's/^JOBID=.+/JOBID=/g | s/^EJOBID=.+/EJOBID=/g' ./hulft_R_all.out
+# キーワード３つ置換え
+perl -i.org -pe 's/^JOBID=.+/JOBID=/g | s/^EJOBID=.+/EJOBID=/g | s/^TRANSMODE=.+/TRANSMODE=M/g' ./hulft_R_all.out
+
+# ファイル名称のみ抽出
+perl -ne "print if(m/^FILENAME=/g)" hulft_R_all_20110505.out.org > filename.txt
+
+# ファイル名リストより各アプリごとに抽出
+perl -ne "print if(m/apz01/g)" filename.txt > filename_apz01.txt
+perl -ne "print if(m/apz02/g)" filename.txt > filename_apz02.txt
+perl -ne "print if(m/apz03/g)" filename.txt > filename_apz03.txt
+perl -ne "print if(m/apz04/g)" filename.txt > filename_apz04.txt
+perl -ne "print if(m/apz05/g)" filename.txt > filename_apz05.txt
+perl -ne "print if(m/apz06/g)" filename.txt > filename_apz06.txt
+perl -ne "print if(m/apz07/g)" filename.txt > filename_apz07.txt
+perl -ne "print if(m/apz08/g)" filename.txt > filename_apz08.txt
+perl -ne "print if(m/apz09/g)" filename.txt > filename_apz09.txt
+perl -ne "print if(m/apz10/g)" filename.txt > filename_apz10.txt
+perl -ne "print if(m/apz11/g)" filename.txt > filename_apz11.txt
+perl -ne "print if(m/apz12/g)" filename.txt > filename_apz12.txt
+perl -ne "print if(m/apz13/g)" filename.txt > filename_apz13.txt
+perl -ne "print if(m/apz14/g)" filename.txt > filename_apz14.txt
+perl -ne "print if(m/apz15/g)" filename.txt > filename_apz15.txt
+perl -ne "print if(m/apz16/g)" filename.txt > filename_apz16.txt
+perl -ne "print if(m/apz17/g)" filename.txt > filename_apz17.txt
+perl -ne "print if(m/apz18/g)" filename.txt > filename_apz18.txt
+perl -ne "print if(m/apz19/g)" filename.txt > filename_apz19.txt
+perl -ne "print if(m/apz20/g)" filename.txt > filename_apz20.txt
+perl -ne "print if(m/apz21/g)" filename.txt > filename_apz21.txt
+perl -ne "print if(m/apz22/g)" filename.txt > filename_apz22.txt
+perl -ne "print if(m/apz23/g)" filename.txt > filename_apz23.txt
+perl -ne "print if(m/apz24/g)" filename.txt > filename_apz24.txt
+perl -ne "print if(m/apz25/g)" filename.txt > filename_apz25.txt
+perl -ne "print if(m/apz26/g)" filename.txt > filename_apz26.txt
+perl -ne "print if(m/apz27/g)" filename.txt > filename_apz27.txt
+perl -ne "print if(m/apz28/g)" filename.txt > filename_apz28.txt
+perl -ne "print if(m/apz29/g)" filename.txt > filename_apz29.txt
+perl -ne "print if(m/apz30/g)" filename.txt > filename_apz30.txt
+perl -ne "print if(m/apz31/g)" filename.txt > filename_apz31.txt
+perl -ne "print if(m/apz32/g)" filename.txt > filename_apz32.txt
+perl -ne "print if(m/apz33/g)" filename.txt > filename_apz33.txt
+
+改行コード変換
+UNIX => Windows 
+
+% perl -pe 's/\n/\r\n/' unixfile > winfile
+
+
+UNIX => Macintosh 
+
+% perl -pe 's/\n/\r/' unixfile > macfile
+
+
+Win => UNIX 
+
+% perl -pe 's/\r\n/\n/' winfile > unixfile
+
+
+Windows => Macintosh 
+
+% perl -pe 's/\r\n/\r/' winfile > macfile
+
+
+Macintosh => UNIX 
+
+% perl -pe 's/\r/\n/g' macfile > unixfile
+
+
+Macintosh => Windows 
+
+% perl -pe 's/\r/\r\n/g' macfile > winfile
+
+

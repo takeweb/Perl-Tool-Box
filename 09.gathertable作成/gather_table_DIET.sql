@@ -1,0 +1,74 @@
+SET ECHO ON
+SET LINE 300
+set timing on
+spool GATHER_TABLE_STATS_DIET.log
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'BALANCEWORK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'BUMONMST_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'CLOSED_MST', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'CURRMST', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'DIFF_KDMS_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'HAKIKATA_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'HAKIKISYU_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'HAKIMDA_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'HAKIPN_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'HAND_SAKUJYO_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'JIGYOSYO_MST', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'JYOKYAKU_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KBIM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KBIT', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KDKS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KDMS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEBA', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEBE', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEBR', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEDC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEJM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEKC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEMA', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEME', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEMM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KEMT', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KESC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KESM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KESS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KETS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KJDM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KJDT', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKKT', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKMS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKPN', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKSJ', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKSP', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KKTPN', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTAL', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTBC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTBM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTFC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTFM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTHH', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTKB', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTKL', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTLS', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTOD', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTPA', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSA', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSH', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSI', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSL', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTSM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTWC', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'KTWM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'MDA_EXIST_KISYU_WK', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'MP_PRIORITY_MST', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSMD', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSMDZ', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSMM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSMMZ', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSPD', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSPDZ', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSPM', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSPMZ', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+EXECUTE DBMS_STATS.GATHER_TABLE_STATS ( owner => 'DIET', tabname => 'PCSTODIETCONVMST', estimate_percent => 20, block_sample => TRUE, method_opt => 'FOR ALL COLUMS SIZE 75', cascade => TRUE);
+spool off
+exit

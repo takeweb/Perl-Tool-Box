@@ -1,0 +1,20 @@
+   * snd: 配信管理情報
+     rcv: 集信管理情報
+     job: ジョブ起動情報
+     hst: 詳細ホスト情報
+     tgrp: 転送グループ情報
+
+
+＜＜配信定義＞＞
+utligen -f ./hulft_S_all_20110505_2.out -i snd -id "*"
+utligen -f ./hulft_S_all_20110506_2.out -i snd -id "*"
+utligen -f ./hulft_S_all_20110506_2.out -i snd -id "*"
+
+
+＜＜集信定義＞＞
+utligen -f ./hulft_R_all_20110505_2.out -i rcv -id "*"
+utligen -f ./hulft_R_all_20110506_2.out -i rcv -id "*"
+
+＜＜ジョブ定義＞＞
+utligen -f ./hulft_J_all_20110505_2.out -i job -id "*"
+utligen -f ./hulft_J_all_20110506_2.out -i job -id "*"

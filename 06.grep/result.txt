@@ -1,0 +1,56 @@
+line 1: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\iniテスト\CACE.ini	128行目:SQLNET=O9I_DEV.WORLD              ; SQL*Net用データソース
+line 2: 
+line 3: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\iniテスト\CACE.ini	128行目:SQLNET_N=O9I_DEV.WORLD            ; SQL*Net用データソース(認証用サーバー)
+line 4: 
+line 5: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\MLD\CACE.ini	125行目:SQLNET=O9I_DEV.WORLD    	    ; SQL*Net用データソース
+line 6: 
+line 7: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\MLD\CACE.ini	125行目:SQLNET_N=O9I_DEV.WORLD   	; SQL*Net用データソース(認証用サーバー)
+line 8: 
+line 9: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\Prb\CACE.ini	125行目:SQLNET=O9I_DEV.WORLD    	    ; SQL*Net用データソース
+line 10: 
+line 11: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\Prb\CACE.ini	125行目:SQLNET_N=O9I_DEV.WORLD   	; SQL*Net用データソース(認証用サーバー)
+line 12: 
+line 13: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\Prs\CACE.ini	125行目:SQLNET_N=O9I_DEV.WORLD   	; SQL*Net用データソース(認証用サーバー)
+line 14: 
+line 15: C:\ohishi\97.DEV\画面開発\CACE\CACE_VB5\データ削除バッチ\Project.ini	45行目:DB_Server=O9I_DEV.WORLD
+line 16: 
+line 17: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\Resq.ini	5行目:SQLNET=O9I_DEV.WORLD            ; SQL*Net用データソース
+line 18: 
+line 19: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\Resq.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 20: 
+line 21: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\テストRESQ.ini	5行目:SQLNET=O9I_DEV.WORLD            ; SQL*Net用データソース
+line 22: 
+line 23: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\テストRESQ.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 24: 
+line 25: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\本番RESQ.ini	5行目:SQLNET=RICOH_ORA.WORLD          ; SQL*Net用データソース
+line 26: 
+line 27: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_H2009-001\INIT\本番RESQ.ini	5行目:SQLNET_N=RICOH_ORA.WORLD        ; SQL*Net用データソース(認証用サーバー)
+line 28: 
+line 29: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\CSTCOM.ini	25行目:ORACLE_SERVER=O9I_DEV.WORLD
+line 30: 
+line 31: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\Resq.ini	5行目:SQLNET=O9I_DEV.WORLD            ; SQL*Net用データソース
+line 32: 
+line 33: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\Resq.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 34: 
+line 35: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\テストCSTCOM.ini	25行目:ORACLE_SERVER=O9I_DEV.WORLD
+line 36: 
+line 37: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\テストRESQ.ini	5行目:SQLNET=O9I_DEV.WORLD            ; SQL*Net用データソース
+line 38: 
+line 39: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\テストRESQ.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 40: 
+line 41: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\本番CSTCOM.ini	25行目:ORACLE_SERVER=RICOH_ORA.WORLD
+line 42: 
+line 43: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\本番RESQ.ini	5行目:SQLNET=RICOH_ORA.WORLD          ; SQL*Net用データソース
+line 44: 
+line 45: C:\ohishi\97.DEV\画面開発\RESQ\HSFUKU_T2009-001\INIT\本番RESQ.ini	5行目:SQLNET_N=RICOH_ORA.WORLD        ; SQL*Net用データソース(認証用サーバー)
+line 46: 
+line 47: C:\ohishi\97.DEV\画面開発\RESQ\O9I_DEV_RESQ.ini	5行目:SQLNET=O9I_DEV.WORLD            ; SQL*Net用データソース
+line 48: 
+line 49: C:\ohishi\97.DEV\画面開発\RESQ\O9I_DEV_RESQ.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 50: 
+line 51: C:\ohishi\97.DEV\画面開発\RESQ\TD91_RESQ.ini	5行目:SQLNET_N=O9I_DEV.WORLD          ; SQL*Net用データソース(認証用サーバー)
+line 52: 
+line 53: C:\ohishi\97.DEV\画面開発\RESQ\本番RESQ.ini	5行目:SQLNET=RICOH_ORA.WORLD          ; SQL*Net用データソース
+line 54: 
+line 55: C:\ohishi\97.DEV\画面開発\RESQ\本番RESQ.ini	5行目:SQLNET_N=RICOH_ORA.WORLD        ; SQL*Net用データソース(認証用サーバー)
+line 56: 
