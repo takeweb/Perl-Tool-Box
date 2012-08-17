@@ -11,8 +11,9 @@ find(\&wanted, $ARGV[0]);
 # 再帰呼出関数
 sub wanted{
 	my $path = $File::Find::name;
-	return unless $path =~ /\.pl$/;
+#	return unless $path =~ /\.pl$/;
 #	return unless $path =~ /\.frm$|\.frx$|\.bas$|\.vbp$|\.vbw$|\.cls$/; # VBﾘｽﾄ用
+	return unless $path =~ /\.xls$|\.pdf$|\.doc$/; 						# ドキュメント用
 #   print "$path\n";
 
 	my @path = split('/', $path);

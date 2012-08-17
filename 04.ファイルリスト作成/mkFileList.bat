@@ -1,1 +1,1 @@
-perl mkFileList.pl C:/ohishi/99.tools/PerlTools/ >list.csv
+perl mkFileList.pl z:/ >list_20120731.csv
