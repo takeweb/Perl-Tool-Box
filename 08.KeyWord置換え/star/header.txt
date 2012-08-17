@@ -1,0 +1,6 @@
+#   Modify:yyyy.mm.dd By T.OHISHI                  #
+#               UNIXディレクトリ変更対応           #
+
+# 共通定義読み込み
+. SH_COMMON_STAR.sh
+
