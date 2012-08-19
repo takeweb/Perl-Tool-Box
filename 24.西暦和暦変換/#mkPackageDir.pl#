@@ -1,0 +1,25 @@
+#!perl
+
+use strict;
+use warnings;
+use File::Path 'mkpath';
+
+# ’¥³’¥Þ’¥ó’¥É’¥é’¥¤’¥ó’°ú’¿ô’¤Î’¼õ’¼è
+# $ARGV[0]’¢Í$package : ’¥Ç’¥£’¥ì’¥¯’¥È’¥ê’¤ò’ºî’À®’¤·’¤¿’¤¤Java’¥Ñ’¥Ã’¥±’¡¼’¥¸’Ì¾
+#           ex. jp.co.ricoh.is.terje.sub
+
+# ’ÊÑ’¿ô’Àë’¸À
+my ($package) = @ARGV;		       	# ’°ú’¿ô’¼õ’¤±’¼è’¤ê
+my $dir = "src";		       	# ’¥Ç’¥£’¥ì’¥¯’¥È’¥ê’Ì¾’³Ê’Ç¼’ÍÑ
+my @sub_dirs = split(/\./, $package);	# ’¡Ö.’¡×’¤Ç’Ê¬’³ä’¤·’¤Æ’ÇÛ’Îó’¤Ø’³Ê’Ç¼
+
+# ’¥Ç’¥£’¥ì’¥¯’¥È’¥ê’Ì¾’ºî’À®
+foreach my $sub_dir (@sub_dirs) {
+	$dir = $dir . '/' . $sub_dir;
+}
+
+print "$dir\n";
+
+# ’¥Ç’¥£’¥ì’¥¯’¥È’¥ê’¥Ñ’¥¹’ºî’À®
+mkpath $dir or die "Cannot create dir: $!";
+

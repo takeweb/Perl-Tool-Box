@@ -1,0 +1,128 @@
+#!perl
+
+use strict;
+use warnings;
+use DateTime;
+#use Readonly;
+
+# コマンドライン引数の受取
+# $ARGV[0]→$year
+# $ARGV[1]→$month
+# $ARGV[2]→$day
+
+# 変数宣言
+my ($year, $month, $day) = @ARGV;	# 引数受け取り
+my $MEIJI  = DateTime -> new(year => 1868, month => 9, day => 8);
+my $TAISHO = DateTime -> new(year => 1912, month => 7, day => 30);
+my $SHOWA  = DateTime -> new(year => 1926, month => 12, day => 25);
+my $HEISEI = DateTime -> new(year => 1989, month => 1, day => 8);
+
+my $input_yyyymmdd = DateTime -> new(year => $year, month => $month, day => $day);
+my $wareki = "";
+
+if( DateTime->compare($MEIJI, $input_yyyymmdd) ) {
+    $wareki = "明治";
+} elsif( DateTime->compare($input_yyyymmdd, $MEIJI) && 
+         DateTime->compare($TAISHO, $input_yyyymmdd) ) {
+    $wareki = "大正";
+} elsif( DateTime->compare($input_yyyymmdd, $TAISHO) &&
+	 DateTime->compare($SHOWA, $input_yyyymmdd) ) {
+    $wareki = "昭和";
+} elsif( DateTime->compare($input_yyyymmdd, $SHOWA) &&
+	 DateTime->compare($HEISEI, $input_yyyymmdd) ){
+    $wareki = "平成"
+} else {
+    $wareki = "不明"
+}
+
+print "$input_yyyymmdd\n";
+print "$year\n";
+print "$month\n";
+print "$day\n";
+
+print "明治：$MEIJI\n";
+my $HEISEI = DateTime -> new(year => 1989, month => 1, day => 8);
+
+my $input_yyyymmdd = DateTime -> new(year => $year, month => $month, day => $day);
+my $wareki = "";
+
+if( DateTime->compare($MEIJI, $input_yyyymmdd) ) {
+    $wareki = "明治";
+} elsif( DateTime->compare($input_yyyymmdd, $MEIJI) && 
+         DateTime->compare($TAISHO, $input_yyyymmdd) ) {
+    $wareki = "大正";
+} elsif( DateTime->compare($input_yyyymmdd, $TAISHO) &&
+	 DateTime->compare($SHOWA, $input_yyyymmdd) ) {
+    $wareki = "昭和";
+} elsif( DateTime->compare($input_yyyymmdd, $SHOWA) &&
+	 DateTime->compare($HEISEI, $input_yyyymmdd) ){
+    $wareki = "平成"
+} else {
+    $wareki = "不明"
+}
+
+print "$input_yyyymmdd\n";
+print "$year\n";
+print "$month\n";
+print "$day\n";
+
+print "明治：$MEIJI\n"
+my $HEISEI = DateTime -> new(year => 1989, month => 1, day => 8);
+
+my $input_yyyymmdd = DateTime -> new(year => $year, month => $month, day => $day);
+my $wareki = "";
+
+if( DateTime->compare($MEIJI, $input_yyyymmdd) ) {
+    $wareki = "明治";
+} elsif( DateTime->compare($input_yyyymmdd, $MEIJI) && 
+         DateTime->compare($TAISHO, $input_yyyymmdd) ) {
+    $wareki = "大正";
+} elsif( DateTime->compare($input_yyyymmdd, $TAISHO) &&
+	 DateTime->compare($SHOWA, $input_yyyymmdd) ) {
+    $wareki = "昭和";
+} elsif( DateTime->compare($input_yyyymmdd, $SHOWA) &&
+	 DateTime->compare($HEISEI, $input_yyyymmdd) ){
+    $wareki = "平成"
+} else {
+    $wareki = "不明"
+}
+
+print "$input_yyyymmdd\n";
+print "$year\n";
+print "$month\n";
+print "$day\n";
+
+print "明治：$MEIJI\n"
+my $HEISEI = DateTime -> new(year => 1989, month => 1, day => 8);
+
+my $input_yyyymmdd = DateTime -> new(year => $year, month => $month, day => $day);
+my $wareki = "";
+
+if( DateTime->compare($MEIJI, $input_yyyymmdd) ) {
+    $wareki = "明治";
+} elsif( DateTime->compare($input_yyyymmdd, $MEIJI) && 
+         DateTime->compare($TAISHO, $input_yyyymmdd) ) {
+    $wareki = "大正";
+} elsif( DateTime->compare($input_yyyymmdd, $TAISHO) &&
+	 DateTime->compare($SHOWA, $input_yyyymmdd) ) {
+    $wareki = "昭和";
+} elsif( DateTime->compare($input_yyyymmdd, $SHOWA) &&
+	 DateTime->compare($HEISEI, $input_yyyymmdd) ){
+    $wareki = "平成"
+} else {
+    $wareki = "不明"
+}
+
+print "$input_yyyymmdd\n";
+print "$year\n";
+print "$month\n";
+print "$day\n";
+
+print "明治：$MEIJI\n"
+print "大正：$TAISMEIJI\n"
+print "昭和：$MEIJI\n"
+print "平成：$MEIJI\n"
+
+
+print "$wareki\n";
+
