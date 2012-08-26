@@ -1,3 +1,3 @@
 echo off
-cd C:\ohishi\99.tools\PerlTools\22.JavaƒpƒbƒP[ƒWƒfƒBƒŒƒNƒgƒŠì¬
-perl mkPackageDir.pl  jp.co.ricoh.is.terje.sub.bean
+cd cd /d %0€..
+perl convertYear.pl 1976 9 8
