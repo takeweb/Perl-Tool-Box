@@ -8,10 +8,10 @@ my @SysEnv = $WshShell->Enviroment("SYSTEM");
 my @UsrEnv = $WshShell->Enviroment("USER");
 
 foreach my $value (@SysEnv) {
-	print "システム環境変数：$value\n";	
+	print "システム環境変数：$value\n";
 }
 
 foreach my $value (@UsrEnv) {
-	print "ユーザ環境変数：$value\n";	
+	print "ユーザ環境変数：$value\n";
 }
 
