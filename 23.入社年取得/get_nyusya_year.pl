@@ -15,4 +15,4 @@ if ( $year_moto ge '100' ) {
 
 #print "年の元：$year_moto\n";
 #print "年の末尾：$year_tail\n";
-print "入社年：$nyusya_year\n";
+print "入社年：$nyusya_year年\n";
