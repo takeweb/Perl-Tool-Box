@@ -1,0 +1,14 @@
+# 文法チェック
+use strict;
+use warnings;
+use utf8;
+use Encode;
+
+my $str = "処理終了";
+print "変換前：$str\n";
+
+my $utf8 = decode("cp932", $str);
+print "decode後：$str\n";
+
+my $new_name = encode("cp932", $utf8);
+print "encode語：$utf8\n";
