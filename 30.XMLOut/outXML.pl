@@ -15,7 +15,8 @@ my $file_so = $ARGV[0];
 my $file_soyaku = $ARGV[1];
 my $company_cd = "$ARGV[2]";
 my $parent_cd = $ARGV[3];
-my $cnt = 6;
+my $offset = 0;
+my $sort_key = 0;
 my $start_date = "1900-01-01";
 my $end_date = "3000-01-01";
 my @department_cds;
@@ -35,12 +36,14 @@ while (my $row = <$fh>) {
     next if $row =~ /^\n/;
     next if $row =~ /^--/;
 
+    $sort_key = $offset + $index;
+
     chomp($row);
     # 組織コード、組織名称の取り出し　タブ区切り
     my ($department_cd1, $department_name) = split(/\s+/, $row);
     $department_cds[$index] = $department_cd1;
 
-    print "            \<department department-cd\=\"$department_cd1\" sort-key\=\"$cnt\"\>";
+    print "            \<department department-cd\=\"$department_cd1\" sort-key\=\"$sort_key\"\>";
     print "                \<term start-date\=\"$start_date\" end-date\=\"$end_date\" delete-flag\=\"false\"\>";
     print "                    \<locale locale-id\=\"ja\"\>";
     print "                        \<department-name\>$department_name\<\/department-name\>";
@@ -84,7 +87,6 @@ while (my $row = <$fh>) {
     close $fh2;
     print "            \<\/department\>";
 
-    $cnt++;
     $index++;
 }
 close $fh;

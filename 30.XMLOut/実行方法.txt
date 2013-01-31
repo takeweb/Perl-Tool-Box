@@ -1,0 +1,4 @@
+perl outXML.pl sosiki.txt soyaku.csv 10 10151100 >company_20130131_8.xml
+
+perl outXML.pl sosiki12.txt soyaku.csv 12 12105103 >company_20130131_9.xml
+

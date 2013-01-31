@@ -1,0 +1,1251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://intra-mart.co.jp/system/master/company">
+    <company company-cd="12">
+        <department-set department-set-cd="12">
+            <department department-cd="12105019" sort-key="0">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>札幌サービスセンター</department-name>
+                        <department-short-name>札幌サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12080011">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12073118">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105084" sort-key="1">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>旭川サービスステーション</department-name>
+                        <department-short-name>旭川サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12082052">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105035" sort-key="2">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>盛岡サービスセンター</department-name>
+                        <department-short-name>盛岡サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12068035">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105043" sort-key="3">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>青森サービスステーション</department-name>
+                        <department-short-name>青森サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12091011">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105031" sort-key="4">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>仙台サービスセンター</department-name>
+                        <department-short-name>仙台サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12079003">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12071126">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105046" sort-key="5">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>郡山サービスステーション</department-name>
+                        <department-short-name>郡山サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12080025">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105032" sort-key="6">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>新潟サービスセンター</department-name>
+                        <department-short-name>新潟サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12073106">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040808">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105024" sort-key="7">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>北関東サービスセンター</department-name>
+                        <department-short-name>北関東サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12090035">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12081022">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040042">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105025" sort-key="8">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>群馬サービスステーション</department-name>
+                        <department-short-name>群馬サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105027" sort-key="9">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>千葉サービスセンター</department-name>
+                        <department-short-name>千葉サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12040905">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040902">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040020">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105022" sort-key="10">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>埼玉サービスセンター</department-name>
+                        <department-short-name>埼玉サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12091116">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12088253">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12088001">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105014" sort-key="11">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>東京北サービスセンター</department-name>
+                        <department-short-name>東京北サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12084036">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12082001">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040056">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040038">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040030">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105011" sort-key="12">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>東京西サービスセンター</department-name>
+                        <department-short-name>東京西サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105018" sort-key="13">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>東京南サービスセンター</department-name>
+                        <department-short-name>東京南サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12071356">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12069062">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12041201">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040011">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105015" sort-key="14">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>横浜サービスセンター</department-name>
+                        <department-short-name>横浜サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12096017">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12088258">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12077257">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040010">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105036" sort-key="15">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>松本サービスセンター</department-name>
+                        <department-short-name>松本サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12068034">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040021">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105037" sort-key="16">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>北陸サービスセンター</department-name>
+                        <department-short-name>北陸サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12090038">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040805">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105049" sort-key="17">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>砺波サービスステーション</department-name>
+                        <department-short-name>砺波サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105029" sort-key="18">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>静岡サービスセンター</department-name>
+                        <department-short-name>静岡サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12041001">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105017" sort-key="19">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>名古屋サービスセンター</department-name>
+                        <department-short-name>名古屋サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12096018">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105020" sort-key="20">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>京都サービスセンター</department-name>
+                        <department-short-name>京都サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105012" sort-key="21">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>大阪サービスセンター</department-name>
+                        <department-short-name>大阪サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12094030">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12089055">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12071104">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12069256">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040904">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040035">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105013" sort-key="22">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>大阪北サービスセンター</department-name>
+                        <department-short-name>大阪北サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105039" sort-key="23">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>兵庫サービスセンター</department-name>
+                        <department-short-name>兵庫サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12083259">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040906">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105034" sort-key="24">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>広島サービスセンター</department-name>
+                        <department-short-name>広島サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12088250">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12082252">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040807">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105085" sort-key="25">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>倉敷サービスステーション</department-name>
+                        <department-short-name>倉敷サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105086" sort-key="26">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>鳥取サービスステーション</department-name>
+                        <department-short-name>鳥取サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105038" sort-key="27">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>四国サービスセンター</department-name>
+                        <department-short-name>四国サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12083258">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105028" sort-key="28">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>福岡サービスセンター</department-name>
+                        <department-short-name>福岡サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12084017">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12079252">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040803">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105041" sort-key="29">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>鹿児島サービスステーション</department-name>
+                        <department-short-name>鹿児島サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12040043">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105016" sort-key="30">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>ジャノメ本部サービスセンター</department-name>
+                        <department-short-name>ジャノメ本部サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12085022">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12073011">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12041205">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12041204">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040806">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105065" sort-key="31">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>東京ミシンサービス</department-name>
+                        <department-short-name>東京ミシンサービス</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+                <user-attach user-cd="12090383">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12085004">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12071028">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12041101">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+                <user-attach user-cd="12040023">
+                    <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false" department-main="true">
+                    </term>
+                </user-attach>
+            </department>
+            <department department-cd="12105006" sort-key="32">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>本社２事業</department-name>
+                        <department-short-name>本社２事業</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105007" sort-key="33">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>本社３事業</department-name>
+                        <department-short-name>本社３事業</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105070" sort-key="34">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>ショップ吉祥寺</department-name>
+                        <department-short-name>ショップ吉祥寺</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105021" sort-key="35">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>安城サービスステーション</department-name>
+                        <department-short-name>安城サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105023" sort-key="36">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>兵庫サービスステーション</department-name>
+                        <department-short-name>兵庫サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105026" sort-key="37">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>北九州サービスステーション</department-name>
+                        <department-short-name>北九州サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105030" sort-key="38">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>熊本サービスステーション</department-name>
+                        <department-short-name>熊本サービスステーション</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105033" sort-key="39">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>沖縄サービスセンター</department-name>
+                        <department-short-name>沖縄サービスセンター</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <department department-cd="12105066" sort-key="40">
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <locale locale-id="ja">
+                        <department-name>大阪ミシン</department-name>
+                        <department-short-name>大阪ミシン</department-short-name>
+                        <department-search-name></department-search-name>
+                        <country-cd></country-cd>
+                        <zip-code></zip-code>
+                        <address1></address1>
+                        <address2></address2>
+                        <address3></address3>
+                        <telephone-number></telephone-number>
+                        <extension-number></extension-number>
+                        <fax-number></fax-number>
+                        <extension-fax-number></extension-fax-number>
+                        <email-address1></email-address1>
+                        <email-address2></email-address2>
+                        <url></url>
+                        <notes></notes>
+                    </locale>
+                </term>
+            </department>
+            <inclusion>
+                <term start-date="1900-01-01" end-date="3000-01-01" delete-flag="false">
+                    <relation parent-department-cd="12105103" department-cd="12105019"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105084"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105035"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105043"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105031"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105046"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105032"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105024"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105025"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105027"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105022"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105014"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105011"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105018"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105015"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105036"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105037"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105049"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105029"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105017"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105020"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105012"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105013"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105039"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105034"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105085"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105086"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105038"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105028"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105041"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105016"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105065"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105006"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105007"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105070"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105021"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105023"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105026"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105030"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105033"
+                    </relation>
+                    <relation parent-department-cd="12105103" department-cd="12105066"
+                    </relation>
+                </term>
+            </inclusion>
+       </department-set>
+    </company>
+</root>
