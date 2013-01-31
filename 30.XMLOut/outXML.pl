@@ -96,7 +96,7 @@ print "                \<term start-date=\"$start_date\" end-date=\"$end_date\" 
 
 
 foreach my $department_cd ( @department_cds  ) {
-    print "                    \<relation parent-department-cd=\"$parent_cd\" department-cd=\"$department_cd\"";
+    print "                    \<relation parent-department-cd=\"$parent_cd\" department-cd=\"$department_cd\"\>";
     print "                    \<\/relation\>";
 }
 
