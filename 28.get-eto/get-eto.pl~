@@ -1,0 +1,14 @@
+use strict;
+use warnings;
+
+# 戻り値
+my $rtn_str;
+
+# コマンドライン引数受け取り
+my $year = $ARGV[0];
+
+my @etos = ("申", "酉", "戌", "亥", "子", "丑", "寅", "卯", "辰", "巳", "午", "未");
+
+my $index = $year % 12;
+
+print "$etos[$index]\n";
