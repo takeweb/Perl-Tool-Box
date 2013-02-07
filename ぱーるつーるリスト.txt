@@ -1,8 +1,8 @@
 
 
-01.日付ディレクトリ作成		mkyeardir.pl(mkyeardir.bat)		…年度単位で年月(yyyy年mm月形式)フォルダ作成
-02.改行コード変換			nl2lf.pl(nl2lf.bat)				…改行コードをUNIXの改行コード(LF)に変換
-03.不要ファイル削除			delfile.pl(delfile.bat)			…ディレクトリ配下の不要なファイル(拡張子指定)を全削除
+01.日付ディレクトリ作成		mkyeardir.pl(mkyeardir.bat)	…年度単位で年月(yyyy年mm月形式)フォルダ作成
+02.改行コード変換		nl2lf.pl(nl2lf.bat)	…改行コードをUNIXの改行コード(LF)に変換
+03.不要ファイル削除		delfile.pl(delfile.bat)	…ディレクトリ配下の不要なファイル(拡張子指定)を全削除
 04.ファイルリスト作成		mkFileList.pl(mkFileList.bat)	…ディレクトリリスト作成
 
 
