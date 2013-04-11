@@ -2,3 +2,20 @@ perl outXML.pl sosiki.txt soyaku.csv 10 10151100 >company_20130131_8.xml
 
 perl outXML.pl sosiki12.txt soyaku.csv 12 12105103 >company_20130131_9.xml
 
+
+D:\ooishi\Dropbox\GitHub\Perl-Tool-Box\30.XMLOut>perl outAccountXML.pl .\input_data\company2.csv>.\output_data\account.xml
+
+perl outCompanyXML.pl 10 .\input_data\Structure.csv .\input_data\company1.csv .\input_data\sosiki_hen.txt .\input_data\sosiki_hen2.txt .\input_data\post_10.txt .\input_data\post_hen_10.txt >.\output_data\company_10.xml
+perl outCompanyXML.pl 12 .\input_data\Structure.csv .\input_data\company1.csv .\input_data\sosiki_hen.txt .\input_data\sosiki_hen2.txt .\input_data\post_12.txt .\input_data\post_hen_12.txt >.\output_data\company_12.xml
+
+
+
+    # eqŠÖŒW‚ğ—­‚ß‚Ş
+    if ( $keep_dep_cd ne $department_cd1 ) {
+	my $tmp_dep_cd = $department_cd1;
+	my $tmp_parent_cd = $parent_cd;
+#	my %relation = (department_cd => $tmp_dep_cd, parent_cd => $tmp_parent_cd);
+#	push(@relations, \%relation);
+	push(@relations, {department_cd => $tmp_dep_cd, parent_cd => $tmp_parent_cd});
+	$keep_dep_cd = $department_cd1;
+    }

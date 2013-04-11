@@ -1,0 +1,260 @@
+use strict;
+use warnings;
+use utf8;
+#binmode STDIN,  ":utf8";
+#binmode STDOUT, ":utf8";
+
+#######################################################
+# IM-共通マスタ組織XML文作成
+#    第１引数： 会社コード
+#    第２引数:  組織データファイル名
+#    第３引数： 所属データファイル名
+#    第４引数： 組織変換ファイル名
+#    第５引数： 組織略称変換ファイル名
+#    第６引数： 役職ファイル名
+#    第７引数： 役職変換ファイル名
+#    標準出力： 出力ファイルに結果をリダイレクト
+########################################################
+
+# コマンドライン引数
+my $company_cd = "$ARGV[0]";
+my $file_dep = $ARGV[1];
+my $file_syozoku = $ARGV[2];
+my $file_dep_hen = "$ARGV[3]";
+my $file_dep_hen2 = "$ARGV[4]";
+my $file_post = "$ARGV[5]";
+my $file_post_hen = "$ARGV[6]";
+
+# 定数
+my $start_date = "1900-01-01";
+my $end_date = "3000-01-01";
+$\ = "\n";
+
+# 変数
+my @department_cds;
+my @relations;
+my $index = 0;
+my %dep_hen_list;   # 組織変換用ハッシュ
+my %dep_hen_list2;  # 組織略称変換用ハッシュ
+my %post_hen_list;  # 役職変換用ハッシュ
+my $keep_dep_cd = "";
+
+
+# 事前に組織変換リスト読み込み
+#open my $fh_dep_hen, "<:encoding(shiftjis)", $file_dep_hen or die qq/Can't open file "$file_dep_hen" : $!/;
+open my $fh_dep_hen, '<', $file_dep_hen or die qq/Can't open file "$file_dep_hen" : $!/;
+
+while (my $row = <$fh_dep_hen>) {
+    next if $row =~ /^\n/;
+    next if $row =~ /^--/;
+    next if $. < 2;
+
+    chomp($row);
+
+    my ($key, $value) = split(/\s+/, $row);
+    $dep_hen_list{$key} = $value;
+
+}
+close $fh_dep_hen;
+
+# 事前に組織略称変換リスト読み込み
+open my $fh_dep_hen2, '<', $file_dep_hen2 or die qq/Can't open file "$file_dep_hen2" : $!/;
+
+while (my $row = <$fh_dep_hen2>) {
+    next if $row =~ /^\n/;
+    next if $row =~ /^--/;
+#   next if $. < 2;
+    chomp($row);
+
+    my ($key, $value) = split(/\s+/, $row);
+    $dep_hen_list2{$key} = $value;
+
+}
+close $fh_dep_hen2;
+
+# 事前に役職変換リスト読み込み
+#open my $fh_post_hen, "<:encoding(shiftjis)", $file_post_hen or die qq/Can't open file "$file_post_hen" : $!/;
+open my $fh_post_hen, '<', $file_post_hen or die qq/Can't open file "$file_post_hen" : $!/;
+
+while (my $row = <$fh_post_hen>) {
+    next if $row =~ /^\n/;
+    next if $row =~ /^--/;
+    next if $. < 2;
+
+    chomp($row);
+
+    my ($key, $value) = split(/\s+/, $row);
+    $post_hen_list{$key} = $value;
+
+}
+close $fh_post_hen;
+
+# ヘッダ出力
+print "\<\?xml version\=\"1.0\" encoding\=\"UTF-8\"\?\>";
+print "\<root xmlns\=\"http\:\/\/intra-mart\.co\.jp\/system\/master\/company\"\>";
+print "    \<company company-cd=\"$company_cd\"\>";
+print "        \<department-set department-set-cd=\"$company_cd\"\>";
+
+# 組織リストを読み込み
+#open my $fh, "<:encoding(shiftjis)", $file_dep or die qq/Can't open file "$file_dep" : $!/;
+open my $fh, '<', $file_dep or die qq/Can't open file "$file_dep" : $!/;
+
+while (my $row = <$fh>) {
+    next if $row =~ /^\n/;
+    next if $row =~ /^--/;
+    next if $. < 6;
+    next if $. > 7 && $. < 34;
+    chomp($row);
+
+    # 組織コード、組織名称の取り出し　カンマ区切り
+    my @cols = split(/\,/, $row);
+    my $department_cd1 = $cols[1];       # 組織コード
+    my $parent_cd = $cols[3];            # 親組織コード
+    my $company_cd1 = $cols[31];         # 会社コード
+    my $sort_key = $cols[136];           # 親組織内順位
+    my $department_nm = $cols[5];        # 組織名称
+    my $department_short_nm = $cols[6];  # 組織略名称    
+    my $department_search_nm = $cols[7]; # 組織名称カナ
+
+    next if $company_cd ne $company_cd1;
+    next if $department_nm eq "" || 
+	    $department_nm eq "出向地" || 
+	    $department_nm eq "過去支店" || 
+	    $department_nm eq "療養支店長" ||
+	    $department_nm eq "(療養支店長)";
+
+    # 組織コード変換
+    if ( exists $dep_hen_list{$department_cd1} ) {
+	$department_cd1 = $dep_hen_list{$department_cd1};
+    }
+    if ( exists $dep_hen_list{$parent_cd} ) {
+	$parent_cd = $dep_hen_list{$parent_cd};
+    }
+
+    # 組織略称変換
+    if ( exists $dep_hen_list2{$department_cd1} ) {
+	$department_short_nm = $dep_hen_list2{$department_cd1};
+    }
+
+    # 親子関係を溜め込む
+    if ( $keep_dep_cd ne $department_cd1 ) {
+	my $tmp_dep_cd = $department_cd1;
+	my $tmp_parent_cd = $parent_cd;
+#	my %relation = (department_cd => $tmp_dep_cd, parent_cd => $tmp_parent_cd);
+#	push(@relations, \%relation);
+	push(@relations, {department_cd => $tmp_dep_cd, parent_cd => $tmp_parent_cd});
+	$keep_dep_cd = $department_cd1;
+    }
+
+    # 会社・組織出力
+    print "            \<department department-cd\=\"$department_cd1\" sort-key\=\"$sort_key\"\>";
+    print "                \<term start-date\=\"$start_date\" end-date\=\"$end_date\" delete-flag\=\"false\"\>";
+    print "                    \<locale locale-id\=\"ja\"\>";
+    print "                        \<department-name\>$department_nm\<\/department-name\>";
+    print "                        \<department-short-name\>$department_short_nm\<\/department-short-name\>";
+    print "                        \<department-search-name\>$department_search_nm\<\/department-search-name\>";
+    print "                        \<country-cd\>\<\/country-cd\>";
+    print "                        \<zip-code\>\<\/zip-code\>";
+    print "                        \<address1\>\<\/address1\>";
+    print "                        \<address2\>\<\/address2\>";
+    print "                        \<address3\>\<\/address3\>";
+    print "                        \<telephone-number\>\<\/telephone-number\>";
+    print "                        \<extension-number\>\<\/extension-number\>";
+    print "                        \<fax-number\>\<\/fax-number\>";
+    print "                        \<extension-fax-number\>\<\/extension-fax-number\>";
+    print "                        \<email-address1\>\<\/email-address1\>";
+    print "                        \<email-address2\>\<\/email-address2\>";
+    print "                        \<url\>\<\/url\>";
+    print "                        \<notes\>\<\/notes\>";
+    print "                    \<\/locale\>";
+    print "                \<\/term\>";
+
+    # 組織所属リストを読み込み
+#   open my $fh2, "<:encoding(shiftjis)", $file_syozoku or die qq/Can't open file $file_syozoku : $!/;
+    open my $fh2, '<', $file_syozoku or die qq/Can't open file $file_syozoku : $!/;
+
+    while (my $row2 = <$fh2>) {
+	
+	next if $row2 =~ /^\n/;
+	next if $row2 =~ /^--/;
+	chomp($row2);
+
+	# 会社コード, 組織セットコード, 組織コード, ユーザコード, 主所属フラグ, 削除フラグ, 役職コード, 削除フラグ
+	my ($company_cd2, $department_set_cd, $department_cd2, $user_cd, $department_main, $delete_flag1, $post_cd, $delete_flag2) = split(/\,/, $row2);
+
+	next if $company_cd ne $company_cd2;
+
+	# 役職コード変換
+	if ( exists $post_hen_list{$department_cd2} ) {
+	    $post_cd = $post_hen_list{$department_cd2}; 
+	}
+
+	# 組織コード変換
+	if ( exists $dep_hen_list{$department_cd2} ) {
+	    $department_cd2 = $dep_hen_list{$department_cd2};
+	}
+	next if $department_cd1 ne $department_cd2;
+
+	# 所属社員、役職出力
+	print "                \<user-attach user-cd\=\"$user_cd\"\>";
+	print "                    \<term start-date\=\"$start_date\" end-date\=\"$end_date\" delete-flag\=\"false\" department-main=\"$department_main\"\>";
+	if ( $post_cd ne "10070" && $post_cd ne "" ) {
+	    print "                        \<post-attach post-cd\=\"$post_cd\"\>";
+	    print "                        \<\/post-attach\>";
+	}
+	print "                    \<\/term\>";
+	print "                \<\/user-attach\>";
+    }
+
+    close $fh2;
+    print "            \<\/department\>";
+
+    $index++;
+}
+close $fh;
+
+# 組織親子関係出力
+print "            \<inclusion\>";
+print "                \<term start-date=\"$start_date\" end-date=\"$end_date\" delete-flag=\"false\"\>";
+foreach my $relation (@relations) {
+    foreach my $department_cd (keys %$relation) {
+	my $parent_cd = $relation->{$department_cd};
+	if ( $department_cd ne $parent_cd  ) {
+	    print "                    \<relation parent-department-cd\=\"$parent_cd\" department-cd\=\"$department_cd\"\>";
+	    print "                    \<\/relation\>";
+	}
+    }
+}
+print "                \<\/term\>";
+print "            \<\/inclusion\>";
+
+# 役職リスト読み込み
+#open my $fh_post, "<:encoding(shiftjis)", $file_post or die qq/Can't open file "$file_post" : $!/;
+open my $fh_post, '<', $file_post or die qq/Can't open file "$file_post" : $!/;
+
+while (my $row = <$fh_post>) {
+    next if $row =~ /^\n/;
+    next if $row =~ /^--/;
+    next if $. < 2;
+    chomp($row);
+
+    # 役職コード, 役職名, ランク, ソート
+    my ($post_cd, $post_nm, $rank, $sort) = split(/\s+/, $row);
+
+    # 役職出力
+    print "           \<post post-cd\=\"$post_cd\" rank=\"$rank\" sort-key\=\"$sort\"\>";
+    print "               \<term start-date\=\"1900-01-01\" end-date\=\"3000-01-01\" delete-flag\=\"false\"\>";
+    print "                   \<locale locale-id=\"ja\"\>";
+    print "                     \<post-name\>$post_nm\<\/post-name\>";
+    print "                     \<notes\>\<\/notes\>";
+    print "                   \<\/locale\>";
+    print "               \<\/term\>";
+    print "           \<\/post\>";
+
+}
+close $fh_post;
+
+# フッタ出力
+print "       \<\/department-set\>";
+print "    \<\/company\>";
+print "\<\/root\>";

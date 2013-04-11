@@ -1,0 +1,22 @@
+    # キープ親コード
+    if ( $keep_parent_cd eq $parent_cd  ) {
+	$department_cds[$index] = $department_cd1;
+    } else {
+
+	print "            \<inclusion\>";
+	print "                \<term start-date=\"$start_date\" end-date=\"$end_date\" delete-flag=\"false\"\>";
+
+	foreach my $department_cd ( @department_cds  ) {
+	    if ( $department_cd ne $parent_cd  ) {
+		print "                    \<relation parent-department-cd=\"$parent_cd\" department-cd=\"$department_cd\"\>";
+		print "                    \<\/relation\>";
+	    }
+	}
+
+	print "                \<\/term\>";
+	print "            \<\/inclusion\>";
+	
+	$index = 0;
+	$keep_parent_cd = $parent_cd;
+	$department_cds[$index] = $department_cd1;
+    }

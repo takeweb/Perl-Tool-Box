@@ -7,7 +7,8 @@ use File::Path 'mkpath';
 # コマンドライン引数の受取
 # $ARGV[0]⇒$nendo : 作成したい年度
 # $ARGV[1]⇒$mode : モード(0:ノーマル 1:前半後半付加)
-my ($nendo,$mode) = @ARGV;
+# $ARGV[2]⇒$targetdir : フォルダ作成先
+my ($nendo,$mode,$targetdir) = @ARGV;
 
 # 変数宣言
 my $year;   # 年格納用
@@ -34,11 +35,11 @@ for (my $i = 0; $i < 12; $i++) {
 	$dir = $year . "年". $mnth . "月";
 
 	# ディレクトリ作成
+	$dir = $targetdir. '/週報_' . $nendo . '年度/' . $dir;
+#print $dir;
 	if ($mode == 0) {
-        $dir = $nendo . '年度/' . $dir;
         mkpath $dir or die "Cannot create dir: $!";
     } else {
-        $dir = $nendo . '年度/' . $dir;
         mkpath $dir . "前半" or die "Cannot create dir: $!";
         mkpath $dir . "後半" or die "Cannot create dir: $!";
     }
