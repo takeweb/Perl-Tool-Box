@@ -1,0 +1,15 @@
+use strict;
+use warnings;
+
+my $i = 0;
+while (my $line = <>) {
+    next if $line =~ /^\n/;
+    
+    chomp $line;
+    $i++;
+    
+    if ($line =~ /\QINSERT\E/) {
+	print "$line\n";
+    }
+    print "$i\n";
+}

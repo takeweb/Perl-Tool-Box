@@ -1,0 +1,4210 @@
+/****** Object:  UserDefinedFunction [dbo].[VIEW_IMW]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VIEW_IMW]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[VIEW_IMW] (  @authUserCode nvarchar(50),
+                            @locale nvarchar(50),
+                            @companyCode nvarchar(50),
+                            @orgzSetCode nvarchar(50),
+                            @orgzCode nvarchar(50),
+                            @flowId nvarchar(50)
+                         )
+RETURNS TABLE
+AS
+RETURN 
+(
+     SELECT TMP.user_data_id,
+            '''' as matter_number,
+            TMP.matter_name as matter_name,
+            '''' as system_matter_id,
+            TMP.node_id,
+            '''' as node_name,
+            ''temporary'' as status,
+            ''TEMPORARY'' as process_type,
+            ''一時保存'' as process_type_name,
+            TMP.update_user_code,
+            TMP.update_date,
+            TMP.flow_id,
+            TMP.flow_version_id,
+            TMP.apply_base_date,
+            ''0'' as pull_back_flg,
+            '''' as pull_back_node_id
+       FROM imw_t_temporary_save TMP
+      WHERE auth_user_code = @authUserCode
+        AND flow_id = @flowId
+
+    UNION ALL
+
+     SELECT ACT.user_data_id,
+            ACT.matter_number,
+            ACT.matter_name,
+            ACT.system_matter_id,
+            (case when MSYO.system_matter_id IS NOT NULL then MSYO.node_id
+                 when ZUMI.system_matter_id IS NOT NULL then ZUMI.node_id
+                 else ''''
+                 end) as node_id,
+            (case when MSYO.system_matter_id IS NOT NULL then MSYO.node_name
+                 when ZUMI.system_matter_id IS NOT NULL then ZUMI.node_name
+                 else ''''
+                 end) as node_name,
+            (case when MSYO.system_matter_id IS NOT NULL then MSYO.status
+                 when ZUMI.system_matter_id IS NOT NULL then ZUMI.status
+                 else ''''
+                 end) as status,
+            (case when MSYO.system_matter_id IS NOT NULL and ZUMI.system_matter_id IS NOT NULL then ''UNPROCESS_PROCESSED'' 
+                 when MSYO.system_matter_id IS NOT NULL then ''UNPROCESS'' 
+                 when ZUMI.system_matter_id IS NOT NULL then ''PROCESSED'' 
+                 else ''''
+                 end) as process_type,
+            (case when MSYO.system_matter_id IS NOT NULL and ZUMI.system_matter_id IS NOT NULL then ''未処理/処理済み'' 
+                 when MSYO.system_matter_id IS NOT NULL then ''未処理'' 
+                 when ZUMI.system_matter_id IS NOT NULL then ''処理済'' 
+                 else ''''
+                 end) as process_type_name,
+            ACT.update_user_code,
+            ACT.update_date,
+            ACT.flow_id,
+            ACT.flow_version_id,
+            ACT.apply_base_date,
+            ISNULL(ZUMI.pull_back_flg, ''0'') as pull_back_flg,
+            (case when ISNULL(ZUMI.pull_back_flg, ''0'') = ''1'' then ZUMI.pull_back_node_id else '''' end) as pull_back_node_id
+       FROM (
+              SELECT * 
+               FROM imw_t_actv_matter 
+              WHERE flow_id = @flowId) ACT
+        LEFT OUTER JOIN
+            (
+             SELECT USR.system_matter_id,
+                    TSK.node_id,
+                    TSK.node_name,
+                    TSK.status
+               FROM
+                    (   
+                     SELECT 
+                            EXE.system_matter_id,
+                            EXE.node_id,
+                            EXE.auth_user_code,
+                            EXE.auth_user_name
+                       FROM
+                            (SELECT *
+                               FROM imw_t_actv_executable_user exuser
+                              WHERE locale_id = @locale
+                                AND auth_user_code = @authUserCode
+                            ) EXE -- ユーザと案件
+                        JOIN
+                            (SELECT *
+                               FROM imw_t_actv_user_orgz exorgz
+                              WHERE locale_id = @locale
+                                AND auth_company_code = @companyCode
+                                AND auth_orgz_set_code = @orgzSetCode
+                                AND auth_orgz_code = @orgzCode
+                                AND auth_user_code = @authUserCode
+                            ) ORG -- 所属と案件
+                                 ON ORG.system_matter_id = EXE.system_matter_id
+                                AND ORG.node_id = EXE.node_id
+                                AND ORG.auth_user_code = EXE.auth_user_code
+                                AND ORG.locale_id = EXE.locale_id
+                    ) USR
+                    JOIN
+                     imw_t_actv_task TSK
+                         ON TSK.system_matter_id = USR.system_matter_id
+                        AND TSK.node_id = USR.node_id
+             ) MSYO -- 未処理
+                ON MSYO.system_matter_id = ACT.system_matter_id
+        LEFT OUTER JOIN
+            (
+             SELECT MKY.system_matter_id,
+                    TSK.node_id as node_id,
+                    TSK.node_name as node_name,
+                    TSK.status,
+                    MKY.pull_back_flg,
+                    MKY.pull_back_node_id
+               FROM
+                    (
+                     SELECT MKEY.system_matter_id,
+                            PULL.pull_back_flg,
+                            PULL.pull_back_node_id
+                       FROM
+                            (
+                             SELECT distinct USR.system_matter_id
+                               FROM
+                                    (
+                                     SELECT *
+                                       FROM imw_t_cpl_user 
+                                      WHERE locale_id = @locale
+                                            AND auth_company_code = @companyCode
+                                            AND auth_orgz_set_code = @orgzSetCode
+                                            AND auth_orgz_code = @orgzCode
+                                            AND execute_user_code = @authUserCode
+                                    ) USR
+                                INNER JOIN
+                                    imw_t_cpl_task TSK
+                                         ON TSK.system_matter_id = USR.system_matter_id
+                                        AND TSK.task_id = USR.task_id  
+                            ) MKEY
+                            left outer join
+                            (                       
+                               
+                             SELECT USR.system_matter_id, 
+                                    TSK.node_id as pull_back_node_id,
+                                    MAX(case when BEF.system_matter_id IS not null then 1 else 0 end) as pull_back_flg
+                               FROM
+                                    (
+                                     SELECT *
+                                       FROM imw_t_cpl_user 
+                                      WHERE locale_id = @locale
+                                            AND auth_company_code = @companyCode
+                                            AND auth_orgz_set_code = @orgzSetCode
+                                            AND auth_orgz_code = @orgzCode
+                                            AND execute_user_code = @authUserCode
+                                    ) USR
+                                INNER JOIN
+                                    imw_t_cpl_task TSK
+                                         ON TSK.system_matter_id = USR.system_matter_id
+                                        AND TSK.task_id = USR.task_id  
+                                LEFT OUTER JOIN
+                                    imw_t_before_task BEF
+                                         ON BEF.system_matter_id = USR.system_matter_id
+                                        AND BEF.before_task_id   = USR.task_id
+                                GROUP BY USR.system_matter_id, TSK.node_id
+                            ) PULL 
+                                ON PULL.pull_back_flg = ''1'' and MKEY.system_matter_id = PULL.system_matter_id
+                    ) MKY
+                INNER JOIN
+                    imw_t_actv_matter_locale LOC
+                         ON LOC.system_matter_id = MKY.system_matter_id
+                        AND LOC.locale_id = @locale
+                INNER JOIN 
+                    imw_t_actv_task TSK
+                         ON TSK.system_matter_id = MKY.system_matter_id
+            ) ZUMI -- 処理済み
+                ON ZUMI.system_matter_id = ACT.system_matter_id
+     WHERE MSYO.system_matter_id IS NOT NULL OR ZUMI.system_matter_id IS NOT NULL
+
+    UNION ALL
+
+     SELECT CPL.user_data_id,
+            CPL.matter_number,
+            CPL.matter_name,
+            CPL.system_matter_id,
+            '''' as node_id, 
+            '''' as node_name,
+            TSK.status as status,
+            ''COMPLETED'' as process_type,
+            ''完了'' as process_type_name,
+            TSK.execute_user_code as update_user_code,
+            CPL.update_date as update_date,
+            CPL.flow_id,
+            CPL.flow_version_id,
+            CPL.apply_base_date,
+            ''0'' as pull_back_flg,
+            '''' as pull_back_node_id
+       FROM
+            (
+             SELECT USR.system_matter_id,
+                    USR.execute_user_code,
+                    USR.execute_user_name,
+                    TSK.node_name,
+                    TSK.status
+               FROM
+                    (
+                     SELECT system_matter_id,
+                            execute_user_code,
+                            execute_user_name
+                       FROM imw_t_cpl_matter_user 
+                      WHERE locale_id = @locale
+                            AND auth_company_code = @companyCode
+                            AND auth_orgz_set_code = @orgzSetCode
+                            AND auth_orgz_code = @orgzCode
+                            AND execute_user_code = @authUserCode
+                        
+                      GROUP BY  system_matter_id,
+                                execute_user_code,
+                                execute_user_name
+                    ) USR
+                INNER JOIN
+                    (
+                     SELECT TSK.*
+                       FROM imw_t_cpl_matter_task TSK
+                        INNER JOIN
+                            (
+                             SELECT system_matter_id,
+                                    MAX(update_date) update_date
+                               FROM imw_t_cpl_matter_task 
+                               GROUP BY system_matter_id
+                            ) UPD
+                                ON  UPD.system_matter_id = TSK.system_matter_id
+                                AND UPD.update_date = TSK.update_date
+                    ) TSK
+                        ON  USR.system_matter_id = TSK.system_matter_id
+            ) TSK
+        INNER JOIN
+            (SELECT * 
+               FROM imw_t_cpl_matter 
+              WHERE flow_id = @flowId) CPL
+                ON  CPL.system_matter_id = TSK.system_matter_id
+        INNER JOIN
+            imw_t_cpl_matter_locale LOC
+                ON  LOC.system_matter_id = TSK.system_matter_id
+                AND LOC.locale_id = @locale
+);
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[GET_USER_NAME]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GET_USER_NAME]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GET_USER_NAME] 
+(
+    @userCode nvarchar(100),
+    @locale nvarchar(50)
+)
+RETURNS nvarchar(1000)
+AS
+BEGIN
+    DECLARE @Result nvarchar(1000)
+    SELECT @Result = user_name FROM IMM_USER WHERE locale_id = @locale 
+           and start_date <= GETDATE() and end_date >= GETDATE() and user_cd = @userCode       
+    RETURN @Result
+END
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[GET_DEPARTMENT_NAME]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GET_DEPARTMENT_NAME]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GET_DEPARTMENT_NAME] 
+(
+    @companyCd nvarchar(100),
+    @departmentSetCd nvarchar(100),
+    @departmentCd nvarchar(100),
+    @locale nvarchar(50)
+)
+RETURNS nvarchar(1000)
+AS
+BEGIN
+    DECLARE @Result nvarchar(1000)
+    SELECT @Result = department_name FROM IMM_DEPARTMENT WHERE locale_id = @locale 
+           and start_date <= GETDATE() and end_date >= GETDATE() and company_cd = @companyCd     
+           and [department_set_cd] = @departmentSetCd  and department_cd = @departmentCd  
+    RETURN @Result
+END
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDIF003_SDHM012]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF003_SDHM012]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'
+CREATE FUNCTION [dbo].[SDIF003_SDHM012]
+(	
+  @toYMD as varchar(8)
+
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  	SELECT * 
+		FROM INTRA_MART.dbo.SDHM012 A
+		WHERE YUKO_STA_YMD <= @toYMD
+		  AND A.YUKO_STA_YMD = (
+			SELECT MAX(B.YUKO_STA_YMD) 
+			FROM INTRA_MART.dbo.SDHM012 B
+			WHERE B.YUKO_STA_YMD <= @toYMD
+			  AND A.BANK_CD = B.BANK_CD
+			  AND A.STEN_CD = B.STEN_CD
+		  )
+)
+
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF003_3_SELECT]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF003_3_SELECT]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+CREATE PROCEDURE [dbo].[SDIF003_3_SELECT]
+    @ym char(6)
+AS
+
+    SET NOCOUNT ON;
+
+WITH YUKO_HANYO_MASTER AS (
+    -- 有効汎用マスタ
+    SELECT
+      SDHM014.*
+    FROM SDHM014
+      INNER JOIN (
+           SELECT
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10,
+               MAX(YUKO_STA_YMD) YUKO_STA_YMD
+           FROM SDHM014
+           WHERE
+               SDHM014.YUKO_STA_YMD <= ''19000101''
+               AND SDHM014.YUKO_END_YMD > ''20130601''
+           GROUP BY
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10
+         ) SDHM014_MAX
+        ON SDHM014.KOMOKU_CD = SDHM014_MAX.KOMOKU_CD
+           AND SDHM014.SAIMOKU_CD01 = SDHM014_MAX.SAIMOKU_CD01
+           AND SDHM014.SAIMOKU_CD02 = SDHM014_MAX.SAIMOKU_CD02
+           AND SDHM014.SAIMOKU_CD03 = SDHM014_MAX.SAIMOKU_CD03
+           AND SDHM014.SAIMOKU_CD04 = SDHM014_MAX.SAIMOKU_CD04
+           AND SDHM014.SAIMOKU_CD05 = SDHM014_MAX.SAIMOKU_CD05
+           AND SDHM014.SAIMOKU_CD06 = SDHM014_MAX.SAIMOKU_CD06
+           AND SDHM014.SAIMOKU_CD07 = SDHM014_MAX.SAIMOKU_CD07
+           AND SDHM014.SAIMOKU_CD08 = SDHM014_MAX.SAIMOKU_CD08
+           AND SDHM014.SAIMOKU_CD09 = SDHM014_MAX.SAIMOKU_CD09
+           AND SDHM014.SAIMOKU_CD10 = SDHM014_MAX.SAIMOKU_CD10
+           AND SDHM014.YUKO_STA_YMD = SDHM014_MAX.YUKO_STA_YMD
+), YUKO_TOKUISAKI AS (
+    SELECT
+        SDHM001.*
+    FROM SDHM001
+    INNER JOIN (
+        SELECT
+            TOKUISAKI_CD,
+            MAX(YUKO_STA_YMD) YUKO_STA_YMD
+        FROM SDHM001
+        WHERE
+            YUKO_STA_YMD < ''19000101''
+            AND YUKO_END_YMD >= ''20130501''
+        GROUP BY
+            TOKUISAKI_CD
+    ) LATEST
+        ON LATEST.TOKUISAKI_CD = SDHM001.TOKUISAKI_CD
+        AND LATEST.YUKO_STA_YMD = SDHM001.YUKO_STA_YMD
+)
+
+SELECT
+    *
+FROM (
+    SELECT
+        MEISAI.BMN_CD,    -- 部門コード
+        MEISAI.TOKUISAKI_CD,    -- 得意先コード
+        COALESCE(MEISAI.INVOICE_NO, KURIKOSI_TIEN.INVOICE_NO) INVOICE_NO,    -- インボイス番号
+        MEISAI.URIAGE_DD,    -- 売上年月日
+        MEISAI.NYUKIN_YMD,    -- 入金年月日
+        MEISAI.SITE,    -- サイト
+        MEISAI.TUKA_CD,    -- 通貨コード
+        KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA,    -- 前月繰越金額(外貨)
+        KURIKOSI_TIEN.KURIKOSI_GAKU,    -- 前月繰越金額
+        CASE WHEN MEISAI.TUKA_CD = ''JPY''
+            THEN NULL
+            ELSE MEISAI.URIAGE_GAKU_GAIKA
+        END URIAGE_GAKU_GAIKA,    -- 当月売上金額(外貨)
+        MEISAI.URIAGE_GAKU,    -- 当月売上金額(円貨)
+        CASE WHEN MEISAI.TUKA_CD = ''JPY''
+            THEN NULL
+            ELSE MEISAI.NYUKIN_GAIKA
+        END NYUKIN_GAIKA,    -- 当月入金額(外貨)
+        MEISAI.NYUKIN,    -- 当月入金額(円貨)
+        CASE WHEN MEISAI.TUKA_CD = ''JPY''
+            THEN NULL
+            ELSE MEISAI.URIAGE_GAKU_GAIKA - MEISAI.NYUKIN_GAIKA + KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA
+        END ZANDAKA_GAKU_GAIKA,    -- 残高金額(外貨)
+        MEISAI.URIAGE_GAKU - MEISAI.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU ZANDAKA_GAKU,    -- 残高金額(円貨)
+        KURIKOSI_TIEN.TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+        KURIKOSI_TIEN.TIEN_GAKU,    -- 遅延金額(円貨)
+        ''D'' LIST_KBN    -- リスト区分
+    FROM SDIT004 MEISAI
+    FULL JOIN (
+        SELECT
+            INVOICE_NO,
+            MAX(TUKA_CD) TUKA_CD,    -- 通貨コード
+            CASE WHEN MAX(TUKA_CD) = ''JPY''
+                THEN NULL
+                ELSE SUM(URIAGE_GAKU_GAIKA - NYUKIN_GAIKA)
+            END KURIKOSI_GAKU_GAIKA,    -- 繰越金額(外貨)
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額(円貨)
+            CASE WHEN MAX(TUKA_CD) = ''JPY''
+                THEN NULL
+                ELSE SUM(
+                    CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                        THEN URIAGE_GAKU_GAIKA - NYUKIN_GAIKA
+                        ELSE 0
+                    END
+                )
+            END TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額(円貨)
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < ''2013-05-01''
+            AND KOKUNAI_KAIGAI_KBN = ''2''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            INVOICE_NO
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.INVOICE_NO = MEISAI.INVOICE_NO
+    WHERE
+        MEISAI.KOKUNAI_KAIGAI_KBN = ''2''
+        AND MEISAI.SHUKEI_YM = ''2013-05-01''
+
+    UNION ALL
+    /*** 得意先別合計(通貨別) ***/
+
+    SELECT
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD) TOKUISAKI_CD,    -- 得意先コード
+        '''' INVOICE_NO,    -- インボイス番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        COALESCE(TOKUISAKI_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) TUKA_CD,    -- 通貨コード
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA) KURIKOSI_GAKU_GAIKA,    -- 前月繰越金額(外貨)
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額(円貨)
+        CASE WHEN COALESCE(TOKUISAKI_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(TOKUISAKI_TOTAL.URIAGE_GAKU_GAIKA)
+        END URIAGE_GAKU_GAIKA,    -- 当月売上金額(外貨)
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額(円貨)
+        CASE WHEN COALESCE(TOKUISAKI_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(TOKUISAKI_TOTAL.NYUKIN_GAIKA)
+        END NYUKIN_GAIKA,    -- 当月入金額(外貨)
+        SUM(TOKUISAKI_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額(円貨)
+        CASE WHEN COALESCE(TOKUISAKI_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(TOKUISAKI_TOTAL.URIAGE_GAKU_GAIKA - TOKUISAKI_TOTAL.NYUKIN_GAIKA + KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA)
+        END ZANDAKA_GAKU_GAIKA,    -- 残高金額(外貨)
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU - TOKUISAKI_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額(円貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU_GAIKA) TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額(円貨)
+        ''S1'' LIST_KBN    -- リスト区分
+    FROM SDIT004 TOKUISAKI_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,    -- 部門コード
+            TOKUISAKI_CD,    -- 得意先コード
+            TUKA_CD,    -- 通貨コード
+            CASE WHEN TUKA_CD = ''JPY''
+                THEN NULL
+                ELSE SUM(URIAGE_GAKU_GAIKA - NYUKIN_GAIKA)
+            END KURIKOSI_GAKU_GAIKA,    -- 繰越金額(外貨)
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額(円貨)
+            CASE WHEN MAX(TUKA_CD) = ''JPY''
+                THEN NULL
+                ELSE SUM(
+                    CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                        THEN URIAGE_GAKU_GAIKA - NYUKIN_GAIKA
+                        ELSE 0
+                    END
+                )
+            END TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額(円貨)
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < ''2013-05-01''
+            AND KOKUNAI_KAIGAI_KBN = ''2''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD,
+            TOKUISAKI_CD,
+            TUKA_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = TOKUISAKI_TOTAL.BMN_CD
+        AND KURIKOSI_TIEN.TOKUISAKI_CD = TOKUISAKI_TOTAL.TOKUISAKI_CD
+        AND KURIKOSI_TIEN.TUKA_CD = TOKUISAKI_TOTAL.TUKA_CD
+    GROUP BY
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD),
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD),
+        COALESCE(TOKUISAKI_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD)
+
+    UNION ALL
+    /** 得意先別合計 **/
+    SELECT
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD) TOKUISAKI_CD,    -- 得意先コード
+        '''' INVOICE_NO,    -- インボイス番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        '''' TUKA_CD,    -- 通貨コード
+        NULL KURIKOSI_GAKU_GAIKA,    -- 前月繰越金額(外貨)
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額(円貨)
+        NULL URIAGE_GAKU_GAIKA,    -- 当月売上金額(外貨)
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額
+        NULL NYUKIN_GAIKA,    -- 当月入金額(外貨)
+        SUM(TOKUISAKI_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額
+        NULL ZANDAKA_GAKU_GAIKA,    -- 残高金額(外貨)
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU - TOKUISAKI_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額
+        NULL TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額
+        ''S1'' LIST_KBN    -- リスト区分
+    FROM SDIT004 TOKUISAKI_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,
+            TOKUISAKI_CD,
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < ''2013-05-01''
+            AND KOKUNAI_KAIGAI_KBN = ''2''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD,
+            TOKUISAKI_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = TOKUISAKI_TOTAL.BMN_CD
+        AND KURIKOSI_TIEN.TOKUISAKI_CD = TOKUISAKI_TOTAL.TOKUISAKI_CD
+    WHERE
+        TOKUISAKI_TOTAL.KOKUNAI_KAIGAI_KBN = ''2''
+        AND TOKUISAKI_TOTAL.SHUKEI_YM = ''2013-05-01''
+    GROUP BY
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD),
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD)
+
+    UNION ALL
+
+    /** 総合計(通貨別) **/
+    SELECT
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        '''' TOKUISAKI_CD,    -- 得意先コード
+        '''' INVOICE_NO,    -- インボイス番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        COALESCE(ALL_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) TUKA_CD,    -- 通貨コード
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA) KURIKOSI_GAKU_GAIKA,    -- 前月繰越金額(外貨)
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額(円貨)
+        CASE WHEN COALESCE(ALL_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(ALL_TOTAL.URIAGE_GAKU_GAIKA)
+        END URIAGE_GAKU_GAIKA,    -- 当月売上金額(外貨)
+        SUM(ALL_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額(円貨)
+        CASE WHEN COALESCE(ALL_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(ALL_TOTAL.NYUKIN_GAIKA)
+        END NYUKIN_GAIKA,    -- 当月入金額(外貨)
+        SUM(ALL_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額(円貨)
+        CASE WHEN COALESCE(ALL_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD) = ''JPY''
+            THEN NULL
+            ELSE SUM(ALL_TOTAL.URIAGE_GAKU_GAIKA - ALL_TOTAL.NYUKIN_GAIKA + KURIKOSI_TIEN.KURIKOSI_GAKU_GAIKA)
+        END ZANDAKA_GAKU_GAIKA,    -- 残高金額(外貨)
+        SUM(ALL_TOTAL.URIAGE_GAKU - ALL_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額(円貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU_GAIKA) TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額(円貨)
+        ''T'' LIST_KBN    -- リスト区分
+    FROM SDIT004 ALL_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,
+            TUKA_CD,
+            CASE WHEN TUKA_CD = ''JPY''
+                THEN NULL
+                ELSE SUM(URIAGE_GAKU_GAIKA - NYUKIN_GAIKA)
+            END KURIKOSI_GAKU_GAIKA,    -- 繰越金額(外貨)
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            CASE WHEN TUKA_CD = ''JPY''
+                THEN NULL
+                ELSE SUM(
+                  CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                      THEN URIAGE_GAKU_GAIKA - NYUKIN_GAIKA
+                      ELSE 0
+                  END
+                )
+            END TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < ''2013-05-01''
+            AND KOKUNAI_KAIGAI_KBN = ''2''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD,
+            TUKA_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = ALL_TOTAL.BMN_CD
+        AND KURIKOSI_TIEN.TUKA_CD = ALL_TOTAL.TUKA_CD
+    WHERE
+        ALL_TOTAL.KOKUNAI_KAIGAI_KBN = ''2''
+        AND ALL_TOTAL.SHUKEI_YM = ''2013-05-01''
+    GROUP BY
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD),
+        COALESCE(ALL_TOTAL.TUKA_CD, KURIKOSI_TIEN.TUKA_CD)
+
+    UNION ALL
+
+    /** 総合計 **/
+    SELECT
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        '''' TOKUISAKI_CD,    -- 得意先コード
+        '''' INVOICE_NO,    -- インボイス番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        '''' TUKA_CD,    -- 通貨コード
+        NULL KURIKOSI_GAKU_GAIKA,    -- 前月繰越金額(外貨)
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額(円貨)
+        NULL URIAGE_GAKU_GAIKA,    -- 当月売上金額(外貨)
+        SUM(ALL_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額(円貨)
+        NULL NYUKIN_GAIKA,    -- 当月入金額(外貨)
+        SUM(ALL_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額(円貨)
+        NULL ZANDAKA_GAKU_GAIKA,    -- 残高金額(外貨)
+        SUM(ALL_TOTAL.URIAGE_GAKU - ALL_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額(円貨)
+        NULL TIEN_GAKU_GAIKA,    -- 遅延金額(外貨)
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額
+        ''T'' LIST_KBN    -- リスト区分
+    FROM SDIT004 ALL_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < ''2013-05-01''
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < ''2013-05-01''
+            AND KOKUNAI_KAIGAI_KBN = ''2''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = ALL_TOTAL.BMN_CD
+    WHERE
+        ALL_TOTAL.KOKUNAI_KAIGAI_KBN = ''2''
+        AND ALL_TOTAL.SHUKEI_YM = ''2013-05-01''
+    GROUP BY
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD)
+) DAICHO
+LEFT OUTER JOIN YUKO_HANYO_MASTER BMN_MASTER
+    ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+    AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+    AND BMN_MASTER.SAIMOKU_CD02 = DAICHO.BMN_CD
+LEFT OUTER JOIN YUKO_TOKUISAKI TOKUISAKI_MASTER
+    ON TOKUISAKI_MASTER.TOKUISAKI_CD = DAICHO.TOKUISAKI_CD
+ORDER BY
+    DAICHO.BMN_CD,
+    COALESCE(DAICHO.TOKUISAKI_CD, ''ZZZZZZZZZZ''),
+    COALESCE(DAICHO.INVOICE_NO, ''ZZZZZZZZZZZZZZZ'')
+
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF005_HINMOKU]    Script Date: 05/23/2013 16:02:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF005_HINMOKU]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 予算用品目ビュー
+ * 対象テーブル：品目マスタ、品目種別マスタを結合して品目関連の情報を返すビュー
+ */
+CREATE FUNCTION [dbo].[SDFF005_HINMOKU] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+	--DECLARE @targetDaate as varchar(8) = ''20200101''
+	SELECT *
+	FROM (
+		SELECT *
+		FROM SDHM003 A --品目M
+		WHERE A.YUKO_STA_YMD <= @toYMD
+		  AND A.YUKO_STA_YMD = (
+			SELECT MAX(B.YUKO_STA_YMD) 
+			FROM SDHM003 B
+			WHERE B.YUKO_STA_YMD <= @toYMD
+			  AND A.KAISHA_CD = B.KAISHA_CD
+			  AND A.BMN_CD = B.BMN_CD
+			  AND A.SHOHIN_NO = B.SHOHIN_NO
+		  )
+	) H
+	INNER JOIN (
+		SELECT 
+			 CHR_KOMOKU01
+			,CHR_KOMOKU09
+			,CHR_KOMOKU10
+			,CHR_KOMOKU11
+			,CHR_KOMOKU12
+			,CHR_KOMOKU13
+			,CHR_KOMOKU14
+			,CHR_KOMOKU15
+		FROM SDHM014 A --品目階層M
+		WHERE A.KOMOKU_CD = ''SDZ057''
+		  AND A.YUKO_STA_YMD <= @toYMD
+		  AND A.YUKO_STA_YMD = (
+			SELECT MAX(B.YUKO_STA_YMD) 
+			FROM SDHM014 B
+			WHERE B.KOMOKU_CD = ''SDZ057''
+			  AND B.YUKO_STA_YMD <= @toYMD
+			  AND A.KOMOKU_CD = B.KOMOKU_CD
+			  AND A.CHR_KOMOKU01 = B.CHR_KOMOKU01
+		  )
+	) K
+	ON H.ITEM_KAISO = K.CHR_KOMOKU01
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF003_SDHM001]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF003_SDHM001]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 有効マスタラッパファンクション
+ * 対象テーブル：SDHM001 得意先マスタ
+ */
+CREATE FUNCTION [dbo].[SDFF003_SDHM001] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+	--DECLARE @toYMD as varchar(8) = ''20200101''
+	SELECT *
+	FROM SDHM001 A
+	WHERE A.YUKO_STA_YMD <= @toYMD
+	  AND A.YUKO_STA_YMD = (
+		SELECT MAX(B.YUKO_STA_YMD) 
+		FROM SDHM001 B
+		WHERE B.YUKO_STA_YMD <= @toYMD
+		  AND A.KAISHA_CD = B.KAISHA_CD
+		  AND A.TOKUISAKI_CD = B.TOKUISAKI_CD
+	  )
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF002_SDHM014SDF002]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF002_SDHM014SDF002]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 有効マスタラッパファンクション
+ * 対象テーブル：SDHM014 SDF002 予算区分け科目変換マスタ
+ */
+CREATE FUNCTION [dbo].[SDFF002_SDHM014SDF002] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+	--for test
+	--DECLARE @toYMD as varchar(8) = ''20200101''
+	--
+	
+	SELECT * 
+	FROM SDHM014 A
+	WHERE KOMOKU_CD = ''SDF002''
+	  AND YUKO_STA_YMD <= @toYMD
+	  AND A.YUKO_STA_YMD = (
+		SELECT MAX(B.YUKO_STA_YMD) 
+		FROM SDHM014 B
+		WHERE B.YUKO_STA_YMD <= @toYMD
+		  AND A.KOMOKU_CD = B.KOMOKU_CD
+		  AND A.SAIMOKU_CD01 = B.SAIMOKU_CD01
+		  AND A.SAIMOKU_CD02 = B.SAIMOKU_CD02
+		  AND A.SAIMOKU_CD03 = B.SAIMOKU_CD03
+	  )
+;
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF001_SDHM013]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF001_SDHM013]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 有効マスタラッパファンクション
+ * 対象テーブル：SDHM013勘定コードマスタ
+ */
+CREATE FUNCTION [dbo].[SDFF001_SDHM013] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+	--for test
+	--DECLARE @toYMD as varchar(8) = ''20200101''
+	--
+	
+	SELECT * 
+	FROM SDHM013 A
+	WHERE YUKO_STA_YMD <= @toYMD
+	  AND A.YUKO_STA_YMD = (
+		SELECT MAX(B.YUKO_STA_YMD) 
+		FROM SDHM013 B
+		WHERE B.YUKO_STA_YMD <= @toYMD
+		  AND A.KAISHA_CD = B.KAISHA_CD
+		  AND A.KAMOKU_CD = B.KAMOKU_CD
+	  )
+	  ;
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF003]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF003]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+CREATE PROCEDURE [dbo].[SDIF003]
+--     @ym char(6),
+--     @user_id varchar(256)
+AS
+
+    -- TODO:年月(仮)
+    DECLARE @ym char(6) = ''201305'';
+
+    --
+    -- 変数宣言
+    --
+    DECLARE @start_year int;        -- 対象年(from)
+    DECLARE @start_month int;       -- 対象月(from)
+    DECLARE @start_date char(8);    -- 対象年月日(from)
+    DECLARE @end_year int;          -- 対象年(to)
+    DECLARE @end_month int;         -- 対象月(to)
+    DECLARE @end_date char(8);      -- 対象年月日(to)
+
+    --
+    -- 対象日付の算出
+    --
+    SET @start_year = CAST(substring(@ym, 0, 5) as int);
+    SET @start_month = CAST(substring(@ym, 5, 7) as int);
+
+    IF @start_month = 12
+        BEGIN
+            SET @end_year = @start_year + 1;
+            SET @end_month = 1;
+        END
+    ELSE
+        BEGIN
+            SET @end_year = @start_year;
+            SET @end_month = @start_month + 1;
+        END
+
+    SET @start_date = cast(@start_year as char(4));
+    SET @end_date = cast(@end_year as char(4));
+
+    IF @start_month < 10
+        BEGIN
+            SET @start_date = cast(@start_date as char(4)) + ''0'' + cast(@start_month as char(1));
+        END
+    ELSE
+        BEGIN
+            SET @start_date = cast(@start_date as char(4)) + cast(@start_month as char(2));
+        END
+
+    IF @end_month < 10
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + ''0'' + cast(@end_month as char(1));
+        END
+    ELSE
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + cast(@end_month as char(2));
+        END
+
+    SET @start_date = cast(@start_date as char(6)) + ''01'';
+    SET @end_date = cast(@end_date as char(6)) + ''01'';
+
+SET NOCOUNT ON;
+
+  BEGIN TRANSACTION;
+
+  BEGIN TRY;
+
+DELETE FROM SDIT004
+WHERE
+    SHUKEI_YM = @ym  -- TODO:集計年月
+
+SELECT
+    @ym SHUKEI_YM,    -- 集計年月
+    BMN_MASTER.OYA_BMN_CD,    -- 親部門コード
+    BMN_MASTER.BMN_CD,    -- 部門コード
+    SEIKYU_DENPYO.EIGYO_TANTO_ID,    -- 営業担当者ID
+    SEIKYU_DENPYO.TOKUISAKI_CD,    -- 得意先コード
+    YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD CTRY_CD,    -- 国コード
+    CASE WHEN YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD = ''JP''
+        THEN ''1'' ELSE ''2''
+    END KOKUNAI_KAIGAI_KBN,    -- 国内海外区分
+    CASE WHEN YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD = ''JP''
+        THEN SEIKYU_DENPYO_MEISAI.JUCHU_DENPYO_NO
+        ELSE SEIKYU_DENPYO.INVOICE_NO
+    END SHUKEI_TAISHO_NO,    -- 集計対象番号
+    CASE WHEN YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD = ''JP''
+        THEN NULL
+        ELSE SEIKYU_DENPYO.INVOICE_NO
+    END INVOICE_NO,    -- インボイスNO
+    CASE WHEN YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD = ''JP''
+        THEN SEIKYU_DENPYO_MEISAI.JUCHU_DENPYO_NO
+        ELSE NULL
+    END JUCHU_NO,    -- 受注番号
+    SEIKYU_DENPYO.URIAGE_TUKA_CD,    -- 売上通貨コード
+    SEIKYU_DENPYO.URIAGE_KEIJO_YMD,    -- 売上計上日
+    SEIKYU_DENPYO.NYUKIN_YOTEI_YMD,    -- 入金予定日
+    CASE YUKO_TOKUISAKI.SIHARAI_DD_KBN
+        WHEN ''0'' THEN ''0''
+        WHEN ''1'' THEN ''30''
+        WHEN ''2'' THEN ''60''
+        WHEN ''3'' THEN ''90''
+        WHEN ''4'' THEN ''120''
+        WHEN ''5'' THEN ''150''
+        ELSE ''180''
+    END SITE,    -- サイト
+    SEIKYU_DENPYO.SEIKYU_SIMEBI,    -- 締日
+    30 - YUKO_TOKUISAKI.SEIKYU_SIMEBI
+        + (CASE YUKO_TOKUISAKI.SIHARAI_DD_KBN
+              WHEN ''0'' THEN ''0''
+              WHEN ''1'' THEN ''30''
+              WHEN ''2'' THEN ''60''
+              WHEN ''3'' THEN ''90''
+              WHEN ''4'' THEN ''120''
+              WHEN ''5'' THEN ''150''
+              ELSE ''180''
+          END) KESSAI_DD,    -- 決済日
+    SEIKYU_DENPYO.URIAGE_KANSAN_RATE,    -- 売上換算レート
+    CASE WHEN YUKO_TOKUISAKI.TOKUISAKI_CTRY_CD = ''JP''
+        THEN YUKO_TOKUISAKI.TEGATA_SITE
+        ELSE YUKO_TOKUISAKI.USANCE
+    END TEGATA_NISSU_USANCE,    -- 手形日数(ユーザンス)
+    -- TODO:代引
+    SEIKYU_DENPYO.URIAGE_GAKU_GOKEI_ENKA - HENPIN.SEIKYU_GAKU_GOKEI_ENKA - NEBIKI.NEBIKI_GAKU_ENKA + NEMASI.NEMASI_GAKU_ENKA URIAGE_GAKU,    -- 売上金額
+    SEIKYU_DENPYO.URIAGE_GAKU_GOKEI_GAIKA - HENPIN.SEIKYU_GAKU_GOKEI_GAIKA - NEBIKI.NEBIKI_GAKU_GAIKA + NEMASI.NEMASI_GAKU_GAIKA URIAGE_GAKU_GAIKA,    -- 売上金額(外貨)
+    NYUKIN.N_GAKU_ENKA NYUKIN,    -- 入金
+    NYUKIN.N_GAKU_GAIKA NYUKIN_GAIKA,    -- 入金外貨
+    -- TODO:手数料
+    -- TODO:内手数料
+    TATEKAE_KURO.SEIKYU_GAKU_GOKEI_ENKA - TATEKAE_AKA.SEIKYU_GAKU_GOKEI_ENKA TATEKAE_KIN,    -- 立替金
+    NYUKIN.NYUKIN_YMD,    -- 入金日
+    YUKO_TOKUISAKI.KESSAI_JOKEN,    -- 決済条件
+    SDCT007.KESSAI_FLG KANSAI_FLG,    -- 完済フラグ
+    GETDATE() CREATE_DATE,    -- 新規登録日
+    ''1'' CREATE_PG_ID,  -- TODO:新規登録プログラムID
+    ''1'' CREATE_USER_CODE,    -- TODO:新規登録ユーザID
+    GETDATE() UPDATE_DATE,    -- 更新日
+    ''1'' UPDATE_PG_ID,    -- TODO:更新プログラムID
+    ''1'' UPDATE_USER_CODE    -- TODO:更新ユーザID
+FROM
+/** 請求伝票 **/
+SDCT001 SEIKYU_DENPYO
+INNER JOIN (
+    SELECT
+        SDCT001.SEIKYU_DENPYO_NO,
+        MAX(CAST(SDCT001.SEIKYU_DENPYO_NO_HAN AS int)) AS SEIKYU_DENPYO_NO_HAN
+    FROM SDCT001
+    WHERE
+        SDCT001.URIAGE_KEIJO_YMD >= @start_date
+        AND SDCT001.URIAGE_KEIJO_YMD < @end_date
+        AND SDCT001.SEIKYU_DENPYO_TYPE = ''Z3F2''
+    GROUP BY
+        SDCT001.SEIKYU_DENPYO_NO
+) DENPYO_LATEST
+    ON SEIKYU_DENPYO.SEIKYU_DENPYO_NO = DENPYO_LATEST.SEIKYU_DENPYO_NO
+    AND SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN = DENPYO_LATEST.SEIKYU_DENPYO_NO_HAN
+    AND SEIKYU_DENPYO.SEIKYU_DENPYO_ST >= ''A''  -- TODO:請求伝票ステータス(承認)
+INNER JOIN (
+    SELECT
+        SDCT002.SEIKYU_DENPYO_NO,
+        SDCT002.SEIKYU_DENPYO_NO_HAN,
+        MAX(SDCT002.JUCHU_DENPYO_NO) JUCHU_DENPYO_NO
+    FROM SDCT002
+    GROUP BY
+        SDCT002.SEIKYU_DENPYO_NO,
+        SDCT002.SEIKYU_DENPYO_NO_HAN
+) SEIKYU_DENPYO_MEISAI
+    ON SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+    AND SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+/** 得意先 **/
+INNER JOIN (
+    SELECT
+        SDHM001.*
+    FROM SDHM001
+    INNER JOIN (
+        SELECT
+            TOKUISAKI_CD,
+            MAX(YUKO_STA_YMD) YUKO_STA_YMD
+        FROM SDHM001
+        WHERE
+            SDHM001.TOKUISAKI_SYUBETU = ''1''
+            AND SDHM001.YUKO_STA_YMD < @end_date
+            AND SDHM001.YUKO_END_YMD >= @end_date
+        GROUP BY
+            SDHM001.TOKUISAKI_CD
+    ) TOKUISAKI_LATEST
+        ON TOKUISAKI_LATEST.TOKUISAKI_CD = SDHM001.TOKUISAKI_CD
+        AND TOKUISAKI_LATEST.YUKO_STA_YMD = SDHM001.YUKO_STA_YMD
+) YUKO_TOKUISAKI
+    ON YUKO_TOKUISAKI.TOKUISAKI_CD = SEIKYU_DENPYO.TOKUISAKI_CD
+/** 部門 **/
+INNER JOIN (
+    SELECT
+        SDHM014.SAIMOKU_CD01 KAISYA_CD,
+        SDHM014.SAIMOKU_CD02 BMN_CD,
+        CASE WHEN SDHM014.CHR_KOMOKU04 = ''04''
+            THEN SDHM014.CHR_KOMOKU05
+            ELSE SDHM014.SAIMOKU_CD02
+        END OYA_BMN_CD
+    FROM SDHM014
+    INNER JOIN (
+        SELECT
+            SDHM014.KOMOKU_CD,
+            SDHM014.SAIMOKU_CD01,
+            SDHM014.SAIMOKU_CD02,
+            MAX(SDHM014.YUKO_STA_YMD) YUKO_STA_YMD
+        FROM SDHM014
+        WHERE
+            SDHM014.KOMOKU_CD = ''SDZ024''
+            AND SDHM014.YUKO_STA_YMD < @end_date
+            AND SDHM014.YUKO_END_YMD >= @end_date
+        GROUP BY
+            SDHM014.KOMOKU_CD,
+            SDHM014.SAIMOKU_CD01,
+            SDHM014.SAIMOKU_CD02
+    ) YUKO
+        ON YUKO.KOMOKU_CD = SDHM014.KOMOKU_CD
+        AND YUKO.SAIMOKU_CD01 = SDHM014.SAIMOKU_CD01
+        AND YUKO.SAIMOKU_CD02 = SDHM014.SAIMOKU_CD02
+) BMN_MASTER
+    ON BMN_MASTER.BMN_CD = YUKO_TOKUISAKI.BMN_CD
+/** 返品 **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT001.AKA_KURO_SOUSAI_DENPYO_NO,
+        SDCT001.SEIKYU_GAKU_GOKEI_ENKA,
+        SDCT001.SEIKYU_GAKU_GOKEI_GAIKA
+    FROM SDCT001
+    INNER JOIN (
+        SELECT
+            SDCT001.SEIKYU_DENPYO_NO,
+            MAX(SDCT001.SEIKYU_DENPYO_NO_HAN) SEIKYU_DENPYO_NO_HAN
+        FROM SDCT001
+        WHERE
+            SDCT001.SEIKYU_DENPYO_TYPE = ''Z3RE''
+        GROUP BY
+            SDCT001.SEIKYU_DENPYO_NO
+    ) SEIKYU__DENPYO_LATEST
+        ON SEIKYU__DENPYO_LATEST.SEIKYU_DENPYO_NO = SDCT001.SEIKYU_DENPYO_NO
+        AND SEIKYU__DENPYO_LATEST.SEIKYU_DENPYO_NO_HAN = SDCT001.SEIKYU_DENPYO_NO_HAN
+) HENPIN
+    ON HENPIN.AKA_KURO_SOUSAI_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 立替金(黒) **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT004.SANSHO_SEIKYU_DENPYO_NO,
+        SDCT004.SEIKYU_GAKU_GOKEI_ENKA,
+        SDCT004.SEIKYU_GAKU_GOKEI_GAIKA
+    FROM SDCT004
+    INNER JOIN (
+        SELECT
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+            MAX(SDCT004.URIAGE_HOSOKU_DENPYO_HAN) URIAGE_HOSOKU_DENPYO_HAN
+        FROM SDCT004
+        WHERE
+            SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''5''
+        GROUP BY
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO
+    ) TATEKAE_KURO_LATEST
+        ON TATEKAE_KURO_LATEST.URIAGE_HOSOKU_DENPYO_NO = SDCT004.URIAGE_HOSOKU_DENPYO_NO
+        AND TATEKAE_KURO_LATEST.URIAGE_HOSOKU_DENPYO_HAN = SDCT004.URIAGE_HOSOKU_DENPYO_HAN
+) TATEKAE_KURO
+    ON TATEKAE_KURO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 立替金(赤) **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT004.SANSHO_SEIKYU_DENPYO_NO,
+        SDCT004.SEIKYU_GAKU_GOKEI_ENKA,
+        SDCT004.SEIKYU_GAKU_GOKEI_GAIKA
+    FROM SDCT004
+    INNER JOIN (
+        SELECT
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+            MAX(SDCT004.URIAGE_HOSOKU_DENPYO_HAN) URIAGE_HOSOKU_DENPYO_HAN
+        FROM SDCT004
+        WHERE
+            SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''6''
+        GROUP BY
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO
+    ) TATEKAE_AKA_LATEST
+        ON TATEKAE_AKA_LATEST.URIAGE_HOSOKU_DENPYO_NO = SDCT004.URIAGE_HOSOKU_DENPYO_NO
+        AND TATEKAE_AKA_LATEST.URIAGE_HOSOKU_DENPYO_HAN = SDCT004.URIAGE_HOSOKU_DENPYO_HAN
+) TATEKAE_AKA
+    ON TATEKAE_AKA.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 値引 **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT004.SANSHO_SEIKYU_DENPYO_NO,
+        SDCT004.NEBIKI_GAKU_SOU_GOKEI NEBIKI_GAKU_ENKA,
+        SDCT004.NEBIKI_GAKU_SOU_GOKEI / SDCT004.URIAGE_KANSAN_RATE NEBIKI_GAKU_GAIKA
+    FROM SDCT004
+    INNER JOIN (
+        SELECT
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+            MAX(SDCT004.URIAGE_HOSOKU_DENPYO_HAN) URIAGE_HOSOKU_DENPYO_HAN
+        FROM SDCT004
+        WHERE
+            SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''1''
+        GROUP BY
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO
+    ) NEBIKI_LATEST
+        ON NEBIKI_LATEST.URIAGE_HOSOKU_DENPYO_NO = SDCT004.URIAGE_HOSOKU_DENPYO_NO
+        AND NEBIKI_LATEST.URIAGE_HOSOKU_DENPYO_HAN = SDCT004.URIAGE_HOSOKU_DENPYO_HAN
+) NEBIKI
+    ON NEBIKI.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 値増 **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT004.SANSHO_SEIKYU_DENPYO_NO,
+        SDCT004.NEBIKI_GAKU_SOU_GOKEI NEMASI_GAKU_ENKA,
+        SDCT004.NEBIKI_GAKU_SOU_GOKEI / SDCT004.URIAGE_KANSAN_RATE NEMASI_GAKU_GAIKA
+    FROM SDCT004
+    INNER JOIN (
+        SELECT
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+            MAX(SDCT004.URIAGE_HOSOKU_DENPYO_HAN) URIAGE_HOSOKU_DENPYO_HAN
+        FROM SDCT004
+        WHERE
+            SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''2''
+        GROUP BY
+            SDCT004.URIAGE_HOSOKU_DENPYO_NO
+    ) NEMASI_LATEST
+        ON NEMASI_LATEST.URIAGE_HOSOKU_DENPYO_NO = SDCT004.URIAGE_HOSOKU_DENPYO_NO
+        AND NEMASI_LATEST.URIAGE_HOSOKU_DENPYO_HAN = SDCT004.URIAGE_HOSOKU_DENPYO_HAN
+) NEMASI
+    ON NEMASI.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 入金 **/
+LEFT OUTER JOIN (
+    SELECT
+        SDCT006.SEIKYU_DENPYO_NO,
+        MAX(SDCT006.NYUKIN_YMD) NYUKIN_YMD,
+        SUM(SDCT006.N_GAKU_GAIKA) N_GAKU_GAIKA,
+        SUM(SDCT006.N_GAKU_ENKA) N_GAKU_ENKA
+    FROM SDCT006
+    WHERE
+        SDCT006.DEL_KBN = ''0''
+    GROUP BY
+        SDCT006.SEIKYU_DENPYO_NO
+) NYUKIN
+    ON NYUKIN.SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+/** 完済フラグ **/
+LEFT OUTER JOIN SDCT007
+    ON SDCT007.KANJO_KBN = ''1''
+    AND SDCT007.ZANDAKA_KANRI_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+
+
+    END TRY
+
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+        RAISERROR ('''', 9, 1) WITH SETERROR, LOG;
+        return (9);
+
+    END CATCH
+
+    COMMIT TRANSACTION;
+
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF002]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF002]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+CREATE PROCEDURE [dbo].[SDIF002]
+    @ym char(6),
+    @user_id varchar(256)
+AS
+
+    --
+    -- 変数宣言
+    --
+    DECLARE @start_year int;        -- 対象年(from)
+    DECLARE @start_month int;       -- 対象月(from)
+    DECLARE @start_date char(8);    -- 対象年月日(from)
+    DECLARE @end_year int;          -- 対象年(to)
+    DECLARE @end_month int;         -- 対象月(to)
+    DECLARE @end_date char(8);      -- 対象年月日(to)
+    DECLARE @nendo int;             -- 年度
+    DECLARE @tuki char(2);          -- 月
+    DECLARE @kamiki_simoki_kbn char(1);    -- 上期・下期区分
+
+    --
+    -- 対象日付の算出
+    --
+    SET @start_year = CAST(substring(@ym, 0, 5) as int);
+    SET @start_month = CAST(substring(@ym, 5, 7) as int);
+
+    IF @start_month = 12
+        BEGIN
+            SET @end_year = @start_year + 1;
+            SET @end_month = 1;
+        END
+    ELSE
+        BEGIN
+            SET @end_year = @start_year;
+            SET @end_month = @start_month + 1;
+        END
+
+    SET @start_date = cast(@start_year as char(4));
+    SET @end_date = cast(@end_year as char(4));
+
+    IF @start_month < 10
+        BEGIN
+            SET @tuki = ''0'' + cast(@start_month as char(1));
+            SET @start_date = cast(@start_date as char(4)) + @tuki;
+        END
+    ELSE
+        BEGIN
+            SET @tuki = cast(@start_month as char(2));
+            SET @start_date = cast(@start_date as char(4)) + @tuki;
+        END
+
+    IF @end_month < 10
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + ''0'' + cast(@end_month as char(1));
+        END
+    ELSE
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + cast(@end_month as char(2));
+        END
+
+    IF @start_month < 4
+        BEGIN
+            SET @nendo = @start_year - 1;
+        END
+    ELSE
+        BEGIN
+            SET @nendo = @start_year;
+        END
+
+    IF @start_month < 4
+        BEGIN
+             SET @kamiki_simoki_kbn = ''1'';
+        END
+    ELSE IF @start_month >= 10
+        BEGIN
+             SET @kamiki_simoki_kbn = ''1'';
+        END
+    ELSE
+        BEGIN
+             SET @kamiki_simoki_kbn = ''2'';
+        END
+
+    SET @start_date = cast(@start_date as char(6)) + ''01'';
+    SET @end_date = cast(@end_date as char(6)) + ''01'';
+
+--SET NOCOUNT ON;
+
+  BEGIN TRANSACTION;
+
+  BEGIN TRY;
+
+-- 売上集計テーブルを一旦削除
+-- DELETE FROM SDIT001
+-- WHERE
+--   SDIT001.YM = @ym
+
+WITH TAISHO_YOSAN AS (
+    SELECT
+      URIAGE_MEISAI_SURYO.KAISHA_CD,
+      URIAGE_MEISAI_SURYO.BMN_CD,
+      URIAGE_MEISAI_SURYO.KANJO_KAMOKU_CD,
+      URIAGE_MEISAI_SURYO.ITEM_CD,
+      URIAGE_MEISAI_SURYO.ITEM_SANSHO_TOKUISAKI_CD,
+      URIAGE_MEISAI_SURYO.SYS_ID,
+      URIAGE_MEISAI_SURYO.TOKUISAKI_CD,
+      URIAGE_MEISAI_SURYO.SIMUKETI_CD,
+      URIAGE_MEISAI_SURYO.TANTO_CD,
+      URIAGE_MEISAI_SURYO.NENDO,
+      URIAGE_MEISAI_SURYO.YOSAN_KBN,
+      URIAGE_MEISAI_SURYO.HAN_NO,
+      URIAGE_MEISAI_SURYO.TUKA_CD,
+      URIAGE_MEISAI_SURYO.URIAGE_CD,
+      URIAGE_MEISAI_SURYO.ITEM_KBN,
+      URIAGE_MEISAI_SURYO.SEHIN_BUNRUI,
+      URIAGE_MEISAI_SURYO.URIAGE_TUKA_CD,
+      URIAGE_MEISAI_SURYO.SIIRE_TUKA_CD,
+      URIAGE_MEISAI_SURYO.COMMISSION_TANKA,
+      URIAGE_MEISAI_SURYO.INCOTERMS1,
+      URIAGE_MEISAI_SURYO.KESSAI_JOKEN_KBN,
+      URIAGE_MEISAI_SURYO.TEGATA_NISSU,
+      URIAGE_MEISAI_SURYO.TUKI,
+      CONVERT(
+          VARCHAR,
+          CASE
+          WHEN CONVERT(INT, URIAGE_MEISAI_SURYO.TUKI) < 4 THEN CONVERT(INT, URIAGE_MEISAI_SURYO.NENDO) + 1
+          ELSE URIAGE_MEISAI_SURYO.NENDO
+          END
+      ) + URIAGE_MEISAI_SURYO.TUKI AS NENGETU,
+      CONVERT(
+          VARCHAR,
+          CASE
+          WHEN CONVERT(INT, URIAGE_MEISAI_SURYO.TUKI) < 4 THEN CONVERT(INT, URIAGE_MEISAI_SURYO.NENDO) + 1
+          ELSE URIAGE_MEISAI_SURYO.NENDO
+          END
+      ) + URIAGE_MEISAI_SURYO.TUKI + ''01'' AS KIJUN_YMD,
+      URIAGE_MEISAI_URI_TANKA.GAKU_SU AS URI_TANKA,
+      URIAGE_MEISAI_GEN_TANKA.GAKU_SU AS GEN_TANKA,
+      URIAGE_MEISAI_SURYO.GAKU_SU AS URIAGE_SURYO,
+      URIAGE_MEISAI_SURYO.GAKU_SU * URIAGE_MEISAI_URI_TANKA.GAKU_SU AS URIAGE_KINGAKU,
+      URIAGE_MEISAI_SURYO.GAKU_SU * URIAGE_MEISAI_GEN_TANKA.GAKU_SU AS GENKA,
+      URIAGE_MEISAI_SEISAN_DAISU.GAKU_SU AS SEISAN_DAISU
+    FROM (
+           SELECT
+             TBL1.KAISHA_CD,
+             TBL1.BMN_CD,
+             TBL1.KANJO_KAMOKU_CD,
+             TBL1.ITEM_CD,
+             TBL1.TOKUISAKI_CD,
+             TBL1.SIMUKETI_CD,
+             TBL1.TANTO_CD,
+             TBL1.NENDO,
+             TBL1.YOSAN_KBN,
+             TBL1.GAKU_SU_KBN,
+             MAX (TBL1.HAN_NO) AS HAN_NO
+           FROM
+             SDFT002 AS TBL1 -- 売上明細データテーブル
+           WHERE
+               TBL1.YOSAN_KBN = (
+                 SELECT
+                   CASE MIN (
+                       CASE SUB1.YOSAN_KBN
+                       WHEN 2 THEN 1 -- 2:修正予算 → 1
+                       WHEN 1 THEN 2 -- 1:当初予算 → 2
+                       ELSE 3 -- 3:中長期予算 → 3
+                       END
+                   )
+                   WHEN 1 THEN 2 -- 1 → 2:修正予算
+                   WHEN 2 THEN 1 -- 2 → 1:当初予算
+                   ELSE 3  -- 3 → 3:中長期予算
+                   END
+                 FROM
+                   SDFT002 SUB1 -- 売上明細データテーブル
+                 WHERE
+                   SUB1.KAISHA_CD = TBL1.KAISHA_CD
+                   AND SUB1.BMN_CD = TBL1.BMN_CD
+                   AND SUB1.KANJO_KAMOKU_CD = TBL1.KANJO_KAMOKU_CD
+                   AND SUB1.ITEM_CD = TBL1.ITEM_CD
+                   AND SUB1.TOKUISAKI_CD = TBL1.TOKUISAKI_CD
+                   AND SUB1.SIMUKETI_CD = TBL1.SIMUKETI_CD
+                   AND SUB1.TANTO_CD = TBL1.TANTO_CD
+                   AND SUB1.NENDO = TBL1.NENDO
+               )
+           GROUP BY
+             TBL1.KAISHA_CD,
+             TBL1.BMN_CD,
+             TBL1.KANJO_KAMOKU_CD,
+             TBL1.ITEM_CD,
+             TBL1.TOKUISAKI_CD,
+             TBL1.SIMUKETI_CD,
+             TBL1.TANTO_CD,
+             TBL1.NENDO,
+             TBL1.YOSAN_KBN,
+             TBL1.GAKU_SU_KBN
+         ) AS TAISHO_YOSAN
+      INNER JOIN (
+                 -- 1月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''01'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JAN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 2月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''02'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_FEB AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 3月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''03'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 4月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''04'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_APR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 5月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''05'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAY AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 6月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''06'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 7月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''07'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUL AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 8月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''08'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_AUG AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 9月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''09'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_SEP AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 10月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''10'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_OCT AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 11月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''11'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_NOV AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+        UNION ALL -- 12月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''12'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_DEC AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''3''
+                 ) AS URIAGE_MEISAI_SURYO
+        ON URIAGE_MEISAI_SURYO.KAISHA_CD = TAISHO_YOSAN.KAISHA_CD
+           AND URIAGE_MEISAI_SURYO.BMN_CD = TAISHO_YOSAN.BMN_CD
+           AND URIAGE_MEISAI_SURYO.ITEM_CD = TAISHO_YOSAN.ITEM_CD
+           AND URIAGE_MEISAI_SURYO.TOKUISAKI_CD = TAISHO_YOSAN.TOKUISAKI_CD
+           AND URIAGE_MEISAI_SURYO.SIMUKETI_CD = TAISHO_YOSAN.SIMUKETI_CD
+           AND URIAGE_MEISAI_SURYO.TANTO_CD = TAISHO_YOSAN.TANTO_CD
+           AND URIAGE_MEISAI_SURYO.NENDO = TAISHO_YOSAN.NENDO
+           AND URIAGE_MEISAI_SURYO.YOSAN_KBN = TAISHO_YOSAN.YOSAN_KBN
+           AND URIAGE_MEISAI_SURYO.HAN_NO = TAISHO_YOSAN.HAN_NO
+      LEFT OUTER JOIN (
+                 -- 1月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''01'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JAN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 2月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''02'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_FEB AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 3月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''03'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 4月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''04'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_APR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 5月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''05'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAY AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 6月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''06'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 7月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''07'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUL AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 8月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''08'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_AUG AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 9月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''09'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_SEP AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 10月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''10'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_OCT AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 11月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''11'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_NOV AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+        UNION ALL -- 12月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''12'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_DEC AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''1''
+                      ) AS URIAGE_MEISAI_URI_TANKA
+        ON URIAGE_MEISAI_URI_TANKA.KAISHA_CD = URIAGE_MEISAI_SURYO.KAISHA_CD
+           AND URIAGE_MEISAI_URI_TANKA.BMN_CD = URIAGE_MEISAI_SURYO.BMN_CD
+           AND URIAGE_MEISAI_URI_TANKA.ITEM_CD = URIAGE_MEISAI_SURYO.ITEM_CD
+           AND URIAGE_MEISAI_URI_TANKA.TOKUISAKI_CD = URIAGE_MEISAI_SURYO.TOKUISAKI_CD
+           AND URIAGE_MEISAI_URI_TANKA.SIMUKETI_CD = URIAGE_MEISAI_SURYO.SIMUKETI_CD
+           AND URIAGE_MEISAI_URI_TANKA.TANTO_CD = URIAGE_MEISAI_SURYO.TANTO_CD
+           AND URIAGE_MEISAI_URI_TANKA.NENDO = URIAGE_MEISAI_SURYO.NENDO
+           AND URIAGE_MEISAI_URI_TANKA.HAN_NO = URIAGE_MEISAI_SURYO.HAN_NO
+           AND URIAGE_MEISAI_URI_TANKA.TUKI = URIAGE_MEISAI_SURYO.TUKI
+
+      LEFT OUTER JOIN (
+                  -- 1月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''01'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JAN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 2月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''02'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_FEB AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 3月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''03'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 4月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''04'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_APR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 5月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''05'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAY AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 6月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''06'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 7月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''07'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUL AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 8月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''08'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_AUG AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 9月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''09'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_SEP AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 10月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''10'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_OCT AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 11月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''11'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_NOV AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+        UNION ALL -- 12月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''12'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_DEC AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''4''
+                      ) URIAGE_MEISAI_SEISAN_DAISU
+        ON URIAGE_MEISAI_SEISAN_DAISU.KAISHA_CD = URIAGE_MEISAI_SURYO.KAISHA_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.BMN_CD = URIAGE_MEISAI_SURYO.BMN_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.ITEM_CD = URIAGE_MEISAI_SURYO.ITEM_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.TOKUISAKI_CD = URIAGE_MEISAI_SURYO.TOKUISAKI_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.SIMUKETI_CD = URIAGE_MEISAI_SURYO.SIMUKETI_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.TANTO_CD = URIAGE_MEISAI_SURYO.TANTO_CD
+           AND URIAGE_MEISAI_SEISAN_DAISU.NENDO = URIAGE_MEISAI_SURYO.NENDO
+           AND URIAGE_MEISAI_SEISAN_DAISU.HAN_NO = URIAGE_MEISAI_SURYO.HAN_NO
+           AND URIAGE_MEISAI_SEISAN_DAISU.TUKI = URIAGE_MEISAI_SURYO.TUKI
+      LEFT OUTER JOIN (
+                  -- 1月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''01'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JAN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 2月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''02'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_FEB AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 3月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''03'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 4月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''04'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_APR AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 5月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''05'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_MAY AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 6月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''06'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUN AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 7月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''07'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_JUL AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 8月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''08'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_AUG AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 9月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''09'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_SEP AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 10月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''10'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_OCT AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 11月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''11'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_NOV AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+        UNION ALL -- 12月分
+        SELECT KAISHA_CD, BMN_CD, KANJO_KAMOKU_CD, ITEM_CD, ITEM_SANSHO_TOKUISAKI_CD, SYS_ID, TOKUISAKI_CD, SIMUKETI_CD, TANTO_CD, NENDO, ''12'' AS TUKI, YOSAN_KBN, HAN_NO, TUKA_CD, URIAGE_CD, ITEM_KBN, SEHIN_BUNRUI, URIAGE_TUKA_CD, SIIRE_TUKA_CD, GAKU_SU_KBN, GAKU_SU_DEC AS GAKU_SU, COMMISSION_TANKA, INCOTERMS1, KESSAI_JOKEN_KBN, TEGATA_NISSU FROM SDFT002 WHERE GAKU_SU_KBN = ''2''
+                      ) URIAGE_MEISAI_GEN_TANKA
+        ON URIAGE_MEISAI_GEN_TANKA.KAISHA_CD = URIAGE_MEISAI_SURYO.KAISHA_CD
+           AND URIAGE_MEISAI_GEN_TANKA.BMN_CD = URIAGE_MEISAI_SURYO.BMN_CD
+           AND URIAGE_MEISAI_GEN_TANKA.ITEM_CD = URIAGE_MEISAI_SURYO.ITEM_CD
+           AND URIAGE_MEISAI_GEN_TANKA.TOKUISAKI_CD = URIAGE_MEISAI_SURYO.TOKUISAKI_CD
+           AND URIAGE_MEISAI_GEN_TANKA.SIMUKETI_CD = URIAGE_MEISAI_SURYO.SIMUKETI_CD
+           AND URIAGE_MEISAI_GEN_TANKA.TANTO_CD = URIAGE_MEISAI_SURYO.TANTO_CD
+           AND URIAGE_MEISAI_GEN_TANKA.NENDO = URIAGE_MEISAI_SURYO.NENDO
+           AND URIAGE_MEISAI_GEN_TANKA.HAN_NO = URIAGE_MEISAI_SURYO.HAN_NO
+           AND URIAGE_MEISAI_GEN_TANKA.TUKI = URIAGE_MEISAI_SURYO.TUKI
+)
+
+INSERT INTO SDIT001
+(
+    OYA_BMN_CD,
+    BMN_CD,
+    TANTO_CD,
+    TOKUISAKI_GRP_CD,
+    TOKUISAKI_CD,
+    SEIZO_KATASIKI,
+    HANBAI_KOSHO,
+    AREA_CD,
+    CTRY_CD,
+    SEISAN_KBN,
+    YOSAN_TUKA_CD,
+    KAMOKU_KBN,
+    BRAND_KBN,
+    URIAGE_SHUKEI_KBN,
+    ITEM_BUNRUI,
+    ITEM_KBN,
+    ITEM_ZOKUSEI1,
+    ITEM_ZOKUSEI2,
+    JIGYOSHO_EIGYOSHO_CD,
+    YM,
+    NENDO,
+    KAMIKI_SIMOKI_KBN,
+    SU_KAUNTO_KBN,
+    URIAGE_SU,
+    URIAGE_SU_YOSAN,
+    URIAGE_SU_JUCHU,
+    URIAGE_SU_MIKOMI,
+    URIAGE_GAKU,
+    URIAGE_GAKU_GAIKA,
+    URIAGE_GAKU_YOSAN,
+    URIAGE_GAKU_YOSAN_GAIKA,
+    URIAGE_GAKU_JUCHU,
+    URIAGE_GAKU_JUCHU_GAIKA,
+    URIAGE_GAKU_MIKOMI,
+    URIAGE_GAKU_MIKOMI_GAIKA,
+    URIAGE_MODOSI_SU,
+    URIAGE_MODOSI_GAKU,
+    URIAGE_MODOSI_GAKU_GAIKA,
+    WARIBIKI_GAKU,
+    WARIBIKI_GAKU_JUCHU,
+    WARIBIKI_GAKU_MIKOMI,
+    WARIBIKI_GAKU_GAIKA,
+    WARIBIKI_GAKU_JUCHU_GAIKA,
+    WARIBIKI_GAKU_MIKOMI_GAIKA,
+    ZEI,
+    GENKA,
+    GENKA_YOSAN,
+    GENKA_MIKOMI,
+    GENKA_JUCHU,
+    GENKA_GAIKA,
+    GENKA_YOSAN_GAIKA,
+    GENKA_JUCHU_GAIKA,
+    GENKA_MIKOMI_GAIKA,
+    TANKA,
+    TANKA_YOSAN,
+    TANKA_JUCHU,
+    TANKA_MIKOMI,
+    TANKA_GAIKA,
+    TANKA_YOSAN_GAIKA,
+    TANKA_JUCHU_GAIKA,
+    TANKA_MIKOMI_GAIKA,
+    KAWASE_RATE,
+    KAWASE_RATE_YOSAN,
+    KAWASE_RATE_JUCHU,
+    KAWASE_RATE_MIKOMI,
+    KAWASE_RATE_GENKA,
+    INCOTERMS,
+    KESSAI_JOKEN_KBN,
+    TEGATA_NISSU,
+    URIAGE_TUKA_CD,
+    COMMISSION_TANKA,
+    COMMISSION_TANKA_YOSAN,
+    COMMISSION_TANKA_JUCHU,
+    COMMISSION_TANKA_MIKOMI,
+    COMMISSION_TANKA_GAIKA,
+    COMMISSION_TANKA_YOSAN_GAIKA,
+    COMMISSION_TANKA_JUCHU_GAIKA,
+    COMMISSION_TANKA_MIKOMI_GAIKA,
+    SIIRE_GAKU_TAIWAN,
+    SIIRE_GAKU_TAIWAN_GAIKA,
+    SIIRE_TUKA_CD,
+    UNCHIN,
+    UNCHIN_GAIKA,
+    HOKEN_RYO,
+    HOKEN_RYO_GAIKA,
+    KOJI_MENTE_DAI,
+    SHOKAI_FEE,
+    TANKA_SHUSEI,
+    TOKUBETU_WARIBIKI,
+    SONOTA,
+    SONOTA_GAIKA,
+    CREATE_DATE,
+    CREATE_PG_ID,
+    CREATE_USER_CODE,
+    UPDATE_DATE,
+    UPDATE_PG_ID,
+    UPDATE_USER_CODE
+)
+SELECT
+    DENPYO.OYA_BMN_CD,    -- 親部門コード
+    DENPYO.BMN_CD,    -- 部門コード
+    EIGYO_TANTO_ID,    -- 担当者コード
+    TOKUISAKI_SHUKEI_GRP,    -- 得意先グループコード
+    TOKUISAKI_CD,    -- 得意先コード
+    SEIZO_KATASIKI,    -- 製造型式
+    HANBAI_KOSHO,    -- 販売呼称
+    AREA_CD,    -- 地域コード
+    TOKUISAKI_CTRY_CD,    -- 国コード
+    SEISAN_KBN,    -- 生産区分
+    YOSAN_TUKA_CD,    -- 予算通貨コード
+    KAMOKU_KBN,    -- 科目区分
+    BRAND_KBN,    -- ブランド区分
+    ''1'' URIAGE_SHUKEI_KBN,    -- TODO:売上集計区分
+    ITEM_BUNRUI,    -- 品目分類
+    ITEM_KBN,    -- 品目区分
+    ITEM_ZOKUSEI1,    -- 品目属性1
+    ITEM_ZOKUSEI2,    -- 品目属性2
+    JIGYOSHO_EIGYOSHO_CD,    -- 事業所/営業所コード
+    @ym YM,    -- 年月
+    @nendo NENDO,    -- 年度
+    @kamiki_simoki_kbn KAMIKI_SIMOKI_KBN,    -- 上期・下期区分
+    ''1'' SU_KAUNTO_KBN,    -- TODO:数量カウント区分(製品区分)
+    SUM(URIAGE_SU) URIAGE_SU,    -- 売上数量
+    SUM(URIAGE_SU_YOSAN) URIAGE_SU_YOSAN,    -- 売上数量(予算)
+    SUM(URIAGE_SU_JUCHU) URIAGE_SU_JUCHU,    -- 売上数量(受注)
+    SUM(URIAGE_SU_MITSUMORI) URIAGE_SU_MIKOMI,    -- 売上数量(見込)
+    SUM(URIAGE_GAKU_ENKA) URIAGE_GAKU,    -- 売上額
+    SUM(URIAGE_GAKU_GAIKA) URIAGE_GAKU_GAIKA,    -- 売上額(外貨)
+    SUM(URIAGE_GAKU_YOSAN_ENKA) URIAGE_GAKU_YOSAN,    -- 売上額(予算)
+    SUM(URIAGE_GAKU_YOSAN_GAIKA) URIAGE_GAKU_YOSAN_GAIKA,    -- 売上額(予算)(外貨)
+    SUM(URIAGE_GAKU_JUCHU_ENKA) URIAGE_GAKU_JUCHU,    -- 売上額(受注)
+    SUM(URIAGE_GAKU_JUCHU_GAIKA) URIAGE_GAKU_JUCHU_GAIKA,    -- 売上額(受注)(外貨)
+    SUM(URIAGE_GAKU_MITSUMORI_ENKA) URIAGE_GAKU_MIKOMI,    -- 売上金額(見込)
+    SUM(URIAGE_GAKU_MITSUMORI_GAIKA) URIAGE_GAKU_MIKOMI_GAIKA,    -- 売上金額(見込)(外貨)
+    SUM(URIAGE_MODOSI_SU) URIAGE_MODOSI_SU,    -- 売上戻し数量
+    SUM(URIAGE_MODOSI_GAKU_ENKA) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+    SUM(URIAGE_MODOSI_GAKU_GAIKA) URIAGE_MODOSI_GAKU_GAIKA,    -- 売上戻し金額(外貨)
+    SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 割引金額
+    SUM(NEBIKI_GAKU_JUCHU) NEBIKI_GAKU_JUCHU,    -- 割引金額(受注)
+    SUM(NEBIKI_GAKU_MITSUMORI) WARIBIKI_GAKU_MIKOMI,    -- 値引金額(見込)
+    SUM(NEBIKI_GAKU_GAIKA) NEBIKI_GAKU_GAIKA,    -- 割引金額(外貨)
+    SUM(NEBIKI_GAKU_JUCHU_GAIKA) NEBIKI_GAKU_JUCHU_GAIKA,    -- 割引金額(受注)(外貨)
+    SUM(NEBIKI_GAKU_MITSUMORI_GAIKA) WARIBIKI_GAKU_MIKOMI_GAIKA,    -- 値引金額(見込)(外貨)
+    SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+    SUM(GENKA) GENKA,    -- 原価
+    SUM(GENKA_YOSAN) GENKA_YOSAN,    -- 原価(予算)
+    0 GENKA_MIKOMI,    -- TODO:原価(見込)
+    SUM(GENKA_JUCHU) GENKA_JUCHU,    -- 原価(受注)
+    SUM(GENKA_GAIKA) GENKA_GAIKA,    -- 原価(外貨)
+    SUM(GENKA_YOSAN_GAIKA) GENKA_YOSAN_GAIKA,    -- 原価(予算)(外貨)
+    SUM(GENKA_JUCHU_GAIKA) GENKA_JUCHU_GAIKA,    -- 原価(受注)(外貨)
+    0 GENKA_MIKOMI_GAIKA,    -- TODO:原価(見込)(外貨)
+
+    SUM(TANKA) TANKA,    -- 単価
+    SUM(TANKA_YOSAN) TANKA_YOSAN,    -- 単価(予算)
+    SUM(TANKA_JUCHU) TANKA_JUCHU,    -- 単価(受注)
+    0 TANKA_MIKOMI,    -- TODO:単価(見込)
+    SUM(TANKA_GAIKA) TANKA_GAIKA,    -- 単価(外貨)
+    SUM(TANKA_YOSAN_GAIKA) TANKA_YOSAN_GAIKA,    -- 単価(予算)(外貨)
+    SUM(TANKA_JUCHU_GAIKA) TANKA_JUCHU_GAIKA,    -- 単価(受注)(外貨)
+    0 TANKA_MIKOMI_GAIKA,    -- TODO:単価(見込)(外貨)
+
+    AVG(URIAGE_KANSAN_RATE) URIAGE_KANSAN_RATE,    -- 為替レート
+    AVG(URIAGE_KANSAN_RATE_JUCHU) URIAGE_KANSAN_RATE_JUCHU,    -- 為替レート(受注)
+    AVG(URIAGE_KANSAN_RATE_YOSAN) URIAGE_KANSAN_RATE_YOSAN,    -- 為替レート(予算)
+    AVG(URIAGE_KANSAN_RATE_MITSUMORI) KAWASE_RATE_MIKOMI,    -- 為替レート(見込)
+    0 KAWASE_RATE_GENKA,    -- TODO:為替レート(原価)
+
+    MAX(TATENE_KBN) TATENE_KBN,    -- 建値区分
+    MAX(KESSAI_JOKEN) KESSAI_JOKEN,    -- 決済条件区分
+    MAX(TEGATA_NISSU) TEGATA_NISSU,    -- 手形日数
+    URIAGE_TUKA_CD,    -- 売上通貨コード
+    SUM(COMMISSION_TANKA) COMMISSION_TANKA,    -- コミッション単価
+    SUM(COMMISSION_TANKA_YOSAN) COMMISSION_TANKA_YOSAN,    -- コミッション単価(予算)
+    SUM(COMMISSION_TANKA_JUCHU) COMMISSION_TANKA_JUCHU,    -- コミッション単価(受注)
+    SUM(COMMISSION_TANKA_MITSUMORI) COMMISSION_TANKA_MIKOMI,    -- コミッション単価(見込)
+    SUM(COMMISSION_TANKA_GAIKA) COMMISSION_TANKA_GAIKA,    -- コミッション単価(外貨)
+    SUM(COMMISSION_TANKA_JUCHU_GAIKA) COMMISSION_TANKA_JUCHU_GAIKA,    -- コミッション単価(受注)(外貨)
+    SUM(COMMISSION_TANKA_YOSAN_GAIKA) COMMISSION_TANKA_YOSAN_GAIKA,    -- コミッション単価(予算)(外貨)
+    SUM(COMMISSION_TANKA_MITSUMORI_GAIKA) COMMISSION_TANKA_MIKOMI_GAIKA,    -- コミッション単価(見込)(外貨)
+
+    SUM(SIIRE_GAKU_TAIWAN_ENKA) SIIRE_GAKU_TAIWAN,    -- 仕入金額(台湾)
+    SUM(SIIRE_GAKU_TAIWAN_GAIKA) SIIRE_GAKU_TAIWAN_GAIKA,    -- 仕入金額(台湾)(外貨)
+    SIIRE_TUKA_CD,    -- 仕入通貨コード
+
+    SUM(KAIJYO_UNCHIN_URIAGE_EN) KAIJYO_UNCHIN_URIAGE,    -- 運賃
+    SUM(KAIJYO_UNCHIN_URIAGE_GAIKA) KAIJYO_UNCHIN_URIAGE_GAIKA,    -- 運賃(外貨)
+    SUM(KAIJYO_HOKEN_URIAGE_EN) KAIJYO_HOKEN_URIAGE,    -- 保険料
+    SUM(KAIJYO_HOKEN_URIAGE_GAIKA) KAIJYO_HOKEN_URIAGE_GAIKA,    -- 保険料(外貨)
+
+    0 KOJI_MENTE_DAI,    -- TODO:工事・メンテ代
+    0 SHOKAI_FEE,    -- TODO:紹介手数料
+    0 TANKA_SHUSEI,    -- TODO:単価修正
+    SUM(TOKUBETSU_NEBIKI) TOKUBETSU_NEBIKI,    -- 特別割引
+
+    0 SONOTA,    -- TODO:その他
+    0 SONOTA_GAIKA,    -- TODO:その他(外貨)
+
+    GETDATE() CREATE_DATE,    -- 新規登録日
+    ''batch_user'' CREATE_PG_ID,    -- 新規登録プログラムID
+    @user_id CREATE_USER_CODE,    -- 新規ユーザプログラムID
+    GETDATE() UPDATE_DATE,    -- 更新日
+    ''batch_user'' UPDATE_PG_ID,    -- 更新プログラムID
+    @user_id UPDATE_USER_CODE    -- 更新ユーザプログラムID
+FROM
+(
+    SELECT
+        COALESCE(SEIKYU_DENPYO.OYA_BMN_CD, JUCHU_DENPYO.OYA_BMN_CD, YOSAN.OYA_BMN_CD, MITSUMORI.OYA_BMN_CD) OYA_BMN_CD,    -- 親部門コード
+        COALESCE(SEIKYU_DENPYO.BMN_CD, JUCHU_DENPYO.BMN_CD, YOSAN.BMN_CD, MITSUMORI.BMN_CD) BMN_CD,    -- 部門コード
+        COALESCE(SEIKYU_DENPYO.EIGYO_TANTO_ID, JUCHU_DENPYO.EIGYO_TANTO_ID, YOSAN.EIGYO_TANTO_ID, MITSUMORI.EIGYO_TANTO_ID) EIGYO_TANTO_ID,    -- 担当者コード
+        COALESCE(SEIKYU_DENPYO.TOKUISAKI_SHUKEI_GRP, JUCHU_DENPYO.TOKUISAKI_SHUKEI_GRP, YOSAN.TOKUISAKI_SHUKEI_GRP, MITSUMORI.TOKUISAKI_SHUKEI_GRP) TOKUISAKI_SHUKEI_GRP,    -- 得意先グループコード
+        COALESCE(SEIKYU_DENPYO.TOKUISAKI_CD, JUCHU_DENPYO.TOKUISAKI_CD, YOSAN.TOKUISAKI_CD, MITSUMORI.TOKUISAKI_CD) TOKUISAKI_CD,    -- 得意先コード
+        COALESCE(SEIKYU_DENPYO.SEIZO_KATASIKI, JUCHU_DENPYO.SEIZO_KATASIKI, YOSAN.SEIZO_KATASIKI, MITSUMORI.SEIZO_KATASIKI) SEIZO_KATASIKI,    -- 製造型式
+        COALESCE(SEIKYU_DENPYO.HANBAI_KOSHO, JUCHU_DENPYO.HANBAI_KOSHO, YOSAN.HANBAI_KOSHO, MITSUMORI.HANBAI_KOSHO) HANBAI_KOSHO,    -- 販売呼称
+        COALESCE(SEIKYU_DENPYO.AREA_CD, JUCHU_DENPYO.AREA_CD, YOSAN.AREA_CD, MITSUMORI.AREA_CD) AREA_CD,    -- 地域コード
+        COALESCE(SEIKYU_DENPYO.TOKUISAKI_CTRY_CD, JUCHU_DENPYO.TOKUISAKI_CTRY_CD, YOSAN.TOKUISAKI_CTRY_CD, MITSUMORI.TOKUISAKI_CTRY_CD) TOKUISAKI_CTRY_CD,    -- 国コード
+        COALESCE(SEIKYU_DENPYO.SEISAN_KBN, JUCHU_DENPYO.SEISAN_KBN, YOSAN.SEISAN_KBN, MITSUMORI.SEISAN_KBN) SEISAN_KBN,    -- 生産区分
+        YOSAN.TUKA_CD YOSAN_TUKA_CD,    -- 予算通貨コード
+        COALESCE(SEIKYU_DENPYO.KAMOKU_KBN, JUCHU_DENPYO.KAMOKU_KBN, YOSAN.KAMOKU_KBN, MITSUMORI.KAMOKU_KBN) KAMOKU_KBN,    -- 科目区分
+        COALESCE(SEIKYU_DENPYO.BRAND_KBN, JUCHU_DENPYO.BRAND_KBN, YOSAN.BRAND_KBN, MITSUMORI.BRAND_KBN) BRAND_KBN,    -- ブランド区分
+        -- TODO:売上集計区分
+        COALESCE(SEIKYU_DENPYO.ITEM_BUNRUI, JUCHU_DENPYO.ITEM_BUNRUI, YOSAN.ITEM_BUNRUI, MITSUMORI.ITEM_BUNRUI) ITEM_BUNRUI,     -- 品目分類
+        COALESCE(SEIKYU_DENPYO.ITEM_KBN, JUCHU_DENPYO.ITEM_KBN, YOSAN.ITEM_KBN, MITSUMORI.ITEM_KBN) ITEM_KBN,    -- 品目区分
+        COALESCE(SEIKYU_DENPYO.ITEM_ZOKUSEI1, JUCHU_DENPYO.ITEM_ZOKUSEI1, YOSAN.ITEM_ZOKUSEI1, MITSUMORI.ITEM_ZOKUSEI1) ITEM_ZOKUSEI1,    -- 品目属性1
+        COALESCE(SEIKYU_DENPYO.ITEM_ZOKUSEI2, JUCHU_DENPYO.ITEM_ZOKUSEI2, YOSAN.ITEM_ZOKUSEI2, MITSUMORI.ITEM_ZOKUSEI2) ITEM_ZOKUSEI2,    -- 品目属性2
+        COALESCE(SEIKYU_DENPYO.JIGYOSHO_EIGYOSHO_CD, JUCHU_DENPYO.JIGYOSHO_EIGYOSHO_CD, YOSAN.JIGYOSHO_EIGYOSHO_CD, MITSUMORI.JIGYOSHO_EIGYOSHO_CD) JIGYOSHO_EIGYOSHO_CD,    -- 事業所/営業所コード
+
+        SEIKYU_DENPYO.URIAGE_SU,    -- 売上数量
+        YOSAN.URIAGE_SU URIAGE_SU_YOSAN,    -- 売上数量(予算)
+        JUCHU_DENPYO.URIAGE_SU URIAGE_SU_JUCHU,  -- 売上数量(受注)
+        MITSUMORI.URIAGE_SU URIAGE_SU_MITSUMORI,    -- 売上数量(見込)
+
+        SEIKYU_DENPYO.URIAGE_GAKU_ENKA,    -- 売上額
+        SEIKYU_DENPYO.URIAGE_GAKU_GAIKA,   -- 売上額(外貨)
+        YOSAN.URIAGE_GAKU URIAGE_GAKU_YOSAN_ENKA,    -- 売上額(予算)
+        YOSAN.URIAGE_GAKU_GAIKA URIAGE_GAKU_YOSAN_GAIKA,    -- 売上額(予算)(外貨)
+        JUCHU_DENPYO.URIAGE_GAKU_ENKA URIAGE_GAKU_JUCHU_ENKA,  -- 売上額(受注)
+        JUCHU_DENPYO.URIAGE_GAKU_GAIKA URIAGE_GAKU_JUCHU_GAIKA,    -- 売上額(受注)(外貨)
+        MITSUMORI.URIAGE_GAKU_ENKA URIAGE_GAKU_MITSUMORI_ENKA,    -- 売上金額(見込)
+        MITSUMORI.URIAGE_GAKU_GAIKA URIAGE_GAKU_MITSUMORI_GAIKA,    -- 売上金額(見込)(外貨)
+
+        SEIKYU_DENPYO.URIAGE_MODOSI_SU,    -- 売上戻し数量
+        SEIKYU_DENPYO.URIAGE_MODOSI_GAKU_ENKA,    -- 売上戻し金額
+        SEIKYU_DENPYO.URIAGE_MODOSI_GAKU_GAIKA,    --- 売上戻し金額(外貨)
+
+        SEIKYU_DENPYO.NEBIKI_GAKU_ENKA NEBIKI_GAKU,    -- 割引金額
+        JUCHU_DENPYO.NEBIKI_GAKU_ENKA NEBIKI_GAKU_JUCHU,    -- 割引金額(受注)
+        MITSUMORI.NEBIKI_GAKU_ENKA NEBIKI_GAKU_MITSUMORI,    -- 割引金額(見込)
+        SEIKYU_DENPYO.NEBIKI_GAKU_GAIKA,    -- 割引金額(外貨)
+        JUCHU_DENPYO.NEBIKI_GAKU_GAIKA NEBIKI_GAKU_JUCHU_GAIKA,    -- 割引金額(受注)(外貨)
+        MITSUMORI.NEBIKI_GAKU_GAIKA NEBIKI_GAKU_MITSUMORI_GAIKA,    -- 割引金額(見込)(外貨)
+
+        COALESCE(SEIKYU_DENPYO.URIAGE_GAKU_ZEI, JUCHU_DENPYO.URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,  -- 消費税
+
+        SEIKYU_DENPYO.GENKA,    -- 原価
+        YOSAN.GENKA GENKA_YOSAN,    -- 原価(予算)
+        -- TODO:原価(見込)
+        JUCHU_DENPYO.GENKA GENKA_JUCHU,    -- 原価(受注)
+        SEIKYU_DENPYO.GENKA_GAIKA,    -- 原価(外貨)
+        YOSAN.GENKA_GAIKA GENKA_YOSAN_GAIKA,    -- 原価(予算)(外貨)
+        JUCHU_DENPYO.GENKA_GAIKA GENKA_JUCHU_GAIKA,    -- 原価(受注)(外貨)
+        -- TODO:原価(見込)(外貨)
+
+        SEIKYU_DENPYO.URIAGE_TANKA TANKA,  -- 単価
+        YOSAN.URIAGE_TANKA TANKA_YOSAN,    -- 単価(予算)
+        JUCHU_DENPYO.URIAGE_TANKA TANKA_JUCHU,    -- 単価(受注)
+        -- TODO:単価(見込)
+        SEIKYU_DENPYO.URIAGE_TANKA_GAIKA TANKA_GAIKA,    -- 単価(外貨)
+        YOSAN.URIAGE_TANKA_GAIKA TANKA_YOSAN_GAIKA,    -- 単価(予算)(外貨)
+        JUCHU_DENPYO.URIAGE_TANKA_GAIKA TANKA_JUCHU_GAIKA,    -- 単価(受注)(外貨)
+        -- TODO:単価(見込)(外貨)
+
+        SEIKYU_DENPYO.URIAGE_KANSAN_RATE,    -- 為替レート
+        JUCHU_DENPYO.URIAGE_KANSAN_RATE URIAGE_KANSAN_RATE_JUCHU,    -- 為替レート(受注)
+        YOSAN.TTM URIAGE_KANSAN_RATE_YOSAN,    -- 為替レート(予算)
+        MITSUMORI.URIAGE_KANSAN_RATE URIAGE_KANSAN_RATE_MITSUMORI,-- 為替レート(見込)
+
+        COALESCE(SEIKYU_DENPYO.TATENE_KBN, JUCHU_DENPYO.TATENE_KBN, YOSAN.TATENE_KBN, MITSUMORI.TATENE_KBN) TATENE_KBN,    -- 建値区分
+        COALESCE(SEIKYU_DENPYO.KESSAI_JOKEN, JUCHU_DENPYO.KESSAI_JOKEN, YOSAN.KESSAI_JOKEN, MITSUMORI.KESSAI_JOKEN) KESSAI_JOKEN,    -- 決済条件区分
+        COALESCE(SEIKYU_DENPYO.TEGATA_NISSU, JUCHU_DENPYO.TEGATA_NISSU, YOSAN.TEGATA_NISSU, MITSUMORI.TEGATA_NISSU) TEGATA_NISSU,    -- 手形日数
+        COALESCE(SEIKYU_DENPYO.URIAGE_TUKA_CD, JUCHU_DENPYO.URIAGE_TUKA_CD, YOSAN.URIAGE_TUKA_CD, MITSUMORI.URIAGE_TUKA_CD) URIAGE_TUKA_CD,    -- 売上通貨コード
+
+        SEIKYU_DENPYO.COMMISSION_GAKU_ENKA COMMISSION_TANKA,    -- コミッション単価
+        YOSAN.COMMISSION_TANKA COMMISSION_TANKA_YOSAN,    -- コミッション単価(予算)
+        JUCHU_DENPYO.COMMISSION_GAKU_ENKA COMMISSION_TANKA_JUCHU,    -- コミッション単価(受注)
+        MITSUMORI.COMMISSION_GAKU_ENKA COMMISSION_TANKA_MITSUMORI,    -- コミッション単価(見込)
+        SEIKYU_DENPYO.COMMISSION_GAKU_GAIKA COMMISSION_TANKA_GAIKA,    -- コミッション単価(外貨)
+        JUCHU_DENPYO.COMMISSION_GAKU_GAIKA COMMISSION_TANKA_JUCHU_GAIKA,    -- コミッション単価(受注)(外貨)
+        YOSAN.COMMISSION_TANKA_GAIKA COMMISSION_TANKA_YOSAN_GAIKA,    -- コミッション単価(予算)(外貨)
+        MITSUMORI.COMMISSION_GAKU_GAIKA COMMISSION_TANKA_MITSUMORI_GAIKA,     -- コミッション単価(見込)(外貨)
+
+        SEIKYU_DENPYO.SIIRE_GAKU_TAIWAN_ENKA,    -- 仕入金額(台湾)
+        SEIKYU_DENPYO.SIIRE_GAKU_TAIWAN_GAIKA,    -- 仕入金額(台湾)(外貨)
+
+        MITSUMORI.SIIRE_TUKA_CD,    -- 仕入通貨コード
+
+        SEIKYU_DENPYO.KAIJYO_UNCHIN_URIAGE_EN,    -- 運賃
+        SEIKYU_DENPYO.KAIJYO_UNCHIN_URIAGE_GAIKA,    -- 運賃(外貨)
+        SEIKYU_DENPYO.KAIJYO_HOKEN_URIAGE_EN,    -- 保険料
+        SEIKYU_DENPYO.KAIJYO_HOKEN_URIAGE_GAIKA,    -- 保険料(外貨)
+
+        -- TODO:工事・メンテ代
+        -- TODO:紹介手数料
+        -- TODO:単価修正
+
+        SEIKYU_DENPYO.TOKUBETSU_NEBIKI    -- 特別割引
+    FROM (
+        /** 請求伝票 **/
+        SELECT
+            CASE WHEN BMN_MASTER.CHR_KOMOKU04 = ''04''
+                THEN BMN_MASTER.CHR_KOMOKU05
+                ELSE BMN_MASTER.SAIMOKU_CD02
+            END OYA_BMN_CD,
+            TANTO_MASTER.BMN_CD,
+            SEIKYU_DENPYO.EIGYO_TANTO_ID,
+            TOKUISAKI_MASTER.TOKUISAKI_SHUKEI_GRP,
+            SEIKYU_DENPYO.TOKUISAKI_CD,
+            TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD,
+            CTRY_MASTER.CHR_KOMOKU03 AREA_CD,
+            HINMOKU_MASTER.ITEM_ZOKUSEI3 SEISAN_KBN,
+            HINMOKU_MASTER.KAMOKU_KBN,
+            -- TODO:売上集計区分
+            SEIKYU_DENPYO_MEISAI.BRAND_KBN,
+            SEIKYU_DENPYO_MEISAI.ITEM_BUNRUI,
+            SEIKYU_DENPYO_MEISAI.ITEM_KBN,
+            SEIKYU_DENPYO_MEISAI.ITEM_ZOKUSEI1,
+            SEIKYU_DENPYO_MEISAI.ITEM_ZOKUSEI2,
+            SEIKYU_DENPYO.URIAGE_TUKA_CD,
+            HINMOKU_MASTER.SEIZO_KATASIKI,
+            HINMOKU_MASTER.HANBAI_KOSHO,
+            TANTO_MASTER.TANTO_JIGYOSHO_CD JIGYOSHO_EIGYOSHO_CD,
+            SEIKYU_DENPYO_MEISAI.URIAGE_SU - HENPIN.URIAGE_SU URIAGE_SU,
+            SEIKYU_DENPYO_MEISAI.URIAGE_GAKU_ENKA - HENPIN.URIAGE_GAKU_ENKA - (NEBIKI.NEBIKI_GAKU_ENKA - NEMASI.NEMASI_GAKU_ENKA) URIAGE_GAKU_ENKA,
+            SEIKYU_DENPYO_MEISAI.URIAGE_GAKU_GAIKA - HENPIN.URIAGE_GAKU_GAIKA - (NEBIKI.NEBIKI_GAKU_GAIKA - NEMASI.NEMASI_GAKU_GAIKA) URIAGE_GAKU_GAIKA,
+            HENPIN.URIAGE_SU URIAGE_MODOSI_SU,
+            HENPIN.URIAGE_GAKU_ENKA URIAGE_MODOSI_GAKU_ENKA,
+            HENPIN.URIAGE_GAKU_GAIKA URIAGE_MODOSI_GAKU_GAIKA,
+            NEBIKI.NEBIKI_GAKU_ENKA - NEMASI.NEMASI_GAKU_ENKA NEBIKI_GAKU_ENKA,
+            NEBIKI.NEBIKI_GAKU_GAIKA - NEMASI.NEMASI_GAKU_GAIKA NEBIKI_GAKU_GAIKA,
+            SEIKYU_DENPYO_MEISAI.URIAGE_GAKU_ZEI,
+            SEIKYU_DENPYO_MEISAI.SIIRE_TANKA GENKA,
+            SEIKYU_DENPYO_MEISAI.SIIRE_TANKA / SEIKYU_DENPYO.URIAGE_KANSAN_RATE GENKA_GAIKA,
+            SEIKYU_DENPYO_MEISAI.URIAGE_TANKA,
+            SEIKYU_DENPYO_MEISAI.URIAGE_TANKA / SEIKYU_DENPYO.URIAGE_KANSAN_RATE URIAGE_TANKA_GAIKA,
+            SEIKYU_DENPYO.URIAGE_KANSAN_RATE,
+            SEIKYU_DENPYO_MEISAI.COMMISSION_GAKU_ENKA,
+            SEIKYU_DENPYO_MEISAI.COMMISSION_GAKU_GAIKA,
+            SEIKYU_DENPYO_MEISAI.KAIJYO_UNCHIN_URIAGE_EN,
+            SEIKYU_DENPYO_MEISAI.KAIJYO_UNCHIN_URIAGE_EN / SEIKYU_DENPYO.URIAGE_KANSAN_RATE KAIJYO_UNCHIN_URIAGE_GAIKA,
+            SEIKYU_DENPYO_MEISAI.KAIJYO_HOKEN_URIAGE_EN,
+            SEIKYU_DENPYO_MEISAI.KAIJYO_HOKEN_URIAGE_EN / SEIKYU_DENPYO.URIAGE_KANSAN_RATE KAIJYO_HOKEN_URIAGE_GAIKA,
+            NEBIKI.NEBIKI_GAKU_ENKA - NEMASI.NEMASI_GAKU_ENKA TOKUBETSU_NEBIKI,
+            SHUKKA_DENPYO.TATENE_KBN,
+            SHUKKA_DENPYO.KESSAI_JOKEN,
+            SHUKKA_DENPYO.TEGATA_NISSU,
+            SHUKKA_DENPYO.SIIRE_GAKU_TAIWAN_ENKA,
+            SHUKKA_DENPYO.SIIRE_GAKU_TAIWAN_GAIKA
+        FROM SDCT001 SEIKYU_DENPYO
+        INNER JOIN (
+            SELECT
+                SDCT001.SEIKYU_DENPYO_NO,
+                MAX(CAST(SDCT001.SEIKYU_DENPYO_NO_HAN AS int)) AS SEIKYU_DENPYO_NO_HAN
+            FROM SDCT001
+            WHERE
+                SDCT001.URIAGE_KEIJO_YMD >= @start_date
+                AND SDCT001.URIAGE_KEIJO_YMD < @end_date
+                AND SDCT001.SEIKYU_DENPYO_TYPE = ''Z3F2''
+            GROUP BY
+                SDCT001.SEIKYU_DENPYO_NO
+        ) DENPYO_LATEST
+            ON SEIKYU_DENPYO.SEIKYU_DENPYO_NO = DENPYO_LATEST.SEIKYU_DENPYO_NO
+            AND SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN = DENPYO_LATEST.SEIKYU_DENPYO_NO_HAN
+            AND SEIKYU_DENPYO.SEIKYU_DENPYO_ST >= ''A''  -- TODO:請求伝票ステータス(承認)
+        INNER JOIN (
+            SELECT
+                SDCT002.SEIKYU_DENPYO_NO,
+                SDCT002.SEIKYU_DENPYO_NO_HAN,
+                SDCT002.ITEM_SANSHO_TOKUISAKI_CD,
+                SDCT002.ITEM_CD,
+                SDCT002.ITEM_BUNRUI,
+                SDCT002.ITEM_KBN,
+                SDCT002.ITEM_ZOKUSEI1,
+                SDCT002.ITEM_ZOKUSEI2,
+                SDCT002.ITEM_ZOKUSEI3,
+                SDCT002.BRAND_KBN,
+                SDCT002.URIAGE_SU,
+                SDCT002.URIAGE_GAKU_ENKA,
+                SDCT002.URIAGE_GAKU_GAIKA,
+                SDCT002.URIAGE_GAKU_ZEI,
+                SDCT002.SIIRE_TANKA,
+                SDCT002.URIAGE_TANKA,
+                SDCT002.COMMISSION_GAKU_ENKA,
+                SDCT002.COMMISSION_GAKU_GAIKA,
+                SDCT002.KAIJYO_UNCHIN_URIAGE_EN,
+                SDCT002.KAIJYO_HOKEN_URIAGE_EN
+            FROM SDCT002
+        ) SEIKYU_DENPYO_MEISAI
+            ON SEIKYU_DENPYO.SEIKYU_DENPYO_NO = SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO
+            AND SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN = SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO_HAN
+        /** 出荷伝票 **/
+        INNER JOIN (
+            SELECT
+                HEAD.SHUKKA_DENPYO_NO,
+                MEISAI.ITEM_CD,
+                HEAD.INCOTERMS1 TATENE_KBN,
+                HEAD.KESSAI_JOKEN,
+                MEISAI.TEGATA_NISSU,
+                CASE WHEN MEISAI.ITEM_ZOKUSEI3 = ''02''
+                    THEN MEISAI.SIIRE_GAKU_ENKA
+                    ELSE 0
+                END SIIRE_GAKU_TAIWAN_ENKA,
+                CASE WHEN MEISAI.ITEM_ZOKUSEI3 = ''02''
+                    THEN MEISAI.SIIRE_GAKU_GAIKA
+                    ELSE 0
+                END SIIRE_GAKU_TAIWAN_GAIKA
+            FROM SDCT001 HEAD
+            INNER JOIN (
+                SELECT
+                    SDCT001.SEIKYU_DENPYO_NO,
+                    MAX(CAST(SDCT001.SEIKYU_DENPYO_NO_HAN AS int)) AS SEIKYU_DENPYO_NO_HAN
+                FROM SDCT001
+                WHERE
+                    SDCT001.SEIKYU_DENPYO_TYPE = ''Z3F2''
+                GROUP BY
+                    SDCT001.SEIKYU_DENPYO_NO
+            ) DENPYO_LATEST
+                ON HEAD.SEIKYU_DENPYO_NO = DENPYO_LATEST.SEIKYU_DENPYO_NO
+                AND HEAD.SEIKYU_DENPYO_NO_HAN = DENPYO_LATEST.SEIKYU_DENPYO_NO_HAN
+                AND HEAD.SEIKYU_DENPYO_ST >= ''A''  -- TODO:請求伝票ステータス(承認)
+            INNER JOIN SDBT002 MEISAI
+                ON HEAD.SHUKKA_DENPYO_NO = MEISAI.SHUKKA_DENPYO_NO
+                AND HEAD.SHUKKA_DENPYO_NO_HAN = MEISAI.SHUKKA_DENPYO_NO_HAN
+        ) SHUKKA_DENPYO
+            ON SHUKKA_DENPYO.SHUKKA_DENPYO_NO = SEIKYU_DENPYO.SHUKKA_DENPYO_NO
+        /** 返品 **/
+        LEFT OUTER JOIN (
+            SELECT
+                HEAD.SEIKYU_DENPYO_NO,
+                MEISAI.ITEM_CD,
+                MEISAI.URIAGE_SU,
+                MEISAI.URIAGE_GAKU_ENKA,
+                MEISAI.URIAGE_GAKU_GAIKA
+            FROM SDCT001 HEAD
+            INNER JOIN (
+                SELECT
+                    SDCT001.SEIKYU_DENPYO_NO,
+                    MAX(CAST(SDCT001.SEIKYU_DENPYO_NO_HAN AS int)) AS SEIKYU_DENPYO_NO_HAN
+                FROM SDCT001
+                WHERE
+                    SDCT001.SEIKYU_DENPYO_TYPE = ''Z3F2''
+                GROUP BY
+                    SDCT001.SEIKYU_DENPYO_NO
+            ) DENPYO_LATEST
+                ON HEAD.SEIKYU_DENPYO_NO = DENPYO_LATEST.SEIKYU_DENPYO_NO
+                AND HEAD.SEIKYU_DENPYO_NO_HAN = DENPYO_LATEST.SEIKYU_DENPYO_NO_HAN
+                AND HEAD.SEIKYU_DENPYO_ST >= ''A''  -- TODO:請求伝票ステータス(承認)
+            INNER JOIN SDCT002 MEISAI
+                ON HEAD.SHUKKA_DENPYO_NO = MEISAI.SHUKKA_DENPYO_NO
+                AND HEAD.SHUKKA_DENPYO_NO_HAN = MEISAI.SHUKKA_DENPYO_NO_HAN
+        ) HENPIN
+            ON HENPIN.SEIKYU_DENPYO_NO = SEIKYU_DENPYO.AKA_KURO_SOUSAI_DENPYO_NO
+            AND HENPIN.ITEM_CD = SEIKYU_DENPYO_MEISAI.ITEM_CD
+        /** 値引 **/
+        LEFT OUTER JOIN (
+            SELECT
+                HEAD.SANSHO_SEIKYU_DENPYO_NO,
+                MEISAI.ITEM_CD,
+                MEISAI.NEBIKI_GAKU NEBIKI_GAKU_ENKA,
+                CASE WHEN HEAD.URIAGE_KANSAN_RATE = 0
+                    THEN 0
+                    ELSE MEISAI.NEBIKI_GAKU / HEAD.URIAGE_KANSAN_RATE
+                END NEBIKI_GAKU_GAIKA
+            FROM SDCT004 HEAD
+            INNER JOIN (
+                SELECT
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+                    MAX(CAST(SDCT004.URIAGE_HOSOKU_DENPYO_HAN AS int)) URIAGE_HOSOKU_DENPYO_HAN
+                FROM SDCT004
+                WHERE
+                    SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''1''
+                GROUP BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO
+            ) LATEST
+                ON HEAD.URIAGE_HOSOKU_DENPYO_NO = LATEST.URIAGE_HOSOKU_DENPYO_NO
+                AND HEAD.URIAGE_HOSOKU_DENPYO_HAN = LATEST.URIAGE_HOSOKU_DENPYO_HAN
+                AND HEAD.URIAGE_HOSOKU_DENPYO_ST >= ''A''  -- TODO:売上補足伝票ステータス(承認)
+            INNER JOIN SDCT005 MEISAI
+                ON HEAD.URIAGE_HOSOKU_DENPYO_NO = MEISAI.URIAGE_HOSOKU_DENPYO_NO
+                AND HEAD.URIAGE_HOSOKU_DENPYO_HAN = MEISAI.URIAGE_HOSOKU_DENPYO_HAN
+        ) NEBIKI
+            ON NEBIKI.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO
+            AND NEBIKI.ITEM_CD = SEIKYU_DENPYO_MEISAI.ITEM_CD
+        /** 値増 **/
+        LEFT OUTER JOIN (
+            SELECT
+                HEAD.SANSHO_SEIKYU_DENPYO_NO,
+                MEISAI.ITEM_CD,
+                MEISAI.NEBIKI_GAKU NEMASI_GAKU_ENKA,
+                CASE WHEN HEAD.URIAGE_KANSAN_RATE = 0
+                    THEN 0
+                    ELSE MEISAI.NEBIKI_GAKU / HEAD.URIAGE_KANSAN_RATE
+                END NEMASI_GAKU_GAIKA
+            FROM SDCT004 HEAD
+            INNER JOIN (
+                SELECT
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO,
+                    MAX(CAST(SDCT004.URIAGE_HOSOKU_DENPYO_HAN AS int)) URIAGE_HOSOKU_DENPYO_HAN
+                FROM SDCT004
+                WHERE
+                    SDCT004.URIAGE_HOSOKU_DENPYO_TYPE = ''2''
+                GROUP BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO
+            ) LATEST
+                ON HEAD.URIAGE_HOSOKU_DENPYO_NO = LATEST.URIAGE_HOSOKU_DENPYO_NO
+                AND HEAD.URIAGE_HOSOKU_DENPYO_HAN = LATEST.URIAGE_HOSOKU_DENPYO_HAN
+                AND HEAD.URIAGE_HOSOKU_DENPYO_ST >= ''A''  -- TODO:売上補足伝票ステータス(承認)
+            INNER JOIN SDCT005 MEISAI
+                ON HEAD.URIAGE_HOSOKU_DENPYO_NO = MEISAI.URIAGE_HOSOKU_DENPYO_NO
+                AND HEAD.URIAGE_HOSOKU_DENPYO_HAN = MEISAI.URIAGE_HOSOKU_DENPYO_HAN
+        ) NEMASI
+            ON NEMASI.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO_MEISAI.SEIKYU_DENPYO_NO
+            AND NEMASI.ITEM_CD = SEIKYU_DENPYO_MEISAI.ITEM_CD
+        /** 営業担当者 **/
+        INNER JOIN SDHM001 TANTO_MASTER
+            ON TANTO_MASTER.TOKUISAKI_SYUBETU = ''2''
+            AND TANTO_MASTER.TOKUISAKI_CD = SEIKYU_DENPYO.EIGYO_TANTO_ID
+            AND TANTO_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+            AND TANTO_MASTER.YUKO_END_YMD >= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+        /** 品目マスタ **/
+        INNER JOIN SDHM003 HINMOKU_MASTER
+            ON HINMOKU_MASTER.SYS_ID = SEIKYU_DENPYO.SYS_ID
+            AND HINMOKU_MASTER.TOKUISAKI_CD = SEIKYU_DENPYO_MEISAI.ITEM_SANSHO_TOKUISAKI_CD
+            AND HINMOKU_MASTER.ITEM_CD = SEIKYU_DENPYO_MEISAI.ITEM_CD
+        /** 得意先 **/
+        INNER JOIN SDHM001 TOKUISAKI_MASTER
+            ON TOKUISAKI_MASTER.TOKUISAKI_SYUBETU = ''1''
+            AND TOKUISAKI_MASTER.TOKUISAKI_CD = SEIKYU_DENPYO.TOKUISAKI_CD
+            AND TOKUISAKI_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+            AND TOKUISAKI_MASTER.YUKO_END_YMD >= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+        /** 部門マスタ **/
+        INNER JOIN SDHM014 BMN_MASTER
+            ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+            AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+            AND BMN_MASTER.SAIMOKU_CD02 = TANTO_MASTER.BMN_CD
+            AND BMN_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+            AND BMN_MASTER.YUKO_END_YMD >= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+        /** 国名マスタ **/
+        INNER JOIN SDHM014 CTRY_MASTER
+            ON CTRY_MASTER.KOMOKU_CD = ''SDZ002''
+            AND CTRY_MASTER.SAIMOKU_CD01 = TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD
+            AND CTRY_MASTER.SAIMOKU_CD02 = ''00''
+            AND CTRY_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+            AND CTRY_MASTER.YUKO_END_YMD >= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+    ) SEIKYU_DENPYO
+
+    FULL JOIN
+
+    /** 受注伝票 **/
+    (
+        SELECT
+            CASE WHEN BMN_MASTER.CHR_KOMOKU04 = ''04''
+                THEN BMN_MASTER.CHR_KOMOKU05
+                ELSE BMN_MASTER.SAIMOKU_CD02
+            END OYA_BMN_CD,
+            TANTO_MASTER.BMN_CD,
+            JUCHU_DENPYO.EIGYO_TANTO_ID,
+            TOKUISAKI_MASTER.TOKUISAKI_SHUKEI_GRP,
+            JUCHU_DENPYO.TOKUISAKI_CD,
+            TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD,
+            CTRY_MASTER.CHR_KOMOKU03 AREA_CD,
+            HINMOKU_MASTER.ITEM_ZOKUSEI3 SEISAN_KBN,
+            HINMOKU_MASTER.KAMOKU_KBN,
+            -- TODO:売上集計区分
+            JUCHU_DENPYO_MEISAI.BRAND_KBN,
+            JUCHU_DENPYO_MEISAI.ITEM_BUNRUI,
+            JUCHU_DENPYO_MEISAI.ITEM_KBN,
+            JUCHU_DENPYO_MEISAI.ITEM_ZOKUSEI1,
+            JUCHU_DENPYO_MEISAI.ITEM_ZOKUSEI2,
+            HINMOKU_MASTER.SEIZO_KATASIKI,
+            HINMOKU_MASTER.HANBAI_KOSHO,
+            TANTO_MASTER.TANTO_JIGYOSHO_CD JIGYOSHO_EIGYOSHO_CD,
+            JUCHU_DENPYO_MEISAI.URIAGE_SU,
+            JUCHU_DENPYO.URIAGE_KANSAN_RATE,
+            JUCHU_DENPYO_MEISAI.URIAGE_GAKU_ENKA,
+            JUCHU_DENPYO_MEISAI.URIAGE_GAKU_GAIKA,
+            CASE WHEN JUCHU_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN JUCHU_DENPYO_MEISAI.NEBIKI_GAKU
+                ELSE JUCHU_DENPYO_MEISAI.NEBIKI_GAKU / JUCHU_DENPYO.URIAGE_KANSAN_RATE
+            END NEBIKI_GAKU_ENKA,
+            CASE WHEN JUCHU_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN JUCHU_DENPYO_MEISAI.NEBIKI_GAKU / JUCHU_DENPYO.URIAGE_KANSAN_RATE
+                ELSE JUCHU_DENPYO_MEISAI.NEBIKI_GAKU
+            END NEBIKI_GAKU_GAIKA,
+            JUCHU_DENPYO_MEISAI.URIAGE_GAKU_ZEI,
+            CASE WHEN JUCHU_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN JUCHU_DENPYO_MEISAI.URIAGE_TANKA
+                ELSE JUCHU_DENPYO_MEISAI.URIAGE_TANKA / JUCHU_DENPYO.URIAGE_KANSAN_RATE
+            END URIAGE_TANKA,
+            CASE WHEN JUCHU_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN JUCHU_DENPYO_MEISAI.URIAGE_TANKA / JUCHU_DENPYO.URIAGE_KANSAN_RATE
+                ELSE JUCHU_DENPYO_MEISAI.URIAGE_TANKA
+            END URIAGE_TANKA_GAIKA,
+            JUCHU_DENPYO_MEISAI.GENKA,
+            JUCHU_DENPYO_MEISAI.GENKA / JUCHU_DENPYO.URIAGE_KANSAN_RATE GENKA_GAIKA,
+            JUCHU_DENPYO.INCOTERMS1 TATENE_KBN,
+            JUCHU_DENPYO.KESSAI_JOKEN,
+            JUCHU_DENPYO_MEISAI.TEGATA_NISSU,
+            JUCHU_DENPYO.URIAGE_TUKA_CD,
+            JUCHU_DENPYO_MEISAI.COMMISSION_GAKU_ENKA,
+            JUCHU_DENPYO_MEISAI.COMMISSION_GAKU_GAIKA
+        FROM SDAT009 JUCHU_DENPYO
+        INNER JOIN (
+            SELECT
+                SDAT009.JUCHU_DENPYO_NO,
+                MAX(CAST(SDAT009.JUCHU_DENPYO_NO_HAN AS int)) JUCHU_DENPYO_NO_HAN
+            FROM SDAT009
+            WHERE
+                SDAT009.URIAGE_KEIJO_YMD >= @start_date
+                AND SDAT009.URIAGE_KEIJO_YMD < @end_date
+                AND SDAT009.JUCHU_DENPYO_TYPE = ''Z3OR''
+            GROUP BY
+                SDAT009.JUCHU_DENPYO_NO
+        ) JUCHU_DENPYO_LATEST
+            ON JUCHU_DENPYO_LATEST.JUCHU_DENPYO_NO = JUCHU_DENPYO.JUCHU_DENPYO_NO
+            AND JUCHU_DENPYO_LATEST.JUCHU_DENPYO_NO_HAN = JUCHU_DENPYO.JUCHU_DENPYO_NO_HAN
+            AND JUCHU_DENPYO.JUCHU_DENPYO_ST >= ''A''  -- TODO:受注伝票ステータス(承認)
+        INNER JOIN SDAT010 JUCHU_DENPYO_MEISAI
+            ON JUCHU_DENPYO_MEISAI.JUCHU_DENPYO_NO = JUCHU_DENPYO.JUCHU_DENPYO_NO
+            AND JUCHU_DENPYO_MEISAI.JUCHU_DENPYO_NO_HAN = JUCHU_DENPYO.JUCHU_DENPYO_NO_HAN
+        /** 営業担当者 **/
+        INNER JOIN SDHM001 TANTO_MASTER
+            ON TANTO_MASTER.TOKUISAKI_SYUBETU = ''2''
+            AND TANTO_MASTER.TOKUISAKI_CD = JUCHU_DENPYO.EIGYO_TANTO_ID
+            AND TANTO_MASTER.YUKO_STA_YMD <= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+            AND TANTO_MASTER.YUKO_END_YMD >= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+        /** 品目マスタ **/
+        INNER JOIN SDHM003 HINMOKU_MASTER
+            ON HINMOKU_MASTER.SYS_ID = JUCHU_DENPYO.SYS_ID
+            AND HINMOKU_MASTER.TOKUISAKI_CD = JUCHU_DENPYO_MEISAI.ITEM_SANSHO_TOKUISAKI_CD
+            AND HINMOKU_MASTER.ITEM_CD = JUCHU_DENPYO_MEISAI.ITEM_CD
+            AND HINMOKU_MASTER.YUKO_STA_YMD <= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+            AND HINMOKU_MASTER.YUKO_END_YMD >= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+        /** 得意先 **/
+        INNER JOIN SDHM001 TOKUISAKI_MASTER
+            ON TOKUISAKI_MASTER.TOKUISAKI_SYUBETU = ''1''
+            AND TOKUISAKI_MASTER.TOKUISAKI_CD = JUCHU_DENPYO.TOKUISAKI_CD
+            AND TOKUISAKI_MASTER.YUKO_STA_YMD <= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+            AND TOKUISAKI_MASTER.YUKO_END_YMD >= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+        /** 部門マスタ **/
+        INNER JOIN SDHM014 BMN_MASTER
+            ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+            AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+            AND BMN_MASTER.SAIMOKU_CD02 = TANTO_MASTER.BMN_CD
+            AND BMN_MASTER.YUKO_STA_YMD <= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+            AND BMN_MASTER.YUKO_END_YMD >= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+        /** 国名マスタ **/
+        INNER JOIN SDHM014 CTRY_MASTER
+            ON CTRY_MASTER.KOMOKU_CD = ''SDZ002''
+            AND CTRY_MASTER.SAIMOKU_CD01 = TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD
+            AND CTRY_MASTER.SAIMOKU_CD02 = ''00''
+            AND CTRY_MASTER.YUKO_STA_YMD <= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+            AND CTRY_MASTER.YUKO_END_YMD >= JUCHU_DENPYO.DENPYO_KIJUN_YMD
+    ) JUCHU_DENPYO
+        ON JUCHU_DENPYO.BMN_CD = SEIKYU_DENPYO.BMN_CD
+        AND JUCHU_DENPYO.EIGYO_TANTO_ID = SEIKYU_DENPYO.EIGYO_TANTO_ID
+        AND JUCHU_DENPYO.TOKUISAKI_CD = SEIKYU_DENPYO.TOKUISAKI_CD
+        AND JUCHU_DENPYO.SEISAN_KBN = SEIKYU_DENPYO.SEISAN_KBN
+        AND JUCHU_DENPYO.KAMOKU_KBN = SEIKYU_DENPYO.KAMOKU_KBN
+        -- TODO:売上集計区分
+        AND JUCHU_DENPYO.BRAND_KBN = SEIKYU_DENPYO.BRAND_KBN
+        AND JUCHU_DENPYO.ITEM_BUNRUI = SEIKYU_DENPYO.ITEM_BUNRUI
+        AND JUCHU_DENPYO.ITEM_KBN = SEIKYU_DENPYO.ITEM_KBN
+        AND JUCHU_DENPYO.ITEM_ZOKUSEI1 = SEIKYU_DENPYO.ITEM_ZOKUSEI1
+        AND JUCHU_DENPYO.ITEM_ZOKUSEI2 = SEIKYU_DENPYO.ITEM_ZOKUSEI2
+        AND JUCHU_DENPYO.TATENE_KBN = SEIKYU_DENPYO.TATENE_KBN
+        AND JUCHU_DENPYO.KESSAI_JOKEN = SEIKYU_DENPYO.KESSAI_JOKEN
+        AND JUCHU_DENPYO.URIAGE_TUKA_CD = SEIKYU_DENPYO.URIAGE_TUKA_CD
+
+    FULL JOIN
+
+    /** 予算 **/
+    (
+        SELECT
+            CASE WHEN BMN_MASTER.CHR_KOMOKU04 = ''04''
+                THEN BMN_MASTER.CHR_KOMOKU05
+                ELSE BMN_MASTER.SAIMOKU_CD02
+            END OYA_BMN_CD,
+            TAISHO_YOSAN.BMN_CD,
+            TAISHO_YOSAN.TANTO_CD EIGYO_TANTO_ID,
+            TAISHO_YOSAN.TOKUISAKI_CD,
+            TOKUISAKI_MASTER.TOKUISAKI_SHUKEI_GRP,
+            TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD,
+            CTRY_MASTER.CHR_KOMOKU03 AREA_CD,
+            HINMOKU_MASTER.ITEM_ZOKUSEI3 SEISAN_KBN,
+            HINMOKU_MASTER.KAMOKU_KBN,
+            -- TODO:売上集計区分
+            HINMOKU_MASTER.BRAND_KBN,
+            HINMOKU_MASTER.ITEM_BUNRUI,
+            TAISHO_YOSAN.ITEM_KBN,
+            HINMOKU_MASTER.ITEM_ZOKUSEI1,
+            HINMOKU_MASTER.ITEM_ZOKUSEI2,
+            YOSAN_RATE.TTM,
+            HINMOKU_MASTER.SEIZO_KATASIKI,
+            HINMOKU_MASTER.HANBAI_KOSHO,
+            TAISHO_YOSAN.URIAGE_SURYO URIAGE_SU,
+            CASE WHEN TAISHO_YOSAN.URIAGE_TUKA_CD = ''JPY''
+                THEN TAISHO_YOSAN.URIAGE_KINGAKU
+                ELSE TAISHO_YOSAN.URIAGE_KINGAKU * YOSAN_RATE.TTM
+            END URIAGE_GAKU,
+            CASE WHEN TAISHO_YOSAN.URIAGE_TUKA_CD = ''JPY''
+                THEN TAISHO_YOSAN.URIAGE_KINGAKU / YOSAN_RATE.TTM
+                ELSE TAISHO_YOSAN.URIAGE_KINGAKU
+            END URIAGE_GAKU_GAIKA,
+            TAISHO_YOSAN.GENKA,
+            TAISHO_YOSAN.GENKA / YOSAN_RATE.TTM GENKA_GAIKA,
+            TAISHO_YOSAN.INCOTERMS1 TATENE_KBN,
+            TAISHO_YOSAN.KESSAI_JOKEN_KBN KESSAI_JOKEN,
+            TAISHO_YOSAN.TEGATA_NISSU,
+            TAISHO_YOSAN.URIAGE_TUKA_CD,
+            TAISHO_YOSAN.COMMISSION_TANKA,
+            TAISHO_YOSAN.COMMISSION_TANKA / YOSAN_RATE.TTM COMMISSION_TANKA_GAIKA,
+            TAISHO_YOSAN.TUKA_CD,
+            TANTO_MASTER.TANTO_JIGYOSHO_CD JIGYOSHO_EIGYOSHO_CD,
+            CASE WHEN TAISHO_YOSAN.URIAGE_TUKA_CD = ''JPY''
+                THEN TAISHO_YOSAN.URI_TANKA
+                ELSE TAISHO_YOSAN.URI_TANKA * YOSAN_RATE.TTM
+            END URIAGE_TANKA,
+            CASE WHEN TAISHO_YOSAN.URIAGE_TUKA_CD = ''JPY''
+                THEN TAISHO_YOSAN.URI_TANKA / YOSAN_RATE.TTM
+                ELSE TAISHO_YOSAN.URI_TANKA
+            END URIAGE_TANKA_GAIKA
+        FROM TAISHO_YOSAN
+        /** 予算レートマスタ **/
+        INNER JOIN SDFM002 YOSAN_RATE
+            ON YOSAN_RATE.NENDO = TAISHO_YOSAN.NENDO
+            AND YOSAN_RATE.YOSAN_KBN = TAISHO_YOSAN.YOSAN_KBN
+            AND YOSAN_RATE.KAMIKI_SIMOKI_KBN =
+              CASE WHEN CONVERT(INT, TAISHO_YOSAN.TUKI) BETWEEN 4 AND 9
+                   THEN ''1''
+                   ELSE ''2''
+              END
+            AND YOSAN_RATE.TUKA_CD = TAISHO_YOSAN.TUKA_CD
+        /** 営業担当者 **/
+        INNER JOIN SDHM001 TANTO_MASTER
+            ON TANTO_MASTER.TOKUISAKI_SYUBETU = ''2''
+            AND TANTO_MASTER.TOKUISAKI_CD = TAISHO_YOSAN.TANTO_CD
+            AND TANTO_MASTER.YUKO_STA_YMD <= TAISHO_YOSAN.KIJUN_YMD
+            AND TANTO_MASTER.YUKO_END_YMD >= TAISHO_YOSAN.KIJUN_YMD
+        /** 品目マスタ **/
+        INNER JOIN SDHM003 HINMOKU_MASTER
+            ON HINMOKU_MASTER.SYS_ID = TAISHO_YOSAN.SYS_ID
+            AND HINMOKU_MASTER.TOKUISAKI_CD = TAISHO_YOSAN.ITEM_SANSHO_TOKUISAKI_CD
+            AND HINMOKU_MASTER.ITEM_CD = TAISHO_YOSAN.ITEM_CD
+            AND HINMOKU_MASTER.YUKO_STA_YMD <= TAISHO_YOSAN.KIJUN_YMD
+            AND HINMOKU_MASTER.YUKO_END_YMD >= TAISHO_YOSAN.KIJUN_YMD
+        /** 得意先 **/
+        INNER JOIN SDHM001 TOKUISAKI_MASTER
+            ON TOKUISAKI_MASTER.TOKUISAKI_SYUBETU = ''1''
+            AND TOKUISAKI_MASTER.TOKUISAKI_CD = TAISHO_YOSAN.TOKUISAKI_CD
+            AND TOKUISAKI_MASTER.YUKO_STA_YMD <= TAISHO_YOSAN.KIJUN_YMD
+            AND TOKUISAKI_MASTER.YUKO_END_YMD >= TAISHO_YOSAN.KIJUN_YMD
+        /** 部門マスタ **/
+        INNER JOIN SDHM014 BMN_MASTER
+            ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+            AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+            AND BMN_MASTER.SAIMOKU_CD02 = TAISHO_YOSAN.BMN_CD
+            AND BMN_MASTER.YUKO_STA_YMD <= TAISHO_YOSAN.KIJUN_YMD
+            AND BMN_MASTER.YUKO_END_YMD >= TAISHO_YOSAN.KIJUN_YMD
+        /** 国名マスタ **/
+        INNER JOIN SDHM014 CTRY_MASTER
+            ON CTRY_MASTER.KOMOKU_CD = ''SDZ002''
+            AND CTRY_MASTER.SAIMOKU_CD01 = TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD
+            AND CTRY_MASTER.SAIMOKU_CD02 = ''00''
+            AND CTRY_MASTER.YUKO_STA_YMD <= TAISHO_YOSAN.KIJUN_YMD
+            AND CTRY_MASTER.YUKO_END_YMD >= TAISHO_YOSAN.KIJUN_YMD
+        WHERE
+            TAISHO_YOSAN.NENDO = @nendo
+            AND TAISHO_YOSAN.TUKI = @tuki
+    ) YOSAN
+        ON (
+            YOSAN.BMN_CD = SEIKYU_DENPYO.BMN_CD
+            AND YOSAN.EIGYO_TANTO_ID = SEIKYU_DENPYO.EIGYO_TANTO_ID
+            AND YOSAN.TOKUISAKI_CD = SEIKYU_DENPYO.TOKUISAKI_CD
+            AND YOSAN.SEISAN_KBN = SEIKYU_DENPYO.SEISAN_KBN
+            AND YOSAN.KAMOKU_KBN = SEIKYU_DENPYO.KAMOKU_KBN
+            -- TODO:売上集計区分
+            AND YOSAN.BRAND_KBN = SEIKYU_DENPYO.BRAND_KBN
+            AND YOSAN.ITEM_BUNRUI = SEIKYU_DENPYO.ITEM_BUNRUI
+            AND YOSAN.ITEM_KBN = SEIKYU_DENPYO.ITEM_KBN
+            AND YOSAN.ITEM_ZOKUSEI1 = SEIKYU_DENPYO.ITEM_ZOKUSEI1
+            AND YOSAN.ITEM_ZOKUSEI2 = SEIKYU_DENPYO.ITEM_ZOKUSEI2
+            AND YOSAN.TATENE_KBN = SEIKYU_DENPYO.TATENE_KBN
+            AND YOSAN.KESSAI_JOKEN = SEIKYU_DENPYO.KESSAI_JOKEN
+            AND YOSAN.URIAGE_TUKA_CD = SEIKYU_DENPYO.URIAGE_TUKA_CD
+        ) OR (
+            YOSAN.BMN_CD = JUCHU_DENPYO.BMN_CD
+            AND YOSAN.EIGYO_TANTO_ID = JUCHU_DENPYO.EIGYO_TANTO_ID
+            AND YOSAN.TOKUISAKI_CD = JUCHU_DENPYO.TOKUISAKI_CD
+            AND YOSAN.SEISAN_KBN = JUCHU_DENPYO.SEISAN_KBN
+            AND YOSAN.KAMOKU_KBN = JUCHU_DENPYO.KAMOKU_KBN
+            -- TODO:売上集計区分
+            AND YOSAN.BRAND_KBN = JUCHU_DENPYO.BRAND_KBN
+            AND YOSAN.ITEM_BUNRUI = JUCHU_DENPYO.ITEM_BUNRUI
+            AND YOSAN.ITEM_KBN = JUCHU_DENPYO.ITEM_KBN
+            AND YOSAN.ITEM_ZOKUSEI1 = JUCHU_DENPYO.ITEM_ZOKUSEI1
+            AND YOSAN.ITEM_ZOKUSEI2 = JUCHU_DENPYO.ITEM_ZOKUSEI2
+            AND YOSAN.TATENE_KBN = JUCHU_DENPYO.TATENE_KBN
+            AND YOSAN.KESSAI_JOKEN = JUCHU_DENPYO.KESSAI_JOKEN
+            AND YOSAN.URIAGE_TUKA_CD = JUCHU_DENPYO.URIAGE_TUKA_CD
+        )
+
+    FULL JOIN
+    /** 見積伝票 **/
+    (
+        SELECT
+            CASE WHEN BMN_MASTER.CHR_KOMOKU04 = ''04''
+                THEN BMN_MASTER.CHR_KOMOKU05
+                ELSE BMN_MASTER.SAIMOKU_CD02
+            END OYA_BMN_CD,
+            TANTO_MASTER.BMN_CD,    -- 部門コード
+            MITSUMORI_DENPYO.EIGYO_TANTO_ID,    -- 担当者コード
+            MITSUMORI_DENPYO.TOKUISAKI_CD,    -- 得意先コード
+            HINMOKU_MASTER.ITEM_ZOKUSEI3 SEISAN_KBN,    -- 生産区分
+            HINMOKU_MASTER.KAMOKU_KBN,    -- 科目区分
+            MITSUMORI_DENPYO_MEISAI.BRAND_KBN,    -- ブランド区分
+            MITSUMORI_DENPYO_MEISAI.ITEM_BUNRUI,    -- 品目分類
+            MITSUMORI_DENPYO_MEISAI.ITEM_KBN,    -- 品目区分
+            MITSUMORI_DENPYO_MEISAI.ITEM_ZOKUSEI1,    -- 品目属性1
+            MITSUMORI_DENPYO_MEISAI.ITEM_ZOKUSEI2,    -- 品目属性2
+            MITSUMORI_DENPYO.INCOTERMS1 TATENE_KBN,    -- 建値区分
+            MITSUMORI_DENPYO.KESSAI_JOKEN,    -- 決済条件
+            MITSUMORI_DENPYO.URIAGE_TUKA_CD,    -- 売上通貨コード
+            TOKUISAKI_MASTER.TOKUISAKI_SHUKEI_GRP,     -- 得意先グループコード
+            TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD,    -- 得意先国コード
+            HINMOKU_MASTER.SEIZO_KATASIKI,    -- 製造型式
+            HINMOKU_MASTER.HANBAI_KOSHO,    -- 販売呼称
+            CTRY_MASTER.CHR_KOMOKU03 AREA_CD,    -- 地域コード
+            TANTO_MASTER.TANTO_JIGYOSHO_CD JIGYOSHO_EIGYOSHO_CD,    -- 事業所/営業所コード
+            MITSUMORI_DENPYO_MEISAI.TEGATA_NISSU,    -- 手形日数
+            MITSUMORI_DENPYO_MEISAI.URIAGE_SU,    -- 売上数量
+            MITSUMORI_DENPYO_MEISAI.URIAGE_GAKU_ENKA,    -- 売上金額(円貨)
+            MITSUMORI_DENPYO_MEISAI.URIAGE_GAKU_GAIKA,    -- 売上金額(外貨)
+            CASE WHEN MITSUMORI_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN MITSUMORI_DENPYO_MEISAI.NEBIKI_GAKU + MITSUMORI_DENPYO_MEISAI.NEBIKI_HAIBUN_GAKU
+                ELSE (MITSUMORI_DENPYO_MEISAI.NEBIKI_GAKU + MITSUMORI_DENPYO_MEISAI.NEBIKI_HAIBUN_GAKU) * MITSUMORI_DENPYO.URIAGE_KANSAN_RATE
+            END NEBIKI_GAKU_ENKA,    -- 割引金額
+            CASE WHEN MITSUMORI_DENPYO.URIAGE_TUKA_CD = ''JPY''
+                THEN NULL
+                ELSE MITSUMORI_DENPYO_MEISAI.NEBIKI_GAKU + MITSUMORI_DENPYO_MEISAI.NEBIKI_HAIBUN_GAKU
+            END NEBIKI_GAKU_GAIKA,    -- 割引金額(外貨)
+            MITSUMORI_DENPYO.URIAGE_KANSAN_RATE,    -- 為替レート
+            MITSUMORI_DENPYO_MEISAI.COMMISSION_GAKU_ENKA,    -- コミッション単価
+            MITSUMORI_DENPYO_MEISAI.COMMISSION_GAKU_GAIKA,    -- コミッション単価(外貨)
+            MITSUMORI_DENPYO_MEISAI.SIIRE_TUKA_CD    -- 仕入通貨コード
+        FROM SDAT005 MITSUMORI_DENPYO
+        INNER JOIN (
+            SELECT
+                SDAT005.MITSUMORI_DENPYO_NO,
+                MAX(CAST(SDAT005.MITSUMORI_DENPYO_NO_HAN AS int)) MITSUMORI_DENPYO_NO_HAN
+            FROM SDAT005
+            WHERE
+                SDAT005.URIAGE_KEIJO_YMD >= @start_date
+                AND SDAT005.URIAGE_KEIJO_YMD < @end_date
+                AND SDAT005.JUCHU_KAKUDO <= ''C''    -- TODO:受注確度(仮)
+            GROUP BY
+                SDAT005.MITSUMORI_DENPYO_NO
+        ) MITSUMORI_DENPYO_LATEST
+            ON MITSUMORI_DENPYO.MITSUMORI_DENPYO_NO = MITSUMORI_DENPYO_LATEST.MITSUMORI_DENPYO_NO
+            AND MITSUMORI_DENPYO.MITSUMORI_DENPYO_NO_HAN = MITSUMORI_DENPYO_LATEST.MITSUMORI_DENPYO_NO_HAN
+        INNER JOIN SDAT006 MITSUMORI_DENPYO_MEISAI
+            ON MITSUMORI_DENPYO_MEISAI.MITSUMORI_DENPYO_NO = MITSUMORI_DENPYO.MITSUMORI_DENPYO_NO
+            AND MITSUMORI_DENPYO_MEISAI.MITSUMORI_DENPYO_NO_HAN = MITSUMORI_DENPYO.MITSUMORI_DENPYO_NO_HAN
+        /** 営業担当者 **/
+        INNER JOIN SDHM001 TANTO_MASTER
+            ON TANTO_MASTER.TOKUISAKI_SYUBETU = ''2''
+            AND TANTO_MASTER.TOKUISAKI_CD = MITSUMORI_DENPYO.EIGYO_TANTO_ID
+            AND TANTO_MASTER.YUKO_STA_YMD <= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+            AND TANTO_MASTER.YUKO_END_YMD >= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+        /** 品目マスタ **/
+        INNER JOIN SDHM003 HINMOKU_MASTER
+            ON HINMOKU_MASTER.SYS_ID = MITSUMORI_DENPYO.SYS_ID
+            AND HINMOKU_MASTER.TOKUISAKI_CD = MITSUMORI_DENPYO_MEISAI.ITEM_SANSHO_TOKUISAKI_CD
+            AND HINMOKU_MASTER.ITEM_CD = MITSUMORI_DENPYO_MEISAI.ITEM_CD
+            AND HINMOKU_MASTER.YUKO_STA_YMD <= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+            AND HINMOKU_MASTER.YUKO_END_YMD >= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+        /** 得意先 **/
+        INNER JOIN SDHM001 TOKUISAKI_MASTER
+            ON TOKUISAKI_MASTER.TOKUISAKI_SYUBETU = ''1''
+            AND TOKUISAKI_MASTER.TOKUISAKI_CD = MITSUMORI_DENPYO.TOKUISAKI_CD
+            AND TOKUISAKI_MASTER.YUKO_STA_YMD <= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+            AND TOKUISAKI_MASTER.YUKO_END_YMD >= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+        /** 部門マスタ **/
+        INNER JOIN SDHM014 BMN_MASTER
+            ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+            AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+            AND BMN_MASTER.SAIMOKU_CD02 = TANTO_MASTER.BMN_CD
+            AND BMN_MASTER.YUKO_STA_YMD <= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+            AND BMN_MASTER.YUKO_END_YMD >= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+        /** 国名マスタ **/
+        INNER JOIN SDHM014 CTRY_MASTER
+            ON CTRY_MASTER.KOMOKU_CD = ''SDZ002''
+            AND CTRY_MASTER.SAIMOKU_CD01 = TOKUISAKI_MASTER.TOKUISAKI_CTRY_CD
+            AND CTRY_MASTER.SAIMOKU_CD02 = ''00''
+            AND CTRY_MASTER.YUKO_STA_YMD <= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+            AND CTRY_MASTER.YUKO_END_YMD >= MITSUMORI_DENPYO.DENPYO_KIJUN_YMD
+    ) MITSUMORI
+        ON
+        (
+            MITSUMORI.BMN_CD = SEIKYU_DENPYO.BMN_CD
+            AND MITSUMORI.EIGYO_TANTO_ID = SEIKYU_DENPYO.EIGYO_TANTO_ID
+            AND MITSUMORI.TOKUISAKI_CD = SEIKYU_DENPYO.TOKUISAKI_CD
+            AND MITSUMORI.BRAND_KBN = SEIKYU_DENPYO.BRAND_KBN
+            AND MITSUMORI.ITEM_BUNRUI = SEIKYU_DENPYO.ITEM_BUNRUI
+            AND MITSUMORI.ITEM_KBN = SEIKYU_DENPYO.ITEM_KBN
+            AND MITSUMORI.ITEM_ZOKUSEI1 = SEIKYU_DENPYO.ITEM_ZOKUSEI1
+            AND MITSUMORI.ITEM_ZOKUSEI2 = SEIKYU_DENPYO.ITEM_ZOKUSEI2
+            AND MITSUMORI.TATENE_KBN = SEIKYU_DENPYO.TATENE_KBN
+            AND MITSUMORI.KESSAI_JOKEN = SEIKYU_DENPYO.KESSAI_JOKEN
+            AND MITSUMORI.URIAGE_TUKA_CD = SEIKYU_DENPYO.URIAGE_TUKA_CD
+        ) OR (
+            MITSUMORI.BMN_CD = JUCHU_DENPYO.BMN_CD
+            AND MITSUMORI.EIGYO_TANTO_ID = JUCHU_DENPYO.EIGYO_TANTO_ID
+            AND MITSUMORI.TOKUISAKI_CD = JUCHU_DENPYO.TOKUISAKI_CD
+            AND MITSUMORI.BRAND_KBN = JUCHU_DENPYO.BRAND_KBN
+            AND MITSUMORI.ITEM_BUNRUI = JUCHU_DENPYO.ITEM_BUNRUI
+            AND MITSUMORI.ITEM_KBN = JUCHU_DENPYO.ITEM_KBN
+            AND MITSUMORI.ITEM_ZOKUSEI1 = JUCHU_DENPYO.ITEM_ZOKUSEI1
+            AND MITSUMORI.ITEM_ZOKUSEI2 = JUCHU_DENPYO.ITEM_ZOKUSEI2
+            AND MITSUMORI.TATENE_KBN = JUCHU_DENPYO.TATENE_KBN
+            AND MITSUMORI.KESSAI_JOKEN = JUCHU_DENPYO.KESSAI_JOKEN
+            AND MITSUMORI.URIAGE_TUKA_CD = JUCHU_DENPYO.URIAGE_TUKA_CD
+        ) OR (
+            MITSUMORI.BMN_CD = YOSAN.BMN_CD
+            AND MITSUMORI.EIGYO_TANTO_ID = YOSAN.EIGYO_TANTO_ID
+            AND MITSUMORI.TOKUISAKI_CD = YOSAN.TOKUISAKI_CD
+            AND MITSUMORI.BRAND_KBN = YOSAN.BRAND_KBN
+            AND MITSUMORI.ITEM_BUNRUI = YOSAN.ITEM_BUNRUI
+            AND MITSUMORI.ITEM_KBN = YOSAN.ITEM_KBN
+            AND MITSUMORI.ITEM_ZOKUSEI1 = YOSAN.ITEM_ZOKUSEI1
+            AND MITSUMORI.ITEM_ZOKUSEI2 = YOSAN.ITEM_ZOKUSEI2
+            AND MITSUMORI.TATENE_KBN = YOSAN.TATENE_KBN
+            AND MITSUMORI.KESSAI_JOKEN = YOSAN.KESSAI_JOKEN
+            AND MITSUMORI.URIAGE_TUKA_CD = YOSAN.URIAGE_TUKA_CD
+        )
+
+) DENPYO
+GROUP BY
+    OYA_BMN_CD,
+    BMN_CD,
+    EIGYO_TANTO_ID,
+    TOKUISAKI_SHUKEI_GRP,
+    TOKUISAKI_CD,
+    SEIZO_KATASIKI,
+    HANBAI_KOSHO,
+    AREA_CD,
+    TOKUISAKI_CTRY_CD,
+    SEISAN_KBN,
+    YOSAN_TUKA_CD,
+    URIAGE_TUKA_CD,
+    SIIRE_TUKA_CD,
+    KAMOKU_KBN,
+    BRAND_KBN,
+    -- TODO:売上集計区分
+    ITEM_BUNRUI,
+    ITEM_KBN,
+    ITEM_ZOKUSEI1,
+    ITEM_ZOKUSEI2,
+    JIGYOSHO_EIGYOSHO_CD
+
+  END TRY
+
+  BEGIN CATCH
+
+    ROLLBACK TRANSACTION;
+    RAISERROR ('''', 9, 1) WITH SETERROR, LOG;
+    return (9);
+
+  END CATCH
+
+  COMMIT TRANSACTION;
+
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF001_SELECT]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF001_SELECT]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+--
+-- 機能名称       ：請求伝票サマリ抽出処理。
+-- プロシジャ名称 ：SDIFXXXX
+-- 機能説明       ：指定された年月の請求伝票サマリを抽出する。
+-- 引数説明       ：@ym 対象年月
+-- 返値説明       ：抽出結果
+-- 作成者         ：2013.05.15 sakoda
+-- 更新履歴       ：
+--
+CREATE PROCEDURE [dbo].[SDIF001_SELECT]
+    @ym char(6)
+AS
+
+    SET NOCOUNT ON
+
+    --
+    -- 変数宣言
+    --
+    DECLARE @start_year int        -- 対象年(from)
+    DECLARE @start_month int       -- 対象月(from)
+    DECLARE @start_date char(8)    -- 対象年月日(from)
+    DECLARE @end_year int          -- 対象年(to)
+    DECLARE @end_month int         -- 対象月(to)
+    DECLARE @end_date char(8)      -- 対象年月日(to)
+
+    --
+    -- 対象日付の算出
+    --
+    SET @start_year = CAST(substring(@ym, 0, 5) as int)
+    SET @start_month = CAST(substring(@ym, 5, 7) as int)
+
+    IF @start_month = 12
+        BEGIN
+            SET @end_year = @start_year
+            SET @end_month = 1
+        END
+    ELSE
+        BEGIN
+            SET @end_year = @start_year
+            SET @end_month = @start_month + 1
+        END
+
+    SET @start_date = cast(@start_year as char(4))
+    SET @end_date = cast(@end_year as char(4))
+
+    IF @start_month < 10
+        BEGIN
+            SET @start_date = cast(@start_date as char(4)) + ''0'' + cast(@start_month as char(1))
+        END
+    ELSE
+        BEGIN
+            SET @start_date = cast(@start_date as char(4)) + cast(@start_month as char(2))
+        END
+
+    IF @end_month < 10
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + ''0'' + cast(@end_month as char(1))
+        END
+    ELSE
+        BEGIN
+            SET @end_date = cast(@end_date as char(4)) + cast(@end_month as char(2))
+        END
+
+    SET @start_date = cast(@start_date as char(6)) + ''01''
+    SET @end_date = cast(@end_date as char(6)) + ''01'';
+
+WITH YUKO_HANYO_MASTER AS (
+    -- 有効汎用マスタ
+    SELECT
+      SDHM014.*
+    FROM SDHM014
+      INNER JOIN (
+           SELECT
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10,
+               MAX(YUKO_STA_YMD) YUKO_STA_YMD
+           FROM SDHM014
+           WHERE
+               SDHM014.YUKO_STA_YMD <= @start_date
+               AND SDHM014.YUKO_END_YMD > @end_date
+           GROUP BY
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10
+         ) SDHM014_MAX
+        ON SDHM014.KOMOKU_CD = SDHM014_MAX.KOMOKU_CD
+           AND SDHM014.SAIMOKU_CD01 = SDHM014_MAX.SAIMOKU_CD01
+           AND SDHM014.SAIMOKU_CD02 = SDHM014_MAX.SAIMOKU_CD02
+           AND SDHM014.SAIMOKU_CD03 = SDHM014_MAX.SAIMOKU_CD03
+           AND SDHM014.SAIMOKU_CD04 = SDHM014_MAX.SAIMOKU_CD04
+           AND SDHM014.SAIMOKU_CD05 = SDHM014_MAX.SAIMOKU_CD05
+           AND SDHM014.SAIMOKU_CD06 = SDHM014_MAX.SAIMOKU_CD06
+           AND SDHM014.SAIMOKU_CD07 = SDHM014_MAX.SAIMOKU_CD07
+           AND SDHM014.SAIMOKU_CD08 = SDHM014_MAX.SAIMOKU_CD08
+           AND SDHM014.SAIMOKU_CD09 = SDHM014_MAX.SAIMOKU_CD09
+           AND SDHM014.SAIMOKU_CD10 = SDHM014_MAX.SAIMOKU_CD10
+           AND SDHM014.YUKO_STA_YMD = SDHM014_MAX.YUKO_STA_YMD
+), SEIKYU_DENPYO AS (
+    -- 請求伝票
+    SELECT
+        *
+    FROM
+    (
+        SELECT
+            HEAD.SEIKYU_DENPYO_NO,  -- 請求伝票番号
+            MEISAI.SEIKYU_DENPYO_NO_HAN,  -- 請求伝票番号版
+            MEISAI.SEIKYU_DENPYO_GYO_NO,  -- 請求伝票行番号
+            HEAD.SEIKYU_DENPYO_TYPE,  -- 請求伝票タイプ
+            HEAD.AKA_KURO_SOUSAI_DENPYO_NO,  -- 赤黒相殺伝票番号
+            HEAD.DENPYO_KIJUN_YMD,  -- 伝票基準日
+            HEAD.URIAGE_KEIJO_YMD,  -- 売上計上日
+            HEAD.SYS_ID,  -- システムID
+            RANK () OVER (
+                PARTITION BY
+                    HEAD.SEIKYU_DENPYO_NO,
+                    MEISAI.SEIKYU_DENPYO_NO_HAN,
+                    MEISAI.SEIKYU_DENPYO_GYO_NO
+                ORDER BY
+                    TOKUISAKI.YUKO_STA_YMD DESC
+            ) TOKUISAKI_RANK,
+            TOKUISAKI.BMN_CD,  -- 部門コード
+            MEISAI.ITEM_CD, -- 品目コード
+            MEISAI.ITEM_SANSHO_TOKUISAKI_CD,  -- 品目参照得意先コード
+            MEISAI.KAIJYO_HOKEN_URIAGE_EN,  -- 海上保険料（売上・円貨）
+            MEISAI.URIAGE_SU,  -- 売上数量
+            MEISAI.SIIRE_TANKA,  -- 仕入単価
+            MEISAI.URIAGE_TANKA,  -- 売上単価
+            MEISAI.URIAGE_GAKU_ENKA URIAGE_GAKU,  -- 売上金額
+            MEISAI.URIAGE_GAKU_ZEI,  -- 売上金額（消費税）
+            MEISAI.NEBIKI_GAKU  -- 値引額
+        FROM (
+            SELECT
+                SDCT001.SEIKYU_DENPYO_NO,
+                SDCT001.SEIKYU_DENPYO_NO_HAN,
+                SDCT001.SEIKYU_DENPYO_TYPE,
+                SDCT001.AKA_KURO_SOUSAI_DENPYO_NO,
+                SDCT001.DENPYO_KIJUN_YMD,
+                SDCT001.TOKUISAKI_CD,
+                SDCT001.URIAGE_KEIJO_YMD,
+                SDCT001.SYS_ID,
+                SDCT001.SEIKYU_DENPYO_ST,
+                RANK () OVER (
+                    PARTITION BY
+                        SDCT001.SEIKYU_DENPYO_NO
+                    ORDER BY
+                        CAST(SDCT001.SEIKYU_DENPYO_NO_HAN AS int) DESC
+                ) HAN_RANK
+            FROM SDCT001
+        ) HEAD
+        INNER JOIN SDCT002 MEISAI
+            ON MEISAI.SEIKYU_DENPYO_NO = HEAD.SEIKYU_DENPYO_NO
+            AND MEISAI.SEIKYU_DENPYO_NO_HAN = HEAD.SEIKYU_DENPYO_NO_HAN
+        INNER JOIN SDHM001 TOKUISAKI
+            ON TOKUISAKI.TOKUISAKI_SYUBETU = ''1''  -- 得意先
+            AND TOKUISAKI.TOKUISAKI_CD = HEAD.TOKUISAKI_CD
+            AND TOKUISAKI.YUKO_STA_YMD <= HEAD.DENPYO_KIJUN_YMD
+        WHERE
+            HEAD.HAN_RANK = 1
+            AND HEAD.SEIKYU_DENPYO_ST >= ''A''  -- TODO:請求伝票ステータス(承認)
+    ) RET
+    WHERE
+        TOKUISAKI_RANK = 1
+), HOSOKU_DENPYO AS (
+    -- 補足伝票
+    SELECT
+        HEAD.SANSHO_SEIKYU_DENPYO_NO,  -- 参照請求伝票番号
+        MEISAI.SANSHO_SEIKYU_DENPYO_HAN, -- 参照請求伝票番号版
+        MEISAI.SANSHO_SEIKYU_DEN_GYO_NO,  -- 参照請求伝票明細番号
+        HEAD.URIAGE_HOSOKU_DENPYO_TYPE,  -- 売上補足伝票タイプ
+        MEISAI.ITEM_CD,  -- 品目コード
+        SUM(MEISAI.URIAGE_GAKU_ENKA) URIAGE_GAKU,  -- 売上金額
+        SUM(MEISAI.URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,  -- 売上金額(消費税)
+        SUM(MEISAI.NEBIKI_GAKU) NEBIKI_GAKU,  -- 値引額
+        SUM(MEISAI.COMMISSION_GAKU_ENKA) COMMISSION_GAKU  -- コミッション額
+    FROM (
+        SELECT
+            SANSHO_SEIKYU_DENPYO_NO,
+            SANSHO_SEIKYU_DENPYO_HAN,
+            URIAGE_HOSOKU_DENPYO_TYPE,
+            URIAGE_HOSOKU_DENPYO_NO,
+            URIAGE_HOSOKU_DENPYO_HAN,
+            URIAGE_HOSOKU_DENPYO_ST,
+            RANK () OVER (
+                PARTITION BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO
+                ORDER BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_HAN DESC
+            ) HAN_RANK
+        FROM SDCT004
+    ) HEAD
+    INNER JOIN SDCT005 MEISAI
+        ON MEISAI.URIAGE_HOSOKU_DENPYO_NO = HEAD.URIAGE_HOSOKU_DENPYO_NO
+        AND MEISAI.URIAGE_HOSOKU_DENPYO_HAN = HEAD.URIAGE_HOSOKU_DENPYO_HAN
+    WHERE
+        HEAD.HAN_RANK = 1
+        AND HEAD.URIAGE_HOSOKU_DENPYO_ST >= ''A''  -- TODO:売上補足伝票ステータス(承認)
+    GROUP BY
+        HEAD.SANSHO_SEIKYU_DENPYO_NO,
+        MEISAI.SANSHO_SEIKYU_DENPYO_HAN,
+        MEISAI.SANSHO_SEIKYU_DEN_GYO_NO,
+        HEAD.URIAGE_HOSOKU_DENPYO_TYPE,
+        MEISAI.ITEM_CD
+), TOUGOU_DENPYO AS (
+    -- 統合伝票
+    SELECT
+        BMN_CD,
+        KAMOKU_KBN,
+        ITEM_BUNRUI,
+        ITEM_KAISO,
+        ITEM_NO,
+        ITEM_NM,
+        URIAGE_SU,
+        URIAGE_SU_CNT,
+        URIAGE_GAKU,
+        URIAGE_MODOSI_SU,
+        URIAGE_MODOSHI_SU_CNT,
+        URIAGE_MODOSI_GAKU,
+        NEBIKI_GAKU,
+        WARIMODOSI_GAKU,
+        KOUSEN,
+        KAIJYO_HOKEN_URIAGE_EN,
+        JUN_URIAGE_SU,
+        JUN_URIAGE_SU_CNT,
+        JUN_URIAGE_GAKU,
+        TATEKAE_GAKU,
+        URIAGE_GAKU_ZEI,
+        TATEKAE_GAKU_ZEI,
+        SIIRE_TANKA,
+        URIAGE_TANKA,
+        GENKA_RITU,
+        NEBIKI_RITU
+    FROM
+    (
+        SELECT
+            SEIKYU_DENPYO.BMN_CD,  -- 部門コード
+            YUKO_HINMOKU_MASTER.KAMOKU_KBN,  -- 科目区分
+            YUKO_HINMOKU_MASTER.ITEM_BUNRUI,  -- 商品区分
+            YUKO_HINMOKU_MASTER.ITEM_KAISO,  -- 品目階層
+            CASE YUKO_HINMOKU_MASTER.KAMOKU_KBN
+                WHEN ''1'' THEN YUKO_HINMOKU_MASTER.HANBAI_KOSHO
+                ELSE YUKO_HINMOKU_MASTER.KOJO_ITEM_NO1
+            END ITEM_NO,  -- 商品番号
+            YUKO_HINMOKU_MASTER.ITEM_NM_RYAKU ITEM_NM,  -- 商品名
+            SEIKYU_DENPYO.URIAGE_SU,  -- 売上数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END URIAGE_SU_CNT,  -- 売上数量カウント
+            SEIKYU_DENPYO.URIAGE_GAKU,  -- 売上金額
+            MODOSI_DENPYO.URIAGE_SU URIAGE_MODOSI_SU,  -- 売上戻し数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END URIAGE_MODOSHI_SU_CNT,  -- 売上戻し数量カウント
+            MODOSI_DENPYO.URIAGE_GAKU URIAGE_MODOSI_GAKU,  -- 売上戻し金額
+            NEBIKI_DENPYO.NEBIKI_GAKU NEBIKI_GAKU,    -- 値引金額
+            NEWARI_DENPYO.NEBIKI_GAKU WARIMODOSI_GAKU,    -- 割戻金額
+            COMMISSION_KURO_DENPYO.COMMISSION_GAKU - COMMISSION_AKA_DENPYO.COMMISSION_GAKU KOUSEN,  -- 口銭
+            SEIKYU_DENPYO.KAIJYO_HOKEN_URIAGE_EN,  -- 保険料
+            -- TODO:送料
+            SEIKYU_DENPYO.URIAGE_SU - MODOSI_DENPYO.URIAGE_SU JUN_URIAGE_SU,  -- 純売上数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END JUN_URIAGE_SU_CNT,  -- 純売上数量カウント
+            SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU JUN_URIAGE_GAKU,  -- 純売上金額
+            -- TODO:手数料他
+            TATEKAE_KURO.URIAGE_GAKU - TATEKAE_AKA.URIAGE_GAKU TATEKAE_GAKU,  -- 立替金額
+            SEIKYU_DENPYO.URIAGE_GAKU_ZEI,    -- 消費税
+            TATEKAE_KURO.URIAGE_GAKU_ZEI - TATEKAE_AKA.URIAGE_GAKU_ZEI TATEKAE_GAKU_ZEI,  -- 立替金額消費税
+            SEIKYU_DENPYO.SIIRE_TANKA,  -- 原価
+            SEIKYU_DENPYO.URIAGE_TANKA,    -- 売上単価
+            CASE (SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU)
+                WHEN 0 THEN 0
+                ELSE SEIKYU_DENPYO.SIIRE_TANKA / (SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU) * 100
+            END GENKA_RITU,  -- 原価率
+            -- TODO:卸率
+            CASE SEIKYU_DENPYO.URIAGE_GAKU
+                WHEN 0 THEN 0
+                ELSE SEIKYU_DENPYO.NEBIKI_GAKU / SEIKYU_DENPYO.URIAGE_GAKU * 100
+            END NEBIKI_RITU,  -- 値引率
+            RANK () OVER (
+                PARTITION BY
+                    SEIKYU_DENPYO.SEIKYU_DENPYO_NO,
+                    SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+                ORDER BY
+                    YUKO_HINMOKU_MASTER.YUKO_STA_YMD DESC
+            ) HINMOKU_RANK
+        FROM
+        (
+            SELECT * FROM SEIKYU_DENPYO
+            WHERE
+                SEIKYU_DENPYO.URIAGE_KEIJO_YMD >= @start_date
+                AND SEIKYU_DENPYO.URIAGE_KEIJO_YMD < @end_date
+                AND SEIKYU_DENPYO.SEIKYU_DENPYO_TYPE = ''Z3F2''
+        ) SEIKYU_DENPYO
+        LEFT OUTER JOIN SEIKYU_DENPYO MODOSI_DENPYO    -- 戻し伝票
+            ON MODOSI_DENPYO.SEIKYU_DENPYO_NO = SEIKYU_DENPYO.AKA_KURO_SOUSAI_DENPYO_NO
+            AND MODOSI_DENPYO.ITEM_CD = SEIKYU_DENPYO.ITEM_CD
+            AND MODOSI_DENPYO.SEIKYU_DENPYO_TYPE = ''Z3RE''
+        LEFT OUTER JOIN HOSOKU_DENPYO TATEKAE_KURO    -- 立替(黒)伝票
+            ON TATEKAE_KURO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND TATEKAE_KURO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND TATEKAE_KURO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND TATEKAE_KURO.URIAGE_HOSOKU_DENPYO_TYPE = ''5''
+        LEFT OUTER JOIN HOSOKU_DENPYO TATEKAE_AKA    -- 立替(赤)伝票
+            ON TATEKAE_AKA.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND TATEKAE_AKA.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND TATEKAE_AKA.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND TATEKAE_AKA.URIAGE_HOSOKU_DENPYO_TYPE = ''6''
+        LEFT OUTER JOIN HOSOKU_DENPYO NEBIKI_DENPYO    -- 値引伝票
+            ON NEBIKI_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND NEBIKI_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND NEBIKI_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND NEBIKI_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''1''
+        LEFT OUTER JOIN HOSOKU_DENPYO NEWARI_DENPYO    -- 値割伝票
+            ON NEWARI_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND NEWARI_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND NEWARI_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND NEWARI_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''2''
+        LEFT OUTER JOIN HOSOKU_DENPYO COMMISSION_KURO_DENPYO    -- コミッション(黒)
+            ON COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND COMMISSION_KURO_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''3''
+        LEFT OUTER JOIN HOSOKU_DENPYO COMMISSION_AKA_DENPYO    -- コミッション(赤)
+            ON COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND COMMISSION_AKA_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''4''
+        INNER JOIN SDHM003 YUKO_HINMOKU_MASTER    -- 品目マスタ
+            ON YUKO_HINMOKU_MASTER.SYS_ID = SEIKYU_DENPYO.SYS_ID
+            AND YUKO_HINMOKU_MASTER.TOKUISAKI_CD = SEIKYU_DENPYO.ITEM_SANSHO_TOKUISAKI_CD
+            AND YUKO_HINMOKU_MASTER.ITEM_CD = SEIKYU_DENPYO.ITEM_CD
+            AND YUKO_HINMOKU_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+    ) RET
+    WHERE
+        HINMOKU_RANK = 1
+)
+
+SELECT
+    BMN_MASTER.CHR_KOMOKU03 BMN_NM,
+    KAMOKU_KBN_MASTER.CHR_KOMOKU01 KAMOKU_KBN_NM,
+    HINMOKU_KAISOU_MASTER.ITEM_KBN_NM,
+    SEIKYU_DENPYO_LIST.*
+FROM
+(
+    /** 明細行 **/
+    SELECT
+        TOUGOU_DENPYO.*,
+        ''D'' LIST_GYO_KBN    -- リスト行区分
+    FROM TOUGOU_DENPYO
+    UNION ALL
+    (
+        /** 商品区分行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            KAMOKU_KBN,    -- 科目区分
+            ITEM_BUNRUI,    -- 商品区分
+            MAX(ITEM_KAISO) ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_URIAGE_EN) KAIJYO_HOKEN_URIAGE_EN,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(SIIRE_TANKA) SIIRE_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''S1'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD,
+            KAMOKU_KBN,
+            ITEM_BUNRUI
+    )
+    UNION ALL
+    (
+        /** 科目区分行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            KAMOKU_KBN,    -- 科目区分
+            '''' ITEM_BUNRUI,    -- 商品区分
+            '''' ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_URIAGE_EN) KAIJYO_HOKEN_URIAGE_EN,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(SIIRE_TANKA) SIIRE_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''S2'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD,
+            KAMOKU_KBN
+    )
+    UNION ALL
+    (
+        /** 合計行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            '''' KAMOKU_KBN,    -- 科目区分
+            '''' ITEM_BUNRUI,    -- 商品区分
+            '''' ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_URIAGE_EN) KAIJYO_HOKEN_URIAGE_EN,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(SIIRE_TANKA) SIIRE_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''T'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD
+    )
+) SEIKYU_DENPYO_LIST
+INNER JOIN YUKO_HANYO_MASTER BMN_MASTER    -- 部門マスタ
+    ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+    AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+    AND BMN_MASTER.SAIMOKU_CD02 = SEIKYU_DENPYO_LIST.BMN_CD
+LEFT OUTER JOIN YUKO_HANYO_MASTER KAMOKU_KBN_MASTER    -- 科目区分マスタ
+    ON KAMOKU_KBN_MASTER.KOMOKU_CD = ''SDHG0059''
+    AND KAMOKU_KBN_MASTER.SAIMOKU_CD01 = SEIKYU_DENPYO_LIST.KAMOKU_KBN
+LEFT OUTER JOIN SDHM026 HINMOKU_KAISOU_MASTER    -- 品目階層マスタ
+    ON HINMOKU_KAISOU_MASTER.ITEM_KAISO = SEIKYU_DENPYO_LIST.ITEM_KAISO
+ORDER BY
+    SEIKYU_DENPYO_LIST.BMN_CD,
+    COALESCE(SEIKYU_DENPYO_LIST.KAMOKU_KBN, ''Z''),
+    COALESCE(SEIKYU_DENPYO_LIST.ITEM_BUNRUI, ''ZZ''),
+    COALESCE(SEIKYU_DENPYO_LIST.ITEM_NO, ''ZZZZZZZZZZZZZZZ'')
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDIF001_SDHM014]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF001_SDHM014]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'
+CREATE FUNCTION [dbo].[SDIF001_SDHM014] (
+  @komokuCd as varchar(20),
+  @toYMD as varchar(8)
+) RETURNS TABLE AS RETURN
+  	SELECT * 
+		FROM INTRA_MART.dbo.SDHM014 A
+		WHERE KOMOKU_CD = @komokuCd
+		  AND YUKO_STA_YMD <= @toYMD
+		  AND A.YUKO_STA_YMD = (
+			SELECT MAX(B.YUKO_STA_YMD) 
+			FROM INTRA_MART.dbo.SDHM014 B
+			WHERE B.YUKO_STA_YMD <= @toYMD
+			  AND A.KOMOKU_CD = B.KOMOKU_CD
+			  AND A.SAIMOKU_CD01 = B.SAIMOKU_CD01
+			  AND A.SAIMOKU_CD02 = B.SAIMOKU_CD02
+			  AND A.SAIMOKU_CD03 = B.SAIMOKU_CD03
+			  AND A.SAIMOKU_CD04 = B.SAIMOKU_CD04
+			  AND A.SAIMOKU_CD05 = B.SAIMOKU_CD05
+			  AND A.SAIMOKU_CD06 = B.SAIMOKU_CD06
+			  AND A.SAIMOKU_CD07 = B.SAIMOKU_CD07
+			  AND A.SAIMOKU_CD08 = B.SAIMOKU_CD08
+			  AND A.SAIMOKU_CD09 = B.SAIMOKU_CD09
+			  AND A.SAIMOKU_CD10 = B.SAIMOKU_CD10
+		  )
+
+;
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDIF001_SDHM003]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF001_SDHM003]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'
+CREATE FUNCTION [dbo].[SDIF001_SDHM003] (
+  @toYMD as varchar(8)
+) RETURNS TABLE AS RETURN
+  	SELECT * 
+		FROM INTRA_MART.dbo.SDHM003 A
+		WHERE YUKO_STA_YMD <= @toYMD
+		  AND A.YUKO_STA_YMD = (
+			SELECT MAX(B.YUKO_STA_YMD) 
+			FROM INTRA_MART.dbo.SDHM003 B
+			WHERE B.YUKO_STA_YMD <= @toYMD
+			  AND A.SYS_ID = B.SYS_ID
+			  AND A.ITEM_CD = B.ITEM_CD
+			  AND A.TOKUISAKI_CD = B.TOKUISAKI_CD
+		  )
+
+;
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF001_Query]    Script Date: 05/23/2013 16:02:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF001_Query]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+CREATE PROCEDURE [dbo].[SDIF001_Query]
+  @ym char(6)
+AS
+
+--  DECLARE @ym CHAR(6) = ''201305''
+  DECLARE @start_year int
+  DECLARE @start_month int
+  DECLARE @start_date char(8)
+  DECLARE @end_year int
+  DECLARE @end_month int
+  DECLARE @end_date char(8)
+
+  SET @start_year = CAST(substring(@ym, 0, 5) as int)
+  SET @start_month = CAST(substring(@ym, 5, 7) as int)
+
+  IF @start_month = 3
+      BEGIN
+          SET @end_year = @start_year + 1
+          SET @end_month = @start_month + 1
+      END
+  ELSE IF @start_month = 12
+      BEGIN
+          SET @end_year = @start_year
+          SET @end_month = 1
+      END
+  ELSE
+      BEGIN
+          SET @end_year = @start_year
+          SET @end_month = @start_month + 1
+      END
+
+  SET @start_date = cast(@start_year as char(4))
+  SET @end_date = cast(@end_year as char(4))
+
+  IF @start_month < 10
+      BEGIN
+          SET @start_date = cast(@start_date as char(4)) + ''0'' + cast(@start_month as char(1))
+      END
+  ELSE
+      BEGIN
+          SET @start_date = cast(@start_date as char(4)) + cast(@start_month as char(2))
+      END
+
+  IF @end_month < 10
+      BEGIN
+          SET @end_date = cast(@end_date as char(4)) + ''0'' + cast(@end_month as char(1))
+      END
+  ELSE
+      BEGIN
+          SET @end_date = cast(@end_date as char(4)) + cast(@end_month as char(2))
+      END
+
+  SET @start_date = cast(@start_date as char(6)) + ''01''
+  SET @end_date = cast(@end_date as char(6)) + ''01'';
+
+WITH YUKO_HANYO_MASTER AS (
+    SELECT
+      SDHM014.*
+    FROM SDHM014
+      INNER JOIN (
+           SELECT
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10,
+               MAX(YUKO_STA_YMD) YUKO_STA_YMD
+           FROM SDHM014
+           WHERE
+               SDHM014.YUKO_STA_YMD <= @start_date
+               AND SDHM014.YUKO_END_YMD > @end_date
+           GROUP BY
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10
+         ) SDHM014_MAX
+        ON SDHM014.KOMOKU_CD = SDHM014_MAX.KOMOKU_CD
+           AND SDHM014.SAIMOKU_CD01 = SDHM014_MAX.SAIMOKU_CD01
+           AND SDHM014.SAIMOKU_CD02 = SDHM014_MAX.SAIMOKU_CD02
+           AND SDHM014.SAIMOKU_CD03 = SDHM014_MAX.SAIMOKU_CD03
+           AND SDHM014.SAIMOKU_CD04 = SDHM014_MAX.SAIMOKU_CD04
+           AND SDHM014.SAIMOKU_CD05 = SDHM014_MAX.SAIMOKU_CD05
+           AND SDHM014.SAIMOKU_CD06 = SDHM014_MAX.SAIMOKU_CD06
+           AND SDHM014.SAIMOKU_CD07 = SDHM014_MAX.SAIMOKU_CD07
+           AND SDHM014.SAIMOKU_CD08 = SDHM014_MAX.SAIMOKU_CD08
+           AND SDHM014.SAIMOKU_CD09 = SDHM014_MAX.SAIMOKU_CD09
+           AND SDHM014.SAIMOKU_CD10 = SDHM014_MAX.SAIMOKU_CD10
+           AND SDHM014.YUKO_STA_YMD = SDHM014_MAX.YUKO_STA_YMD
+), SEIKYU_DENPYO AS (
+    SELECT
+        *
+    FROM
+    (
+        SELECT
+            HEAD.SEIKYU_DENPYO_NO,  -- 請求伝票番号
+            MEISAI.SEIKYU_DENPYO_NO_HAN,  -- 請求伝票番号版
+            MEISAI.SEIKYU_DENPYO_GYO_NO,  -- 請求伝票行番号
+            HEAD.SEIKYU_DENPYO_TYPE,  -- 請求伝票タイプ
+            HEAD.AKA_KURO_SOUSAI_DENPYO_NO,  -- 赤黒相殺伝票番号
+            HEAD.DENPYO_KIJUN_YMD,  -- 伝票基準日
+            HEAD.URIAGE_KEIJO_YMD,  -- 売上計上日
+            HEAD.SYS_ID,  -- システムID
+            RANK () OVER (
+                PARTITION BY
+                    HEAD.SEIKYU_DENPYO_NO,
+                    MEISAI.SEIKYU_DENPYO_NO_HAN,
+                    MEISAI.SEIKYU_DENPYO_GYO_NO
+                ORDER BY
+                    TOKUISAKI.YUKO_STA_YMD DESC
+            ) TOKUISAKI_RANK,
+            TOKUISAKI.BMN_CD,  -- 部門コード
+            MEISAI.ITEM_CD, -- 品目コード
+            MEISAI.ITEM_SANSHO_TOKUISAKI_CD,  -- 品目参照得意先コード
+            MEISAI.KAIJYO_HOKEN_RYO_URIAGE_ENKA,  -- 海上保険料（売上・円貨）
+            MEISAI.URIAGE_SU,  -- 売上数量
+            MEISAI.URIAGE_TANKA,  -- 売上単価
+            MEISAI.URIAGE_GAKU_ENKA URIAGE_GAKU,  -- 売上金額
+            MEISAI.URIAGE_GAKU_ZEI,  -- 売上金額（消費税）
+            MEISAI.NEBIKI_GAKU  -- 値引額
+        FROM (
+            SELECT
+                SDCT001.SEIKYU_DENPYO_NO,
+                SDCT001.SEIKYU_DENPYO_NO_HAN,
+                SDCT001.SEIKYU_DENPYO_TYPE,
+                SDCT001.AKA_KURO_SOUSAI_DENPYO_NO,
+                SDCT001.DENPYO_KIJUN_YMD,
+                SDCT001.TOKUISAKI_CD,
+                SDCT001.URIAGE_KEIJO_YMD,
+                SDCT001.SYS_ID,
+                RANK () OVER (
+                    PARTITION BY
+                        SDCT001.SEIKYU_DENPYO_NO
+                    ORDER BY
+                        SDCT001.SEIKYU_DENPYO_NO_HAN DESC
+                ) HAN_RANK
+            FROM SDCT001
+        ) HEAD
+        INNER JOIN SDCT002 MEISAI
+            ON MEISAI.SEIKYU_DENPYO_NO = HEAD.SEIKYU_DENPYO_NO
+            AND MEISAI.SEIKYU_DENPYO_NO_HAN = HEAD.SEIKYU_DENPYO_NO_HAN
+        INNER JOIN SDHM001 TOKUISAKI
+            ON TOKUISAKI.TOKUISAKI_SYUBETU = ''1''  -- 得意先
+            AND TOKUISAKI.TOKUISAKI_CD = HEAD.TOKUISAKI_CD
+            AND TOKUISAKI.YUKO_STA_YMD <= HEAD.DENPYO_KIJUN_YMD
+        WHERE
+            HEAD.HAN_RANK = 1
+    ) RET
+    WHERE
+        TOKUISAKI_RANK = 1
+), HOSOKU_DENPYO AS (
+    SELECT
+        HEAD.SANSHO_SEIKYU_DENPYO_NO,  -- 参照請求伝票番号
+        MEISAI.SANSHO_SEIKYU_DENPYO_HAN, -- 参照請求伝票番号版
+        MEISAI.SANSHO_SEIKYU_DEN_GYO_NO,  -- 参照請求伝票明細番号
+        HEAD.URIAGE_HOSOKU_DENPYO_TYPE,  -- 売上補足伝票タイプ
+        MEISAI.ITEM_CD,  -- 品目コード
+        SUM(MEISAI.URIAGE_GAKU_ENKA) URIAGE_GAKU,  -- 売上金額
+        SUM(MEISAI.URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,  -- 売上金額(消費税)
+        SUM(MEISAI.NEBIKI_GAKU) NEBIKI_GAKU,  -- 値引額
+        SUM(MEISAI.COMMISSION_GAKU_ENKA) COMMISSION_GAKU  -- コミッション額
+    FROM (
+        SELECT
+            SANSHO_SEIKYU_DENPYO_NO,
+            SANSHO_SEIKYU_DENPYO_HAN,
+            URIAGE_HOSOKU_DENPYO_TYPE,
+            URIAGE_HOSOKU_DENPYO_NO,
+            URIAGE_HOSOKU_DENPYO_HAN,
+            RANK () OVER (
+                PARTITION BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_NO
+                ORDER BY
+                    SDCT004.URIAGE_HOSOKU_DENPYO_HAN DESC
+            ) HAN_RANK
+        FROM SDCT004
+    ) HEAD
+    INNER JOIN SDCT005 MEISAI
+        ON MEISAI.URIAGE_HOSOKU_DENPYO_NO = HEAD.URIAGE_HOSOKU_DENPYO_NO
+        AND MEISAI.URIAGE_HOSOKU_DENPYO_HAN = HEAD.URIAGE_HOSOKU_DENPYO_HAN
+    WHERE
+        HEAD.HAN_RANK = 1
+    GROUP BY
+        HEAD.SANSHO_SEIKYU_DENPYO_NO,
+        MEISAI.SANSHO_SEIKYU_DENPYO_HAN,
+        MEISAI.SANSHO_SEIKYU_DEN_GYO_NO,
+        HEAD.URIAGE_HOSOKU_DENPYO_TYPE,
+        MEISAI.ITEM_CD
+), TOUGOU_DENPYO AS (
+    SELECT
+        BMN_CD,
+        KAMOKU_KBN,
+        ITEM_BUNRUI,
+        ITEM_KAISO,
+        ITEM_NO,
+        ITEM_NM,
+        URIAGE_SU,
+        URIAGE_SU_CNT,
+        URIAGE_GAKU,
+        URIAGE_MODOSI_SU,
+        URIAGE_MODOSHI_SU_CNT,
+        URIAGE_MODOSI_GAKU,
+        NEBIKI_GAKU,
+        WARIMODOSI_GAKU,
+        KOUSEN,
+        KAIJYO_HOKEN_RYO_URIAGE_ENKA,
+        JUN_URIAGE_SU,
+        JUN_URIAGE_SU_CNT,
+        JUN_URIAGE_GAKU,
+        TATEKAE_GAKU,
+        URIAGE_GAKU_ZEI,
+        TATEKAE_GAKU_ZEI,
+        TEIKA_TANKA,
+        URIAGE_TANKA,
+        GENKA_RITU,
+        NEBIKI_RITU
+    FROM
+    (
+        SELECT
+            SEIKYU_DENPYO.BMN_CD,  -- 部門コード
+            YUKO_HINMOKU_MASTER.KAMOKU_KBN,  -- 科目区分
+            YUKO_HINMOKU_MASTER.ITEM_BUNRUI,  -- 商品区分
+            YUKO_HINMOKU_MASTER.ITEM_KAISO,  -- 品目階層
+            CASE YUKO_HINMOKU_MASTER.KAMOKU_KBN
+                WHEN ''1'' THEN YUKO_HINMOKU_MASTER.HANBAI_KOSHO
+                ELSE YUKO_HINMOKU_MASTER.KOJO_ITEM_NO1
+            END ITEM_NO,  -- 商品番号
+            YUKO_HINMOKU_MASTER.ITEM_NM_RYAKU ITEM_NM,  -- 商品名
+            SEIKYU_DENPYO.URIAGE_SU,  -- 売上数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END URIAGE_SU_CNT,  -- 売上数量カウント
+            SEIKYU_DENPYO.URIAGE_GAKU,  -- 売上金額
+            MODOSI_DENPYO.URIAGE_SU URIAGE_MODOSI_SU,  -- 売上戻し数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END URIAGE_MODOSHI_SU_CNT,  -- 売上戻し数量カウント
+            MODOSI_DENPYO.URIAGE_GAKU URIAGE_MODOSI_GAKU,  -- 売上戻し金額
+            NEBIKI_DENPYO.NEBIKI_GAKU NEBIKI_GAKU,    -- 値引金額
+            NEWARI_DENPYO.NEBIKI_GAKU WARIMODOSI_GAKU,    -- 割戻金額
+            COMMISSION_KURO_DENPYO.COMMISSION_GAKU - COMMISSION_AKA_DENPYO.COMMISSION_GAKU KOUSEN,  -- 口銭
+            SEIKYU_DENPYO.KAIJYO_HOKEN_RYO_URIAGE_ENKA,  -- 保険料
+            -- TODO:送料
+            SEIKYU_DENPYO.URIAGE_SU - MODOSI_DENPYO.URIAGE_SU JUN_URIAGE_SU,  -- 純売上数量
+            CASE YUKO_HINMOKU_MASTER.SU_KAUNTO_KBN
+                WHEN ''0'' THEN ''*''
+                ELSE ''''
+            END JUN_URIAGE_SU_CNT,  -- 純売上数量カウント
+            SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU JUN_URIAGE_GAKU,  -- 純売上金額
+            -- TODO:手数料他
+            TATEKAE_KURO.URIAGE_GAKU - TATEKAE_AKA.URIAGE_GAKU TATEKAE_GAKU,  -- 立替金額
+            SEIKYU_DENPYO.URIAGE_GAKU_ZEI,    -- 消費税
+            TATEKAE_KURO.URIAGE_GAKU_ZEI - TATEKAE_AKA.URIAGE_GAKU_ZEI TATEKAE_GAKU_ZEI,  -- 立替金額消費税
+            YUKO_HINMOKU_MASTER.TEIKA_TANKA,  -- 原価
+            SEIKYU_DENPYO.URIAGE_TANKA,    -- 売上単価
+            CASE (SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU)
+                WHEN 0 THEN 0
+                ELSE YUKO_HINMOKU_MASTER.TEIKA_TANKA / (SEIKYU_DENPYO.URIAGE_GAKU - MODOSI_DENPYO.URIAGE_GAKU) * 100
+            END GENKA_RITU,  -- 原価率
+            -- TODO:卸率
+            CASE SEIKYU_DENPYO.URIAGE_GAKU
+                WHEN 0 THEN 0
+                ELSE SEIKYU_DENPYO.NEBIKI_GAKU / SEIKYU_DENPYO.URIAGE_GAKU * 100
+            END NEBIKI_RITU,  -- 値引率
+            RANK () OVER (
+                PARTITION BY
+                    SEIKYU_DENPYO.SEIKYU_DENPYO_NO,
+                    SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+                ORDER BY
+                    YUKO_HINMOKU_MASTER.YUKO_STA_YMD DESC
+            ) HINMOKU_RANK
+        FROM
+        (
+            SELECT * FROM SEIKYU_DENPYO
+            WHERE
+                SEIKYU_DENPYO.URIAGE_KEIJO_YMD >= @start_date
+                AND SEIKYU_DENPYO.URIAGE_KEIJO_YMD < @end_date
+                AND SEIKYU_DENPYO.SEIKYU_DENPYO_TYPE = ''Z3F2''
+        ) SEIKYU_DENPYO
+        LEFT OUTER JOIN SEIKYU_DENPYO MODOSI_DENPYO    -- 戻し伝票
+            ON MODOSI_DENPYO.SEIKYU_DENPYO_NO = SEIKYU_DENPYO.AKA_KURO_SOUSAI_DENPYO_NO
+            AND MODOSI_DENPYO.ITEM_CD = SEIKYU_DENPYO.ITEM_CD
+            AND MODOSI_DENPYO.SEIKYU_DENPYO_TYPE = ''Z3RE''
+        LEFT OUTER JOIN HOSOKU_DENPYO TATEKAE_KURO    -- 立替(黒)伝票
+            ON TATEKAE_KURO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND TATEKAE_KURO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND TATEKAE_KURO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND TATEKAE_KURO.URIAGE_HOSOKU_DENPYO_TYPE = ''5''
+        LEFT OUTER JOIN HOSOKU_DENPYO TATEKAE_AKA    -- 立替(赤)伝票
+            ON TATEKAE_AKA.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND TATEKAE_AKA.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND TATEKAE_AKA.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND TATEKAE_AKA.URIAGE_HOSOKU_DENPYO_TYPE = ''6''
+        LEFT OUTER JOIN HOSOKU_DENPYO NEBIKI_DENPYO    -- 値引伝票
+            ON NEBIKI_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND NEBIKI_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND NEBIKI_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND NEBIKI_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''1''
+        LEFT OUTER JOIN HOSOKU_DENPYO NEWARI_DENPYO    -- 値割伝票
+            ON NEWARI_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND NEWARI_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND NEWARI_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND NEWARI_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''2''
+        LEFT OUTER JOIN HOSOKU_DENPYO COMMISSION_KURO_DENPYO    -- コミッション(黒)
+            ON COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND COMMISSION_KURO_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND COMMISSION_KURO_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''3''
+        LEFT OUTER JOIN HOSOKU_DENPYO COMMISSION_AKA_DENPYO    -- コミッション(赤)
+            ON COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DENPYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_NO
+            AND COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DENPYO_HAN = SEIKYU_DENPYO.SEIKYU_DENPYO_NO_HAN
+            AND COMMISSION_AKA_DENPYO.SANSHO_SEIKYU_DEN_GYO_NO = SEIKYU_DENPYO.SEIKYU_DENPYO_GYO_NO
+            AND COMMISSION_AKA_DENPYO.URIAGE_HOSOKU_DENPYO_TYPE = ''4''
+        INNER JOIN SDHM003 YUKO_HINMOKU_MASTER    -- 品目マスタ
+            ON YUKO_HINMOKU_MASTER.SYS_ID = SEIKYU_DENPYO.SYS_ID
+            AND YUKO_HINMOKU_MASTER.TOKUISAKI_CD = SEIKYU_DENPYO.ITEM_SANSHO_TOKUISAKI_CD
+            AND YUKO_HINMOKU_MASTER.ITEM_CD = SEIKYU_DENPYO.ITEM_CD
+            AND YUKO_HINMOKU_MASTER.YUKO_STA_YMD <= SEIKYU_DENPYO.DENPYO_KIJUN_YMD
+    ) RET
+    WHERE
+        HINMOKU_RANK = 1
+)
+
+SELECT
+    BMN_MASTER.CHR_KOMOKU03 BMN_NM,
+    KAMOKU_KBN_MASTER.CHR_KOMOKU01 KAMOKU_KBN_NM,
+    HINMOKU_KAISOU_MASTER.ITEM_KBN_NM,
+    SEIKYU_DENPYO_LIST.*
+FROM
+(
+    /** 明細行 **/
+    SELECT
+        TOUGOU_DENPYO.*,
+        ''D'' LIST_GYO_KBN    -- リスト行区分
+    FROM TOUGOU_DENPYO
+    UNION ALL
+    (
+        /** 商品区分行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            KAMOKU_KBN,    -- 科目区分
+            ITEM_BUNRUI,    -- 商品区分
+            MAX(ITEM_KAISO) ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_RYO_URIAGE_ENKA) KAIJYO_HOKEN_RYO_URIAGE_ENKA,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(TEIKA_TANKA) TEIKA_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''S1'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD,
+            KAMOKU_KBN,
+            ITEM_BUNRUI
+    )
+    UNION ALL
+    (
+        /** 科目区分行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            KAMOKU_KBN,    -- 科目区分
+            '''' ITEM_BUNRUI,    -- 商品区分
+            '''' ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_RYO_URIAGE_ENKA) KAIJYO_HOKEN_RYO_URIAGE_ENKA,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(TEIKA_TANKA) TEIKA_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''S2'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD,
+            KAMOKU_KBN
+    )
+    UNION ALL
+    (
+        /** 合計行 **/
+        SELECT
+            BMN_CD,    -- 部門コード
+            '''' KAMOKU_KBN,    -- 科目区分
+            '''' ITEM_BUNRUI,    -- 商品区分
+            '''' ITEM_KAISO,    -- 品目階層
+            '''' ITEM_NO,    -- 商品番号
+            '''' ITEM_NM,    -- 商品名
+            SUM(CASE WHEN URIAGE_SU_CNT = ''''
+                THEN URIAGE_SU
+                ELSE 0 END
+            ) URIAGE_SU,    -- 売上数量
+            '''' URIAGE_SU_CNT,    -- 売上数量カウント
+            SUM(URIAGE_GAKU) URIAGE_GAKU,    -- 売上金額
+            SUM(CASE WHEN URIAGE_MODOSHI_SU_CNT = ''''
+                THEN URIAGE_MODOSI_SU
+                ELSE 0 END
+            ) URIAGE_MODOSI_SU,    -- 売上戻し数量
+            '''' URIAGE_MODOSHI_SU_CNT,    -- 売上戻し数量カウント
+            SUM(URIAGE_MODOSI_GAKU) URIAGE_MODOSI_GAKU,    -- 売上戻し金額
+            SUM(NEBIKI_GAKU) NEBIKI_GAKU,    -- 値引金額
+            SUM(WARIMODOSI_GAKU) WARIMODOSI_GAKU,    -- 割戻金額
+            SUM(KOUSEN) KOUSEN,    -- 口銭
+            SUM(KAIJYO_HOKEN_RYO_URIAGE_ENKA) KAIJYO_HOKEN_RYO_URIAGE_ENKA,    -- 保険料
+            -- TODO:送料
+            SUM(CASE WHEN JUN_URIAGE_SU_CNT = ''''
+                THEN JUN_URIAGE_SU
+                ELSE 0 END
+            ) JUN_URIAGE_SU,    -- 純売上数量
+            '''' JUN_URIAGE_SU_CNT,    -- 純売上数量カウント
+            SUM(JUN_URIAGE_GAKU) JUN_URIAGE_GAKU,    -- 純売上金額
+            -- TODO:手数料他
+            SUM(TATEKAE_GAKU) TATEKAE_GAKU,    -- 立替金額
+            SUM(URIAGE_GAKU_ZEI) URIAGE_GAKU_ZEI,    -- 消費税
+            SUM(TATEKAE_GAKU_ZEI) TATEKAE_GAKU_ZEI,    -- 立替金額消費税
+            SUM(TEIKA_TANKA) TEIKA_TANKA,    -- 原価
+            SUM(URIAGE_TANKA) URIAGE_TANKA,    -- 売上単価
+            AVG(GENKA_RITU) GENKA_RITU,    -- 原価率
+            -- TODO:卸率
+            AVG(NEBIKI_RITU) NEBIKI_RITU,    -- 値引率
+            ''T'' LIST_GYO_KBN    -- リスト行区分
+        FROM TOUGOU_DENPYO
+        GROUP BY
+            BMN_CD
+    )
+) SEIKYU_DENPYO_LIST
+INNER JOIN YUKO_HANYO_MASTER BMN_MASTER    -- 部門マスタ
+    ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+    AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+    AND BMN_MASTER.SAIMOKU_CD02 = SEIKYU_DENPYO_LIST.BMN_CD
+LEFT OUTER JOIN YUKO_HANYO_MASTER KAMOKU_KBN_MASTER    -- 科目区分マスタ
+    ON KAMOKU_KBN_MASTER.KOMOKU_CD = ''SDHG0059''
+    AND KAMOKU_KBN_MASTER.SAIMOKU_CD01 = SEIKYU_DENPYO_LIST.KAMOKU_KBN
+LEFT OUTER JOIN SDHM026 HINMOKU_KAISOU_MASTER    -- 品目階層マスタ
+    ON HINMOKU_KAISOU_MASTER.ITEM_KAISO = SEIKYU_DENPYO_LIST.ITEM_KAISO
+ORDER BY
+    SEIKYU_DENPYO_LIST.BMN_CD,
+    COALESCE(SEIKYU_DENPYO_LIST.KAMOKU_KBN, ''Z''),
+    COALESCE(SEIKYU_DENPYO_LIST.ITEM_BUNRUI, ''ZZ''),
+    COALESCE(SEIKYU_DENPYO_LIST.ITEM_NO, ''ZZZZZZZZZZZZZZZ'')
+' 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SDIF003_2_SELECT]    Script Date: 05/23/2013 16:02:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDIF003_2_SELECT]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'
+--
+-- 機能名称       ：
+-- プロシジャ名称 ：SDIFXXXX
+-- 機能説明       ：
+-- 引数説明       ：@ym 対象年月
+-- 返値説明       ：抽出結果
+-- 作成者         ：2013.05.15 sakoda
+-- 更新履歴       ：
+--
+CREATE PROCEDURE [dbo].[SDIF003_2_SELECT]
+    @ym char(6)
+AS
+
+-- TODO:日付パラメータ作成処理
+
+    --
+    -- 変数宣言
+    --
+    DECLARE @year int        -- 対象年
+    DECLARE @month int       -- 対象月
+    DECLARE @date char(8)    -- 対象年月日
+    DECLARE @date2 char(10)    -- 対象年月日(ハイフン区切り)
+    DECLARE @next_year int        -- 翌年月の年
+    DECLARE @next_month int       -- 翌年月の月
+    DECLARE @next_date char(8)    -- 翌年月の年月日
+
+    --
+    -- 対象日付の算出
+    --
+    SET @year = CAST(substring(@ym, 0, 5) as int)
+    SET @month = CAST(substring(@ym, 5, 7) as int)
+
+    IF @month = 12
+        BEGIN
+            SET @next_year = @year
+            SET @next_month = 1
+        END
+    ELSE
+        BEGIN
+            SET @next_year = @year
+            SET @next_month = @month + 1
+        END
+
+    SET @date = cast(@year as char(4))
+    SET @date2 = cast(@year as char(4))
+    SET @next_date = cast(@year as char(4))
+
+    IF @month < 10
+        BEGIN
+            SET @date = cast(@date as char(4)) + ''0'' + cast(@month as char(1))
+            SET @date2 = cast(@date2 as char(4)) + ''-0'' + cast(@month as char(1))
+        END
+    ELSE
+        BEGIN
+            SET @date = cast(@date as char(4)) + cast(@month as char(2))
+            SET @date2 = cast(@date2 as char(4)) + ''-'' + cast(@month as char(2))
+        END
+
+    IF @next_month < 10
+        BEGIN
+            SET @next_date = cast(@next_date as char(4)) + ''0'' + cast(@next_month as char(1))
+        END
+    ELSE
+        BEGIN
+            SET @next_date = cast(@next_date as char(4)) + cast(@next_month as char(2))
+        END
+
+    SET @date = cast(@date as char(6)) + ''01''
+    SET @date2 = cast(@date2 as char(7)) + ''-01''
+    SET @next_date = cast(@next_date as char(6)) + ''01'';
+
+SET NOCOUNT ON;
+
+
+
+WITH YUKO_HANYO_MASTER AS (
+    -- 有効汎用マスタ
+    SELECT
+      SDHM014.*
+    FROM SDHM014
+      INNER JOIN (
+           SELECT
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10,
+               MAX(YUKO_STA_YMD) YUKO_STA_YMD
+           FROM SDHM014
+           WHERE
+               SDHM014.YUKO_STA_YMD <= ''19000101''
+               AND SDHM014.YUKO_END_YMD > @next_date
+           GROUP BY
+               KOMOKU_CD,
+               SAIMOKU_CD01,
+               SAIMOKU_CD02,
+               SAIMOKU_CD03,
+               SAIMOKU_CD04,
+               SAIMOKU_CD05,
+               SAIMOKU_CD06,
+               SAIMOKU_CD07,
+               SAIMOKU_CD08,
+               SAIMOKU_CD09,
+               SAIMOKU_CD10
+         ) SDHM014_MAX
+        ON SDHM014.KOMOKU_CD = SDHM014_MAX.KOMOKU_CD
+           AND SDHM014.SAIMOKU_CD01 = SDHM014_MAX.SAIMOKU_CD01
+           AND SDHM014.SAIMOKU_CD02 = SDHM014_MAX.SAIMOKU_CD02
+           AND SDHM014.SAIMOKU_CD03 = SDHM014_MAX.SAIMOKU_CD03
+           AND SDHM014.SAIMOKU_CD04 = SDHM014_MAX.SAIMOKU_CD04
+           AND SDHM014.SAIMOKU_CD05 = SDHM014_MAX.SAIMOKU_CD05
+           AND SDHM014.SAIMOKU_CD06 = SDHM014_MAX.SAIMOKU_CD06
+           AND SDHM014.SAIMOKU_CD07 = SDHM014_MAX.SAIMOKU_CD07
+           AND SDHM014.SAIMOKU_CD08 = SDHM014_MAX.SAIMOKU_CD08
+           AND SDHM014.SAIMOKU_CD09 = SDHM014_MAX.SAIMOKU_CD09
+           AND SDHM014.SAIMOKU_CD10 = SDHM014_MAX.SAIMOKU_CD10
+           AND SDHM014.YUKO_STA_YMD = SDHM014_MAX.YUKO_STA_YMD
+), YUKO_TOKUISAKI AS (
+    SELECT
+        SDHM001.*
+    FROM SDHM001
+    INNER JOIN (
+        SELECT
+            TOKUISAKI_CD,
+            MAX(YUKO_STA_YMD) YUKO_STA_YMD
+        FROM SDHM001
+        WHERE
+            YUKO_STA_YMD <= ''19000101''
+            AND YUKO_END_YMD > @next_date
+        GROUP BY
+            TOKUISAKI_CD
+    ) LATEST
+        ON LATEST.TOKUISAKI_CD = SDHM001.TOKUISAKI_CD
+        AND LATEST.YUKO_STA_YMD = SDHM001.YUKO_STA_YMD
+)
+
+SELECT
+    *
+FROM (
+    SELECT
+        MEISAI.BMN_CD,    -- 部門コード
+        MEISAI.TOKUISAKI_CD,    -- 得意先コード
+        COALESCE(MEISAI.JUCHU_NO, KURIKOSI_TIEN.JUCHU_NO) JUCHU_NO,    -- 受注番号
+        MEISAI.URIAGE_DD,    -- 売上年月日
+        MEISAI.NYUKIN_YMD,    -- 入金年月日
+        MEISAI.SITE,    -- サイト
+        KURIKOSI_TIEN.KURIKOSI_GAKU,    -- 前月繰越金額
+        MEISAI.URIAGE_GAKU,    -- 当月売上金額
+        MEISAI.NYUKIN,    -- 当月入金額
+        MEISAI.URIAGE_GAKU - MEISAI.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU ZANDAKA_GAKU,    -- 残高金額
+        KURIKOSI_TIEN.TIEN_GAKU,    -- 遅延金額
+        ''D'' LIST_KBN    -- リスト区分
+    FROM SDIT004 MEISAI
+    FULL JOIN (
+        SELECT
+            JUCHU_NO,
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < @date2
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < @date2
+            AND KOKUNAI_KAIGAI_KBN = ''1''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            JUCHU_NO
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.JUCHU_NO = MEISAI.JUCHU_NO
+    WHERE
+        MEISAI.KOKUNAI_KAIGAI_KBN = ''1''
+        AND MEISAI.SHUKEI_YM = @date2
+
+    UNION ALL
+    /*** 得意先別合計 ***/
+
+    SELECT
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD) TOKUISAKI_CD,    -- 得意先コード
+        '''' JUCHU_NO,    -- 受注番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額
+        SUM(TOKUISAKI_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額
+        SUM(TOKUISAKI_TOTAL.URIAGE_GAKU - TOKUISAKI_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額
+        ''S1'' LIST_KBN    -- リスト区分
+    FROM SDIT004 TOKUISAKI_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,
+            TOKUISAKI_CD,
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < @date2
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < @date2
+            AND KOKUNAI_KAIGAI_KBN = ''1''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD,
+            TOKUISAKI_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = TOKUISAKI_TOTAL.BMN_CD
+        AND KURIKOSI_TIEN.TOKUISAKI_CD = TOKUISAKI_TOTAL.TOKUISAKI_CD
+    WHERE
+        TOKUISAKI_TOTAL.KOKUNAI_KAIGAI_KBN = ''1''
+        AND TOKUISAKI_TOTAL.SHUKEI_YM = @date2
+    GROUP BY
+        COALESCE(TOKUISAKI_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD),
+        COALESCE(TOKUISAKI_TOTAL.TOKUISAKI_CD, KURIKOSI_TIEN.TOKUISAKI_CD)
+
+    UNION ALL
+    /** 総合計 **/
+
+    SELECT
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD) BMN_CD,    -- 部門コード
+        '''' TOKUISAKI_CD,    -- 得意先コード
+        '''' JUCHU_NO,    -- 受注番号
+        '''' URIAGE_DD,    -- 売上年月日
+        '''' NYUKIN_YMD,    -- 入金年月日
+        '''' SITE,    -- サイト
+        SUM(KURIKOSI_TIEN.KURIKOSI_GAKU) KURIKOSI_GAKU,    -- 前月繰越金額
+        SUM(ALL_TOTAL.URIAGE_GAKU) URIAGE_GAKU,    -- 当月売上金額
+        SUM(ALL_TOTAL.NYUKIN) NYUKIN,    -- 当月入金額
+        SUM(ALL_TOTAL.URIAGE_GAKU - ALL_TOTAL.NYUKIN + KURIKOSI_TIEN.KURIKOSI_GAKU) ZANDAKA_GAKU,    -- 残高金額
+        SUM(KURIKOSI_TIEN.TIEN_GAKU) TIEN_GAKU,    -- 遅延金額
+        ''T'' LIST_KBN    -- リスト区分
+    FROM SDIT004 ALL_TOTAL
+    FULL JOIN (
+        SELECT
+            BMN_CD,
+            SUM(URIAGE_GAKU - NYUKIN) KURIKOSI_GAKU,    -- 繰越金額
+            SUM(
+                CASE WHEN NYUKIN_YOTEI_YMD < @date2
+                    THEN URIAGE_GAKU - NYUKIN
+                    ELSE 0
+                END
+            ) TIEN_GAKU    -- 遅延金額
+        FROM SDIT004
+        WHERE
+            SHUKEI_YM < @date2
+            AND KOKUNAI_KAIGAI_KBN = ''1''
+            AND KANSAI_FLG = ''0''
+        GROUP BY
+            BMN_CD
+    ) KURIKOSI_TIEN
+        ON KURIKOSI_TIEN.BMN_CD = ALL_TOTAL.BMN_CD
+    WHERE
+        ALL_TOTAL.KOKUNAI_KAIGAI_KBN = ''1''
+        AND ALL_TOTAL.SHUKEI_YM = @date2
+    GROUP BY
+        COALESCE(ALL_TOTAL.BMN_CD, KURIKOSI_TIEN.BMN_CD)
+) DAICHO
+LEFT OUTER JOIN YUKO_HANYO_MASTER BMN_MASTER
+    ON BMN_MASTER.KOMOKU_CD = ''SDZ024''
+    AND BMN_MASTER.SAIMOKU_CD01 = ''10''
+    AND BMN_MASTER.SAIMOKU_CD02 = DAICHO.BMN_CD
+LEFT OUTER JOIN YUKO_TOKUISAKI TOKUISAKI_MASTER
+    ON TOKUISAKI_MASTER.TOKUISAKI_CD = DAICHO.TOKUISAKI_CD
+ORDER BY
+    DAICHO.BMN_CD,
+    COALESCE(DAICHO.TOKUISAKI_CD, ''ZZZZZZZZZZ''),
+    COALESCE(DAICHO.JUCHU_NO, ''ZZZZZZZZZZZZZZZ'')
+
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF007_SDHM014SDZ024]    Script Date: 05/23/2013 16:02:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF007_SDHM014SDZ024]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 有効マスタラッパファンクション
+ * 対象テーブル：SDHM014 SDZ024 部門マスタ
+ */
+CREATE FUNCTION [dbo].[SDFF007_SDHM014SDZ024] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+	--DECLARE @toYMD as varchar(8) = ''20200101''
+	SELECT * 
+	FROM SDHM014 A
+	WHERE KOMOKU_CD = ''SDZ024''
+	  AND YUKO_STA_YMD <= @toYMD
+	  AND A.YUKO_STA_YMD = (
+		SELECT MAX(B.YUKO_STA_YMD) 
+		FROM SDHM014 B
+		WHERE B.YUKO_STA_YMD <= @toYMD
+		  AND A.KOMOKU_CD = B.KOMOKU_CD
+		  AND A.SAIMOKU_CD01 = B.SAIMOKU_CD01
+		  AND A.SAIMOKU_CD02 = B.SAIMOKU_CD02
+	  )
+;
+' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SDFF006_ORGANIZATIONS]    Script Date: 05/23/2013 16:02:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SDFF006_ORGANIZATIONS]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'/**
+ * 予算管理
+ * 
+ * 予算組織ビュー
+ * 対象テーブル：部門マスタ、会社マスタを結合して組織関連の情報を返すビュー
+ */
+CREATE FUNCTION [dbo].[SDFF006_ORGANIZATIONS] (
+	@toYMD as varchar(8)
+)
+RETURNS TABLE AS RETURN
+
+	--for test
+	--DECLARE @toYMD as varchar(8) = ''20000101'';
+	--
+
+	WITH LIST(KAISHA_CD, GROUP_CD, GROUP_NAME, OYA_CD, LV, KBN)
+	AS (
+		SELECT 
+			 SAIMOKU_CD01 AS 会社コード
+			,SAIMOKU_CD02 AS 部門コード
+			,CHR_KOMOKU03 AS 略称
+			,CHR_KOMOKU05 AS 親
+			,CHR_KOMOKU04 AS 部門階層区分
+			,CHR_KOMOKU04 AS 部門区分
+		FROM SDFF007_SDHM014SDZ024(@toYMD)
+		WHERE SAIMOKU_CD01 = ''10''
+	)
+	SELECT 
+
+		 C.SAIMOKU_CD01 AS KAISHA_CD
+		,C.CHR_KOMOKU02	AS KAISHA_NAME
+		,G.KAISHA_CD	AS BUMON_KAISHA_CD
+		,E.GROUP_CD		AS EIGYOSHO_CD
+		,E.GROUP_NAME	AS EIGYOSHO_NAME
+		,B.GROUP_CD		AS BUMON_CD
+		,B.GROUP_NAME	AS BUMON_NAME
+		,G.GROUP_CD		AS GROUP_CD
+		,G.GROUP_NAME	AS GROUP_NAME
+		,B.KBN
+	FROM SDHM014 C
+	LEFT JOIN LIST E ON C.SAIMOKU_CD01 = E.KAISHA_CD AND E.LV = 2
+	LEFT JOIN LIST B ON E.GROUP_CD = B.OYA_CD
+	LEFT JOIN LIST G ON B.GROUP_CD = G.OYA_CD
+	WHERE KOMOKU_CD = ''SDZ026''
+	;
+' 
+END
+GO
+/****** Object:  Table [dbo].[IMJOB_QRTZ_CRON_TRIGGERS]    Script Date: 05/23/2013 16:02:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IMJOB_QRTZ_CRON_TRIGGERS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[IMJOB_QRTZ_CRON_TRIGGERS](
+	[SCHED_NAME] [varchar](120) NOT NULL,
+	[TRIGGER_NAME] [varchar](200) NOT NULL,
+	[TRIGGER_GROUP] [varchar](200) NOT NULL,
+	[CRON_EXPRESSION] [varchar](120) NOT NULL,
+	[TIME_ZONE_ID] [varchar](80) NULL,
+ CONSTRAINT [PK_IMJOB_QRTZ_CRON_TRIGGERS] PRIMARY KEY CLUSTERED 
+(
+	[SCHED_NAME] ASC,
+	[TRIGGER_NAME] ASC,
+	[TRIGGER_GROUP] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  View [dbo].[sdfg015j]    Script Date: 05/23/2013 16:02:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[sdfg015j]'))
+EXEC dbo.sp_executesql @statement = N'CREATE VIEW [dbo].[sdfg015j]
+AS 
+	--予算管理：年間数量概算発行一覧取得
+	WITH LIST(
+		 HINMOKU_KBN
+		,TOKUISAKI_NAME
+		,SEIZO_KATASIKI
+		,HANBAI_KOSHO
+		,HAN_NO
+		,Q1
+		,Q2
+		,Q3
+		,Q4
+	)
+	AS (
+		SELECT
+			 H.CHR_KOMOKU14			--品目属性3「品目区分」
+			,K.TOKUISAKI_NM_RYAKU	--得意先略称
+			,T.SEIZO_KATASIKI		--製造型式
+			,H.HANBAI_KOSHO			--販売呼称
+			,T.HAN_NO
+			,COALESCE(SUM(GAKU_SU_APR),0) + COALESCE(SUM(GAKU_SU_MAY),0) + COALESCE(SUM(GAKU_SU_JUN),0)  AS Q1
+			,COALESCE(SUM(GAKU_SU_JUL),0) + COALESCE(SUM(GAKU_SU_AUG),0) + COALESCE(SUM(GAKU_SU_SEP),0)  AS Q2
+			,COALESCE(SUM(GAKU_SU_OCT),0)	+ COALESCE(SUM(GAKU_SU_NOV),0) + COALESCE(SUM(GAKU_SU_DEC),0)  AS Q3
+			,COALESCE(SUM(GAKU_SU_JAN),0) + COALESCE(SUM(GAKU_SU_FEB),0) + COALESCE(SUM(GAKU_SU_MAR),0) AS Q4
+		FROM SDFT002 T --売上予算T
+		INNER JOIN SDFF005_HINMOKU(''20120401'') H	--品目
+		ON  T.KAISHA_CD = H.KAISHA_CD
+		AND T.GRP_CD = H.BMN_CD
+		AND T.SEIZO_KATASIKI = H.SHOHIN_NO
+
+		INNER JOIN SDFF003_SDHM001(''20120401'') K	--得意先M
+		ON T.KAISHA_CD = K.KAISHA_CD
+		AND T.TOKUISAKI_CD = K.TOKUISAKI_CD
+
+		WHERE T.GAKU_SU_KBN = ''3''	--3:売上数量
+		  AND T.NENDO = ''2013''
+		  AND T.YOSAN_KBN = ''1''
+		  AND (T.HAN_NO = 0 OR T.HAN_NO = 1)
+		  AND T.KAISHA_CD = ''10''
+		  --AND T.GRP_CD IN /*groupList*/() 
+		GROUP BY 
+			 H.CHR_KOMOKU14			--品目属性3「品目区分」
+			,K.TOKUISAKI_NM_RYAKU	--得意先略称
+			,T.SEIZO_KATASIKI		--製造型式
+			,H.HANBAI_KOSHO			--販売呼称
+			,T.HAN_NO
+	)
+	SELECT 
+		 COALESCE(A.HINMOKU_KBN, B.HINMOKU_KBN) AS HINMOKU_KBN
+		,COALESCE(A.TOKUISAKI_NAME, B.TOKUISAKI_NAME) AS TOKUISAKI_NAME
+		,COALESCE(A.SEIZO_KATASIKI, B.SEIZO_KATASIKI) AS SEIZO_KATASIKI
+		,COALESCE(A.HANBAI_KOSHO, B.HANBAI_KOSHO) AS HANBAI_KOSHO
+		,A.Q1
+		,A.Q2
+		,A.Q3
+		,A.Q4
+		,B.Q1 AS HIKAKUQ1
+		,B.Q2 AS HIKAKUQ2
+		,B.Q3 AS HIKAKUQ3
+		,B.Q4 AS HIKAKUQ4
+	FROM (SELECT * FROM LIST WHERE HAN_NO = 1) A
+	FULL OUTER JOIN (SELECT * FROM LIST WHERE HAN_NO = 0) B
+	ON A.HINMOKU_KBN = B.HINMOKU_KBN
+	AND A.TOKUISAKI_NAME = B.TOKUISAKI_NAME
+	AND A.SEIZO_KATASIKI = B.SEIZO_KATASIKI
+	AND A.HANBAI_KOSHO = B.HANBAI_KOSHO
+'
+GO

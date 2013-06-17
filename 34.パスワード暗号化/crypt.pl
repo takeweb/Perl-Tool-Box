@@ -17,6 +17,7 @@ my ($userlist) = @ARGV;
 
 srand;
 
+# ˆø”‚ªƒtƒ@ƒCƒ‹‚Ìê‡
 if ( -f $userlist ) {
     while ($userid = <>) {
 	chomp $userid;

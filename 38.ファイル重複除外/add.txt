@@ -1,0 +1,324 @@
+# 
+# 2012/12/13 14:36:45
+# 
+labels.imSystemReference=詳細
+labels.imSystemFlow=フロー
+labels.imSystemHistory=履歴
+labels.imSystemStatus=状態
+labels.itemAmount=数量
+labels.itemComment=備考
+labels.itemName=品名
+labels.itemPrice=金額
+labels.matterName=案件名
+labels.matterNumber=案件番号
+labels.imSystemProcess=処理
+labels.processTypeName=処理区分
+labels.processType=状態
+labels.imSystemProgress=進捗状況
+labels.updateDate=最終更新日
+labels.updateUserName=最終更新者
+
+labels.ym=年月
+labels.hinmeiCd=品名コード
+labels.delFlg=削除フラグ
+labels.hasseiNo=派生ナンバー
+labels.kanjoKamokuCd=勘定科目コード
+labels.siireCd=仕入れコード
+labels.deleteFlag=削除フラグ
+labels.userCd=ユーザーコード
+labels.userName=ユーザー名称
+labels.komokuCd=対象汎用マスタ
+labels.yukoStaYmd=有効開始年月日
+labels.yukoEndYmd=有効終了年月日
+labels.chrKomoku01=項目名称（和名）
+labels.chrKomoku02=項目名称（英名）
+labels.saimokuCd01=項目コード
+labels.tokuisakiCd=得意先コード
+labels.tokuisakiNm=得意先名称
+labels.bmnCd=部門コード
+labels.bmnNm=部門名称
+labels.tokuisakiKokaishaKbn=得意先子会社区分
+labels.nodeName=ノード名称
+labels.pullBackFlg=引き戻しフラグ
+
+labels.zentaiShinchokuRitu           = 全体進捗率
+labels.eigyoTantoName                = 登録営業担当者
+labels.eigyoTantoBmnName             = 登録営業担当部門
+labels.tokuisakiName                 = 得意先
+labels.daihyoItemName                = 代表品目
+labels.zentaiStCd                    = 全体状況
+labels.hikiaiJuchuSinchokRitu        = 引合～受注進捗率
+labels.mitsumoriDenpyoNo             = 見積伝票番号
+labels.mitsumoriDenpyoNoHan          = 見積伝票番号版
+labels.mitsuDenSinseiYmd             = 見積伝票申請日
+labels.mitsuDenSinseiName            = 見積伝票申請者
+labels.mitsuDenLastShoninYmd         = 見積伝票承認日
+labels.mitsuDenLastShoninName        = 見積伝票承認者
+labels.mitsuDenShoninSt              = 見積伝票状況
+labels.juchuDenpyoNo                 = 受注伝票番号
+labels.juchuDenpyoNoHan              = 受注伝票番号版
+labels.juchuDenSinseiYmd             = 受注伝票申請日
+labels.juchuDenSinseiName            = 受注伝票申請者
+labels.juchuDenLastShoninYmd         = 受注伝票承認日
+labels.juchuDenLastShoninName        = 受注伝票承認者
+labels.juchuDenShoninSt              = 受注伝票状況
+labels.juchuRenrakuMemoNo            = 受注連絡メモ伝票番号
+labels.juchuRenrakuMemoNoHan         = 受注連絡メモ伝票番号版
+labels.juchuRenMemoHakkoDate         = 受注連絡メモ発行日
+labels.juchuRenMemoHakkoName         = 受注連絡メモ発行者
+labels.juchuRenMemoUketukYmd         = 受注連絡メモ受付日
+labels.juchuRenMemoUketukName        = 受注連絡メモ受付者
+labels.sasizuNo                      = 製品製作依頼書指図番号
+labels.sasizuNoHan                   = 製品製作依頼書指図番号版
+labels.sehnSeskuIraiHakkoYmd         = 製品製作依頼書発行日
+labels.sehnSeskuIraiHakkoName        = 製品製作依頼書発行者
+labels.sehnSeskuIraiUketkYmd         = 製品製作依頼書受付日
+labels.sehnSeskuIraiUketkName        = 製品製作依頼書受付者
+labels.chuumonshoKanriNo             = 注文請書伝票番号
+labels.chuumonUkeshoHakkoYmd         = 注文請書発行日
+labels.chuumonUkeshoHakkoName        = 注文請書発行者
+labels.chuumonUkeshoUketukYmd        = 注文請書受付日
+labels.chuumonUkeshoUketukName       = 注文請書受付者
+labels.lcMasterKanriNo               = L/Cマスタ管理番号
+labels.lcNo                          = L/CマスタNo.
+labels.lcSinseiYmd                   = L/Cマスタ申請日
+labels.lcSinseiName                  = L/Cマスタ申請者
+labels.lcSaishuShoninDate            = L/Cマスタ承認日
+labels.lcSaishuShoninName            = L/Cマスタ承認者
+labels.lcShoninSt                    = L/Cマスタ状況
+labels.shukaDenShinchokuRitu         = 出荷進捗率
+labels.shukkaDenpyoNo                = 出荷伝票番号
+labels.shukkaDenpyoNoHan             = 出荷伝票番号版
+labels.shukkaDenpyoTypeName          = 出荷伝票タイプ
+labels.shukaDenSinseiYmd             = 出荷伝票申請日
+labels.shukaDenSinseiName            = 出荷伝票申請者
+labels.shukaDenLastShoninYmd         = 出荷伝票承認日
+labels.shukaDenLastShoninName        = 出荷伝票承認者
+labels.shukaDenShoninSt              = 出荷伝票状況
+labels.kobaiDenpyoNo                 = 購買伝票番号
+labels.kobaiDenpyoNoHan              = 購買伝票番号版
+labels.kobaiDenSinseiYmd             = 購買伝票申請日
+labels.kobaiDenSinseiName            = 購買伝票申請者
+labels.kobaiDenLastShoninYmd         = 購買伝票承認日
+labels.kobaiDenLastShoninName        = 購買伝票承認者
+labels.kobaiDenLastSt                = 購買伝票状況
+labels.sekyuDenShinchokuRitu         = 請求進捗率
+labels.seikyuDenpyoNo                = 請求伝票番号
+labels.seikyuDenpyoType              = 請求伝票タイプ
+labels.sekyuDenSinseiYmd             = 請求伝票申請日
+labels.sekyuDenSinseiName            = 請求伝票申請者
+labels.sekyuDenLastShoninYmd         = 請求伝票承認日
+labels.sekyuDenLastShoninName        = 請求伝票承認者
+labels.sekyuDenShoninSt              = 請求伝票状況
+labels.nyukinShinchokuRitu           = 入金進捗率
+labels.nyukinKakuninDd               = 入金確認日
+
+#
+# 2013/04/01
+# SBDG0010J
+#
+labels.shukkaDenpyoStNm          = ステータス
+labels.shukkaIraiKbnNm           = 区分
+labels.shukkaSakiNm              = 届け先
+labels.shukkaHohoNm              = 運送業者
+labels.daibikiKbnNm              = 代引区分
+labels.shukkaSijiTantoIdNm       = 出荷指示担当者
+labels.haisoBashoCdNm            = 出荷場所
+labels.tokuisakiCdNm             = 得意先
+labels.unicCarFlgNm              = ユニット車
+
+#
+# 2013/03/08 
+# SDGG0010J Kanda add
+#
+##検索条件
+labels.kobaiTantoSyozokuBusho=部門
+labels.kobaiTantoId=担当者
+labels.kobaiDenpyoNo=購買伝票番号
+labels.siireCd=仕入先
+labels.syozaiCdDaichusyo=商材
+labels.kobaiHacchuYmd=発注日
+labels.shoninYmdt=承認日
+labels.kobaiDenpyoSt=ステータス
+##表示項目
+labels.kobaiDenpyoNo = 購買伝票番号
+labels.kobaiHacchuYmd = 発注日
+labels.kobaiKbn = 区分
+labels.departmentName = 部門
+labels.userNameHachu = 担当者
+labels.siireName = 仕入先
+labels.kobaiNyukaYoteiYmd = 入荷予定日
+labels.tokuisakiName = 得意先
+labels.kobaiJuchuDenpyoNo = 受注伝票番号
+labels.userNameToroku = 登録者
+labels.torokuYmdt = 登録日
+labels.userNameShonin = 承認者
+labels.shoninYmdt = 承認日
+labels.nyukoJokyo = 入庫状況
+labels.hachuZanSu = 発注残数
+labels.kobaiDenpyoSt = ステータス
+labels.ImSystemFlow=フロー
+labels.ImSystemHistory=履歴
+labels.ImSystemStatus=状態
+labels.ImSystemProgress=進捗状況
+labels.updateDate=最終更新日
+labels.updateUserName=最終更新者
+
+#
+# 2013/04/04
+# SDGG0080J miyamoto add
+#
+##表示項目
+labels.nyushukoDenpyoNo=入庫伝票番号
+labels.nyushukoDenpyoNoHan=入庫伝票番号版
+labels.nyushukoDenpyoGyoNo=入庫伝票行番号
+labels.kobaiDenpyoNo=購買伝票番号
+labels.kobaiDenpyoKbn=購買伝票区分
+labels.kobaiHacchuYmd=発注日
+labels.kihyoBmnCd=部門コード
+labels.kihyoBmnNm=部門
+labels.kobaiTantoId=担当者コード
+labels.kobaiTantoNm=担当者
+labels.siireCd=仕入先コード
+labels.siireNm=仕入先
+labels.itemCd=品目コード
+labels.itemNm=品目
+labels.kobaiHacchuSu=発注数量
+labels.nyukoSu=入庫数量
+labels.nyukaYmd=入荷日
+labels.nyushukoDenpyoSt=ステータス
+labels.nyushukoDenpyoNm=ステータス
+
+#
+# 2013/04/16
+# SDGG0090J miyamoto add
+#
+##表示項目
+labels.nyushukoDenpyoGyoNo=入庫伝票行番号
+labels.itemCd=品目コード
+labels.itemNm=品目
+labels.kobaiHacchuSu=購買発注数量
+labels.su=入庫数量
+labels.nyukoSuSumi=入庫済数量
+labels.nyukoSuZan=入庫残数量
+labels.kobaiHacchuGakuEnka=発注金額（円貨）
+labels.kobaiZeiGakuEnka=消費税額（円貨）
+labels.kobaiHacchuGakuGaika=発注金額（外貨）
+labels.kobaiSiireTanka=仕入単価
+labels.kobaiKakuteiTanka=確定単価
+labels.siireItemCd=仕入先品目コード
+labels.siireItemNm=仕入先品目
+
+#
+# 2013/04/04
+# SDGG0100J miyamoto add
+#
+##表示項目
+labels.kobaiJuchuDenpyoNo=受注伝票番号
+labels.tokuisakiCd=得意先コード
+labels.tokuisakiNm=得意先
+labels.kobaiHacchuYmd=発注日
+labels.kihyoBmnCd=部門コード
+labels.kihyoBmnNm=部門
+labels.kobaiTantoId=担当者コード
+labels.kobaiTantoNm=担当者
+labels.siireCd=仕入先コード
+labels.siireNm=仕入先
+labels.kobaiDenpyoNo=購買伝票番号
+labels.kobaiDenpyoNoHan=購買伝票番号版
+labels.kobaiDenpyoGyoNo=購買伝票行番号
+labels.itemCd=品目コード
+labels.itemNm=品目
+labels.nyukoSu=入庫数量
+labels.kobaiHacchuSu=発注数量
+labels.nyukoSuSumi=入庫済数量
+labels.nyukoSuZan=入庫残数量
+
+#
+# 2013/04/25
+# SDGG0110J miyamoto add
+#
+##表示項目
+labels.kobaiDenpyoNo=購買伝票番号
+labels.kobaiDenpyoNoHan=購買伝票番号版
+labels.kobaiHacchuYmd=発注日
+labels.kihyoBmnCd=部門コード
+labels.kihyoBmnNm=部門
+labels.kobaiTantoId=担当者コード
+labels.kobaiTantoNm=担当者
+labels.siireCd=仕入先コード
+labels.siireNm=仕入先
+labels.kobaiNyukaYoteiYmd=入荷予定日
+labels.tokuisakiCd=得意先コード
+labels.tokuisakiNm=得意先
+labels.kobaiJuchuDenpyoNo=受注伝票番号
+labels.meisaisu=明細数
+labels.kingaku=金額
+labels.kobaiEdiDlYmdt=ダウンロード日時
+labels.kobaiEdiDlFlg=EDIダウンロード完了フラグ
+labels.kobaiEdiDlNm=ステータス
+
+#
+# 2013/03/08 
+# SDGG0030J Kanda add
+#
+##表示項目
+labels.kobaiTantoName = 担当者
+labels.meisaiSu = 明細数
+labels.hakkoSu = 発行回数
+labels.lastHakkoName = 最終発行者
+labels.lastHakkoYmdt = 最終発行日時
+labels.kobaiHakkoSt = ステータス
+#
+# 2013/04/19 
+# SDGG0040J Kanda add
+#
+##表示項目
+labels.itemCd = 品目コード
+labels.itemName = 品名
+labels.hacchuSu = 数量
+labels.kobaiKakuteiTanka = 単価（円）
+labels.kobaiHacchuGakuEnka = 金額（円）
+#
+# 2013/04/24 
+# SDGG0050J Kanda add
+#
+##表示項目
+labels.itemCd = 品目コード
+labels.itemName = 品名
+labels.hacchuSu = 数量
+labels.kobaiHacchuUnitSu = 単位
+labels.kobaiKakuteiTanka = 単価（円）
+labels.kobaiHacchuGakuEnka = 金額（円）
+
+#
+# 2013/04/24 
+# SDGG0050J Kanda add
+##PurchaseOrder明細
+labels.kobaiUnitTukaCd = 単価
+labels.kobaiHacchuTukaCd = 数量
+
+
+#
+# 2013/04/25
+# SDIG0060J Tsuruda add
+#
+##表示項目
+labels.bmn = 部門
+labels.tokuisakiGrp = 得意先グループ
+labels.tokuisaki = 得意先
+labels.invoiceNo = インボイス番号
+labels.uriageKeijoYmd = 売上年月日
+labels.directionsNo = 指図番号
+labels.hanbaiKosho = 販売呼称
+labels.seizoKatasiki = 製造型式
+labels.kamokuKbn = 科目区分
+labels.itemKbn = 品目区分
+labels.itemZokusei1 = 品目属性１
+labels.itemZokusei2 = 品目属性２
+labels.juchuNo = 受注番号
+labels.uriageSu = 売上数量
+labels.uriageGaku = 売上金額
+labels.genka = 原価
+labels.genkaRitu = 原価率
+labels.arari = 粗利益
