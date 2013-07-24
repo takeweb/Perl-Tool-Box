@@ -1,0 +1,15 @@
+use strict;
+use warnings;
+use utf8;
+use Encode qw/encode decode/;
+
+my $file = '集計.txt';
+#my $file = 'list.txt';
+
+# バイト文字列に変換
+my $file_b = encode('cp932', $file);
+
+print $file_b;
+open my $fh, '<', $file_b
+    or die qq{Can't open file "$file_b": $!};
+
