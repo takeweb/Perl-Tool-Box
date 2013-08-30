@@ -132,18 +132,11 @@ sub calcWorkTime {
 	time_zone => 'Asia/Tokyo',
     );
 
-    my $kyukei = DateTime->new(
-	year => $year,
-	month => $month,
-	day => $day,
-	hour => 1,
-	minute => 15,
-	locale => 'ja',
-	time_zone => 'Asia/Tokyo',
-    );
+    # 休憩時間分1時間15分(昼休み45分、夕方30分)差し引く
+    $end_dt->subtract( hours => 1, minutes => 37 );
 
     my $work_time = $end_dt - $start_dt;
-    my $formated = sprintf("%02d:%02d", $work_time->hours ,$work_time->minutes);
+    my $formated = sprintf("%02d.%02d", $work_time->hours ,$work_time->minutes);
     
     return $formated;
 }
