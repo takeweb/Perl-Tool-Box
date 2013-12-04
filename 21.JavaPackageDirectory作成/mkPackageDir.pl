@@ -9,13 +9,13 @@ use File::Path 'mkpath';
 #           ex. jp.co.ricoh.is.terje.sub
 
 # 変数宣言
-my ($package) = @ARGV;					# 引数受け取り
-my $dir = "src";						# ディレクトリ名格納用
+my ($dir, $package) = @ARGV; # 引数受け取り
+#my $dir = "src";            # ディレクトリ名格納用
 my @sub_dirs = split(/\./, $package);	# 「.」で分割して配列へ格納
 
 # ディレクトリ名作成
 foreach my $sub_dir (@sub_dirs) {
-	$dir = $dir . '/' . $sub_dir;
+    $dir = $dir . '/' . $sub_dir;
 }
 
 print "$dir\n";

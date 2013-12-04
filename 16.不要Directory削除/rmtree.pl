@@ -6,18 +6,18 @@ use File::Path;
 my @pathArray;
 my $ref_err;
 
-#ˆø”‚Å‘ÎÛƒfƒBƒŒƒNƒgƒŠ‚ğó‚¯æ‚èA
-#find‚Öˆø‚«“n‚µ
+#å¼•æ•°ã§å¯¾è±¡ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å—ã‘å–ã‚Šã€
+#findã¸å¼•ãæ¸¡ã—
 find(\&wanted, $ARGV[0]);
 
-#ƒfƒBƒŒƒNƒgƒŠíœ
+#ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå‰Šé™¤
 my $ret = rmtree(@pathArray, {error => \$ref_err});
 foreach(@$ref_err) {
 	my ($file, $message) = each(%$_);
 	print "file" . $file . "message" . $message . "\n";
 }
 
-#Ä‹AŒÄoŠÖ”
+#å†å¸°å‘¼å‡ºé–¢æ•°
 sub wanted{
 	my $path = $File::Find::name;
 

@@ -10,6 +10,8 @@ use File::Find;
 #    出力:      ファイルリスト(ファイル名,行数:)
 ########################################################
 
+print "ファイル名,行数\n";
+
 find(\&wanted, $ARGV[0]);
 
 sub wanted {
@@ -17,8 +19,8 @@ sub wanted {
 	my $match = 0;
 	my $path = $File::Find::name;
 #	return unless $path =~ /\.frm$|\.frx$|\.bas$|\.vbp$|\.vbw$|\.cls$/;
-#	return unless $path =~ /\.java$/;
-	return unless $path =~ /\.xml$/;
+	return unless $path =~ /\.java$|\.sql$/;
+#	return unless $path =~ /\.xml$/;
 	return unless (-f $path);
 
 	print $path;
@@ -46,5 +48,6 @@ sub wanted {
 	}
 	close $fl;
 	print ",";
-	print "行数:$cnt\n";
+#	print "行数:$cnt\n";
+	print "$cnt\n";
 }
